@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "cea-pilot"
-  }
+    "default": "cea-pilot",
+    "cea-candidate": "cea-pilot"
+  },
+  "targets": {},
+  "etags": {}
 }
