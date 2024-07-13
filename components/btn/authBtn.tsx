@@ -12,7 +12,7 @@ const AuthBtn = ({ type, addCSS }: IAuthBtn) => {
       className={`p-1 px-3 border-gray-500 border rounded-3xl  ${
         type === "login"
           ? "text-black bg-white hover:bg-slate-100"
-          : "text-white bg-black hover:bg-gray-500"
+          : "text-white bg-customBlue-default hover:bg-customBlue-light"
       } ${addCSS}`}
     >
       <Link href={`/${type}`}>{type === "login" ? "로그인" : "회원가입"}</Link>
