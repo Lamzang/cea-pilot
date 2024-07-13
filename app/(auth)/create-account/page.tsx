@@ -4,34 +4,19 @@ import Input from "@/components/input";
 import React from "react";
 import { useFormState } from "react-dom";
 import { createAccount } from "./action";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 import { auth } from "@/lib/firebase/firebase";
 import { redirect } from "next/navigation";
-
-const provider = new GoogleAuthProvider();
-
-const googleSignIn = async () => {
-  await signInWithPopup(auth, provider)
-    .then((result: { user: any }) => {
-      // The signed-in user info.
-      const user = result.user;
-      console.log(user);
-      redirect("/login");
-      // ...
-    })
-    .catch((error: any) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      console.log(error, errorCode, errorMessage, email);
-      // ...
-    });
-};
+import GoogleSignIn from "@/components/googleSignIn";
 
 const CreateAccount = () => {
   const [state, dispatch] = useFormState(createAccount, null);
+
   return (
     <div className="flex justify-center items-center h-screen">
       <form
@@ -85,12 +70,10 @@ const CreateAccount = () => {
             />
           </div>
         </div>
-        <div className="cursor-grab" onClick={googleSignIn}>
-          Google로 회원가입
-        </div>
 
         <button>회원가입</button>
       </form>
+      <GoogleSignIn />
     </div>
   );
 };

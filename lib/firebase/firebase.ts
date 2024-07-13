@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAqgzKBkWEt6s4x5hrVvlr48WdGOQRgqqo",
@@ -18,6 +18,17 @@ const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+auth.useDeviceLanguage();
+
+//https://firebase.google.com/docs/firestore/security/rules-query?hl=ko
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User is signed in");
+  } else {
+    console.log("User is signed out");
+  }
+});
 
 export const isNameUnique = async (name: string) => {
   await (

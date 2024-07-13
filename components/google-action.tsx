@@ -1,4 +1,4 @@
-"use server";
+/* "use server";
 
 import { auth } from "@/lib/firebase/firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -20,7 +20,7 @@ auth.useDeviceLanguage();
 import { getAuth, signInWithRedirect } from "firebase/auth";
 
 const auth = getAuth();
-signInWithRedirect(auth, provider); */
+signInWithRedirect(auth, provider); 
 
 export const googleSignIn = async () => {
   await signInWithPopup(auth, provider)
@@ -46,3 +46,4 @@ export const googleSignIn = async () => {
       // ...
     });
 };
+ */
