@@ -4,14 +4,7 @@ import Input from "@/components/input";
 import React from "react";
 import { useFormState } from "react-dom";
 import { createAccount } from "./action";
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  setPersistence,
-  browserLocalPersistence,
-} from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase";
-import { redirect } from "next/navigation";
+
 import GoogleSignIn from "@/components/googleSignIn";
 
 const CreateAccount = () => {
@@ -19,12 +12,9 @@ const CreateAccount = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <form
-        action={dispatch}
-        className="border w-1/4 h-3/4 flex flex-col justify-center content-between gap-5"
-      >
+      <div className="border w-1/4 h-3/4 flex flex-col justify-center content-between gap-5">
         <div className=" flex justify-center text-3xl font-bold">회원가입</div>
-        <div className=" flex flex-col">
+        <form action={dispatch} className=" flex flex-col">
           <div>
             <label htmlFor="text">이름 : </label>
             <Input
@@ -69,11 +59,10 @@ const CreateAccount = () => {
               errors={state?.Error?.password_confirm}
             />
           </div>
-        </div>
-
-        <button>회원가입</button>
-      </form>
-      <GoogleSignIn />
+          <button>회원가입</button>
+        </form>
+        <GoogleSignIn />
+      </div>
     </div>
   );
 };

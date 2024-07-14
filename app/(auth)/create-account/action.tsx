@@ -22,8 +22,8 @@ export async function createAccount(prevState: any, formData: FormData) {
   if (data.password !== data.password_confirm) {
     result.Error.password_confirm.push("비밀번호가 일치하지 않습니다.");
   }
-  const hashedPassword = await bcrypt.hash(data.password, 12);
-  await createUserWithEmailAndPassword(auth, data.userEmail, hashedPassword)
+  //const hashedPassword = await bcrypt.hash(data.password, 12);
+  await createUserWithEmailAndPassword(auth, data.userEmail, data.password)
     .then((userCredential) => {
       setDoc(doc(db, "users", userCredential.user.uid), {
         username: data.username,
