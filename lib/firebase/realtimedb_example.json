@@ -1,0 +1,74 @@
+{
+  "chats": {
+    "chatNameOne": {
+      "title": "Chat Name One",
+      "lastMEssage": "Hello",
+      "timestamp": 1234567890
+    },
+    "chatNameTwo": {
+      "title": "Chat Name Two",
+      "lastMEssage": "Hello World",
+      "timestamp": 1234567890
+    },
+    "chatNameThree": {
+      "title": "Chat Name One",
+      "lastMEssage": "Hello",
+      "timestamp": 1234567890
+    }
+  },
+  "members": {
+    "chatNameOne": {
+      "Hari": true,
+      "John": true,
+      "Jane": true
+    },
+    "chatNameTwo": {
+      "Hari": true,
+      "John": true,
+      "Jane": false
+    },
+    "chatNameThree": {
+      "Hari": false,
+      "John": true,
+      "Jane": true
+    }
+  },
+  "messages": {
+    "chatNameOne": {
+      "messageOne": {
+        "sender": "Hari",
+        "message": "Hello",
+        "timestamp": 1234567890
+      },
+      "messageTwo": {
+        "sender": "John",
+        "message": "Hello",
+        "timestamp": 1234567890
+      }
+    },
+    "chatNameTwo": {
+      "messageOne": {
+        "sender": "Hari",
+        "message": "Hello",
+        "timestamp": 1234567890
+      },
+      "messageTwo": {
+        "sender": "John",
+        "message": "Hello",
+        "timestamp": 1234567890
+      }
+    },
+    "chatNameThree": {
+      "messageOne": {
+        "sender": "John",
+        "message": "Hello",
+        "timestamp": 1234567890
+      },
+      "messageTwo": {
+        "sender": "Jane",
+        "message": "Hello",
+        "timestamp": 1234567890
+      }
+    }
+  }
+}

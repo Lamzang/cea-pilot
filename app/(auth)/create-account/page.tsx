@@ -5,7 +5,7 @@ import React from "react";
 import { useFormState } from "react-dom";
 import { createAccount } from "./action";
 
-import GoogleSignIn from "@/components/googleSignIn";
+import GoogleSignIn from "@/app/(auth)/googleSignIn";
 
 const CreateAccount = () => {
   const [state, dispatch] = useFormState(createAccount, null);

@@ -38,7 +38,7 @@ const Navbar = () => {
           />
         </li>
         <li className="m-4">
-          <Link href="/project-room">
+          <Link href="/chat">
             <div className="text-black">프로젝트</div>
           </Link>
         </li>

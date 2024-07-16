@@ -14,6 +14,7 @@ export async function logIn(prevState: any, formData: FormData) {
   await signInWithEmailAndPassword(auth, data.userEmail, data.password)
     .then((userCredential) => {
       result.success = true;
+      console.log("suceess");
       redirect("/");
     })
     .catch((error) => {
