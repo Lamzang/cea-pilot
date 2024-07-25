@@ -1,0 +1,24 @@
+{
+  "shopAllArray": [
+    {
+      "name": "product1",
+      "price": 100,
+      "id": "123123123"
+    }
+  ],
+  "shopData": {
+    "123123123": {
+      "name": "product1",
+      "price": 100,
+      "id": "123123123",
+      "description": "This is a product description",
+      "reviews": [
+        {
+          "name": "John",
+          "review": "This is a review",
+          "rating": 5
+        }
+      ]
+    }
+  }
+}
