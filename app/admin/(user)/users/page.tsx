@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 export default function AdminUsers() {
+  const USERID = "1234";
   return (
     <div>
       <div>User Data</div>
@@ -10,7 +13,9 @@ export default function AdminUsers() {
           <div>user email</div>
           <div>user address</div>
           <div>user credentials</div>
-          <div className="bg-black text-white">detail User</div>
+          <Link href={`/admin/${USERID}`} className="bg-black text-white">
+            detail User
+          </Link>
         </div>
         <div className="flex gap-10 py-2">
           <div>user name</div>
@@ -18,7 +23,9 @@ export default function AdminUsers() {
           <div>user email</div>
           <div>user address</div>
           <div>user credentials</div>
-          <div className="bg-black text-white">detail User</div>
+          <Link href={`/admin/${USERID}`} className="bg-black text-white">
+            detail User
+          </Link>
         </div>
         <div className="flex gap-10 py-2">
           <div>user name</div>
@@ -26,7 +33,9 @@ export default function AdminUsers() {
           <div>user email</div>
           <div>user address</div>
           <div>user credentials</div>
-          <div className="bg-black text-white">detail User</div>
+          <Link href={`/admin/${USERID}`} className="bg-black text-white">
+            detail User
+          </Link>
         </div>
       </div>
     </div>

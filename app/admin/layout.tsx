@@ -11,40 +11,43 @@ export default function AdminLayout({
   const [viewUserDetail, setViewUserDetail] = useState(false);
   const [viewProductDetail, setViewProductDetail] = useState(false);
   return (
-    <div className="w-full h-screen flex">
-      <div className="w-1/4 border">
-        <div
-          className="border"
-          onClick={() => setViewUserDetail((prev) => !prev)}
-        >
-          manage user
-        </div>
-        {viewUserDetail ? (
-          <div className="border ml-6 flex flex-col">
-            <Link href="/admin/users" className="border">
-              view users
-            </Link>
-            <Link href="/admin/users/credentials" className="border">
-              view credentials for users
-            </Link>
+    <div className="w-full ">
+      <Link href={"/admin"}>Admin Home</Link>
+      <div className="flex h-screen">
+        <div className="w-1/4 border">
+          <div
+            className="border"
+            onClick={() => setViewUserDetail((prev) => !prev)}
+          >
+            manage user
           </div>
-        ) : null}
-        <div
-          className="border"
-          onClick={() => setViewProductDetail((prev) => !prev)}
-        >
-          manage Product
-        </div>
-        {viewProductDetail ? (
-          <div className="border ml-6">
-            <div className="border">view products</div>
-            <div className="border">view product data</div>
-            <div className="border">view ordered product</div>
+          {viewUserDetail ? (
+            <div className="border ml-6 flex flex-col">
+              <Link href="/admin/users" className="border">
+                view users
+              </Link>
+              <Link href="/admin/users/credentials" className="border">
+                view credentials for users
+              </Link>
+            </div>
+          ) : null}
+          <div
+            className="border"
+            onClick={() => setViewProductDetail((prev) => !prev)}
+          >
+            manage Product
           </div>
-        ) : null}
-      </div>
+          {viewProductDetail ? (
+            <div className="border ml-6">
+              <div className="border">view products</div>
+              <div className="border">view product data</div>
+              <div className="border">view ordered product</div>
+            </div>
+          ) : null}
+        </div>
 
-      <div className="w-3/4 border pl-5">{children}</div>
+        <div className="w-3/4 border pl-5">{children}</div>
+      </div>
     </div>
   );
 }
