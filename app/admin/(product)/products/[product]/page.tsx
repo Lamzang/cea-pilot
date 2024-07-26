@@ -2,17 +2,32 @@ import React from "react";
 
 const AdminProduct = () => {
   return (
-    <div>
-      <div>Product Name</div>
-      <div>Product Image</div>
-      <div>Product Price</div>
-      <div>Product Description</div>
-      <div>Product Category</div>
-      <div>Product Quantity</div>
-      <div>Product Status</div>
-      <div>Product Created At</div>
-      <div>Product Updated At</div>
-      <div>Product Deleted At</div>
+    <div className="flex flex-col">
+      <button>Save</button>
+      <input value="Product Name" />
+      <input value="Product Image" />
+      <input value="Product Price" />
+      <input value="Product Description" />
+      <input value="Product Category" />
+      <input value="Product Quantity" />
+      <input value="Product Status" />
+      <input value="Product Created" />
+      <input value="Product Updated" />
+      <input value="Product Deleted" />
+      <div>
+        <div className="flex gap-5">
+          <div>customer</div>
+          <div>review</div>
+          <div>stars</div>
+          <div>time</div>
+        </div>
+        <div className="flex gap-5">
+          <div>customer</div>
+          <div>review</div>
+          <div>stars</div>
+          <div>time</div>
+        </div>
+      </div>
     </div>
   );
 };

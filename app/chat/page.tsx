@@ -63,10 +63,18 @@ export default function ChatHome() {
         <div className="border h-full flex flex-col justify-center">
           {chatHomes.map((data, index) => {
             return (
-              <div className="border" key={index}>
-                <Link href={`/chat/${data?.title}`}>
-                  {data?.title} : {data?.lastMsg}
-                </Link>
+              <div
+                className="border"
+                key={index}
+                onClick={() =>
+                  window.open(
+                    `/chat/${data?.title}`,
+                    "newwindow",
+                    "width=320, height=500"
+                  )
+                }
+              >
+                {data?.title} : {data?.lastMsg}
               </div>
             );
           })}

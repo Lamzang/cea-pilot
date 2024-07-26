@@ -3,7 +3,7 @@ import Input from "@/components/input";
 import { database } from "@/lib/firebase/firebase";
 import { authState } from "@/lib/recoil/auth";
 import { child, get, onChildAdded, push, ref, update } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 
 type Message = {
@@ -17,6 +17,7 @@ const ChatRoom = () => {
   const [userAuth, setUserAuth] = useRecoilState(authState);
   const [messages, setMessages] = useState<Message[]>([]);
   const dbRef = ref(database);
+  const dummyRef = useRef(null);
   const deleteAll = () => {
     update(ref(database), { messages: null });
   };
@@ -60,13 +61,19 @@ const ChatRoom = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (dummyRef.current) {
+      (dummyRef.current as HTMLElement).scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="border w-1/4 h-3/4 mt-10 flex flex-col justify-center content-between">
+    <div className="flex justify-center items-center h-full">
+      <div className="border w-full h-full flex flex-col">
         <div className="border h-16 flex justify-center items-center">
           Title
         </div>
-        <div className="border h-full flex flex-col justify-center">
+        <div className="border h-full flex flex-col justify-center overflow-auto mb-14">
           {messages.map((data, index) => {
             return (
               <div className="border" key={index}>
@@ -74,8 +81,9 @@ const ChatRoom = () => {
               </div>
             );
           })}
+          <div ref={dummyRef} />
         </div>
-        <div className="h-14 flex justify-center items-center">
+        <div className="h-14 flex justify-center items-center fixed bottom-0 bg-white">
           <form
             onSubmit={onSubmit}
             className="flex justify-between w-full mx-10"
@@ -85,7 +93,7 @@ const ChatRoom = () => {
           </form>
         </div>
       </div>
-      <div onClick={deleteAll}>Delete All</div>
+      {/* <div onClick={deleteAll}>Delete All</div> */}
     </div>
   );
 };
