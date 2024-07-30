@@ -1,7 +1,7 @@
 "use client";
 
 import { db } from "@/lib/firebase/firebase";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 interface IShopDetailData {
@@ -17,6 +17,7 @@ interface IShopDetailData {
 
 export default function ShopEach({ params }: { params: { shopId: string } }) {
   const [shopData, setShopData] = useState<IShopDetailData>();
+  const [review, setReview] = useState<string>("");
   useEffect(() => {
     const fetchData = async () => {
       const querysnapshots = await getDoc(
@@ -26,6 +27,16 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
     };
     fetchData();
   }, []);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setReview(e.target.value);
+  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateDoc(doc(db, "shopDetailData", params.shopId), {
+      reviews: [...(shopData?.reviews ?? []), review],
+    });
+    setReview("");
+  };
   return (
     <div className="pt-24 flex justify-center items-center">
       <div className="w-5/6 border flex flex-col">
@@ -62,6 +73,10 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
             {shopData?.reviews.map((review) => (
               <div key={review}>{review}</div>
             ))}
+            <form onSubmit={onSubmit}>
+              <input onChange={onChange} value={review} />
+              <button>submit</button>
+            </form>
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ export default function adminNewProduct() {
       product.name.split(" ").join("") +
       Math.floor(1000 + Math.random() * 9000).toString();
     setProduct((prev) => ({ ...prev, id: newId }));
-  }, []);
+  }, [product.name]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct((prev) => ({ ...prev, [e.target.id]: e.target.value }));

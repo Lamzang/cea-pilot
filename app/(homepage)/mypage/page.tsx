@@ -1,12 +1,27 @@
 "use client";
 
-import React from "react";
+import { db } from "@/lib/firebase/firebase";
+import { authState } from "@/lib/recoil/auth";
+import { doc, getDoc } from "firebase/firestore";
+import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 const NAME = "인재익";
 const EMAIL = "test@naver.com";
 const MEMBERSHIP = "VIP";
 
 const MyPage = () => {
+  const [user, setUser] = useRecoilState(authState);
+  const [userData, setUserData] = React.useState<any>({});
+  useEffect(() => {
+    getDoc(doc(db, "users", user.user.email)).then((doc) => {
+      if (doc.exists()) {
+        const data = doc.data();
+        console.log(data);
+        setUserData(data);
+      }
+    });
+  }, []);
   return (
     <div className="flex justify-center flex-col h-screen items-center">
       <div className="font-bold text-3xl">마이페이지</div>
@@ -20,10 +35,10 @@ const MyPage = () => {
             />
             <div className="flex flex-col h-28 justify-between">
               <div className="text-2xl">
-                <span className="font-bold">{NAME}</span>님은 현재{" "}
+                <span className="font-bold">{userData.username}</span>님은 현재{" "}
                 <span className="font-bold">{MEMBERSHIP}</span>입니다.
               </div>
-              <div>{EMAIL}</div>
+              <div>{userData.email}</div>
               <div>회원정보수정</div>
             </div>
           </div>
@@ -56,36 +71,5 @@ const MyPage = () => {
     </div>
   );
 };
-
-/**
- 들어가야 할 내용
-  // 1. 회원정보
-  이름
-  이메일
-  현재 멤버쉽
-  쿠폰
-  포인트
-  적립금
-
-  2. 회원정보수정
-  비밀번호 변경
-  회원탈퇴
-  닉네임 변경
-  프로필 사진 변경
-  주소 변경
-
-  3. 주문/배송
-  결제정보(결제이력)
-  주문/배송조회(결제완료, 배송준비중, 배송중, 배송완료, 주문취소)
-  상품후기
-  상품문의
-  1:1문의
-
-  4. 기타
-  FAQ
-  QnA
-  공지사항
-  이벤트
-  */
 
 export default MyPage;

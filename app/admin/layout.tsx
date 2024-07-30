@@ -48,6 +48,9 @@ export default function AdminLayout({
               <Link href={"/admin/new-product"} className="border">
                 make new product
               </Link>
+              <Link href={"/admin/delete-product"} className="border">
+                delete products
+              </Link>
             </div>
           ) : null}
           <Link href={"/admin/message"}>send message for users</Link>

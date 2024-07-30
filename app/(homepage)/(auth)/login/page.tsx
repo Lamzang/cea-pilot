@@ -1,6 +1,6 @@
 "use client";
 
-import GoogleSignIn from "@/app/(auth)/googleSignIn";
+import GoogleSignIn from "@/app/(homepage)/(auth)/googleSignIn";
 import Input from "@/components/input";
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
@@ -72,7 +72,7 @@ const Login = () => {
           </div>
           <button>로그인</button>
         </form>
-        <GoogleSignIn />
+        <GoogleSignIn state="login" />
       </div>
     </div>
   );
