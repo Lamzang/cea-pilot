@@ -3,8 +3,6 @@
 import GoogleSignIn from "@/app/(homepage)/(auth)/googleSignIn";
 import Input from "@/components/input";
 import React, { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { logIn } from "./action";
 import { useRecoilState } from "recoil";
 import { authState } from "@/lib/recoil/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -12,15 +10,10 @@ import { auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [state, dispatch] = useFormState(logIn, null);
   const [userAuth, setUserAuth] = useRecoilState(authState);
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
-  useEffect(() => {
-    if (state?.success) {
-      setUserAuth((prev) => ({ ...prev, isLoggedIn: true }));
-    }
-  }, [state]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signInWithEmailAndPassword(
@@ -35,6 +28,7 @@ const Login = () => {
             username: userCredential.user.displayName ?? "",
             email: userCredential.user.email ?? "",
             uid: userCredential.user.uid ?? "",
+            address: "",
           },
         });
         router.push("/");

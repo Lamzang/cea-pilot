@@ -14,13 +14,20 @@ const MyPage = () => {
   const [user, setUser] = useRecoilState(authState);
   const [userData, setUserData] = React.useState<any>({});
   useEffect(() => {
-    getDoc(doc(db, "users", user.user.email)).then((doc) => {
-      if (doc.exists()) {
-        const data = doc.data();
-        console.log(data);
-        setUserData(data);
-      }
-    });
+    getDoc(doc(db, "users", user.user.uid))
+      .then((doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+          console.log(data);
+          setUserData(data);
+          console.log("Document data:", data);
+        } else {
+          //error handling 추가
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
   }, []);
   return (
     <div className="flex justify-center flex-col h-screen items-center">
@@ -36,9 +43,11 @@ const MyPage = () => {
             <div className="flex flex-col h-28 justify-between">
               <div className="text-2xl">
                 <span className="font-bold">{userData.username}</span>님은 현재{" "}
-                <span className="font-bold">{MEMBERSHIP}</span>입니다.
+                <span className="font-bold">{userData.membership}</span>입니다.
               </div>
               <div>{userData.email}</div>
+              <div>uid : {userData.uid}</div>
+              <div>{userData.address === "" ? null : userData.address}</div>
               <div>회원정보수정</div>
             </div>
           </div>
@@ -46,15 +55,15 @@ const MyPage = () => {
           <div className="w-full flex gap-8 justify-center">
             <div className=" w-20 h-full flex flex-col items-center justify-center gap-4 font-medium">
               <div>쿠폰</div>
-              <div>0장</div>
+              <div>{userData.coupons.coupons.length}개</div>
             </div>
             <div className=" w-20 h-full flex flex-col items-center justify-center gap-4 font-medium">
               <div>포인트</div>
-              <div>0P</div>
+              <div>{userData.coupons?.points}P</div>
             </div>
             <div className=" w-20 h-full flex flex-col items-center justify-center gap-4 font-medium">
               <div>적립금</div>
-              <div>0원</div>
+              <div>{userData.coupons?.accumulated}원</div>
             </div>
           </div>
         </div>

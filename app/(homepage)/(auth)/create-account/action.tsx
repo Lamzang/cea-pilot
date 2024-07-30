@@ -1,8 +1,6 @@
 "use server";
 
-import { doc, setDoc } from "firebase/firestore";
-import bcrypt from "bcrypt";
-import { z } from "zod";
+import { doc, setDoc, collection, addDoc } from "firebase/firestore";
 import { redirect } from "next/navigation";
 import { auth, db } from "@/lib/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -24,12 +22,30 @@ export async function createAccount(prevState: any, formData: FormData) {
   }
   //const hashedPassword = await bcrypt.hash(data.password, 12);
   await createUserWithEmailAndPassword(auth, data.userEmail, data.password)
-    .then((userCredential) => {
-      setDoc(doc(db, "users", userCredential.user.email as string), {
+    .then(async (userCredential) => {
+      await setDoc(doc(db, "users", userCredential.user.uid), {
         username: data.username,
         email: data.userEmail,
         uid: userCredential.user.uid,
+        address: "",
+        membership: "basic",
+        coupons: {
+          points: 0,
+          accumulated: 0,
+          coupons: [],
+        },
       });
+      /* const ordersCollection = addDoc(
+        collection(db, "users", userCredential.user.uid, "orders"),
+        {
+          products: "test",
+          totalAmount: 1,
+          status: "delivery",
+          orderDate: "2021-10-10",
+          shippingAddress: "서울시 서대문구 연세대",
+        }
+      ); */
+
       result.success = true;
     })
     .catch((error) => {

@@ -35,14 +35,24 @@ export default function GoogleSignIn({
             username: user.displayName || "",
             email: result.user.email || "",
             uid: result.user.uid || "",
+            address: "",
           },
         });
         // firestore에 유저 정보 저장
         // email을 key로 사용, 근데 위험할 수도 있음?
-        setDoc(doc(db, "users", user.email as string), {
+        // 일단은 이렇게 해보자
+        // db에 있으면 추가하지 merge해야하는데
+        setDoc(doc(db, "users", user.uid), {
           username: user.displayName || "",
           email: user.email,
           uid: user.uid,
+          address: "",
+          membership: "basic",
+          coupons: {
+            points: 0,
+            accumulated: 0,
+            coupons: [],
+          },
         });
 
         router.push("/");

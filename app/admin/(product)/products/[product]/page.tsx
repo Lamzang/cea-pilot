@@ -1,30 +1,41 @@
 "use client";
 
 import { db } from "@/lib/firebase/firebase";
-import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, ChangeEvent } from "react";
 
 interface IProductData {
   name: string;
   price: number;
-  id: string;
   category: string;
   description: string;
   stock: number;
   discount: number;
-  reviews: string[];
+  id: string;
 }
 
 const AdminProduct = ({ params }: { params: { product: string } }) => {
   const [productData, setProductData] = useState<IProductData | null>(null);
+  const productId = decodeURIComponent(params.product);
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
-      const querysnapshot = await getDoc(
-        doc(db, "shopDetailData", params.product)
-      );
-      setProductData(querysnapshot.data() as IProductData);
+      getDoc(doc(db, "products", productId)).then((doc) => {
+        if (doc.exists()) {
+          setProductData(doc.data() as IProductData);
+        }
+        console.log(params.product);
+      });
     };
     fetchData();
   }, [params.product]);
@@ -37,21 +48,16 @@ const AdminProduct = ({ params }: { params: { product: string } }) => {
 
   const handleSave = () => {
     // Implement save functionality here
+    //maybe we have to use merge option
     console.log("Saved product data", productData);
-    setDoc(doc(db, "shopDetailData", params.product), productData);
-    setDoc(doc(db, "shopSimpleData", params.product), {
-      name: productData?.name,
-      price: productData?.price,
-      id: productData?.id,
-    });
+    setDoc(doc(db, "products", productId), productData);
   };
 
-  if (!productData) return <div>Loading...</div>;
+  if (!productData) return <div>Maybe none</div>;
   const onDelete = () => {
     // Implement delete functionality here
     console.log("Deleted product data", productData);
-    deleteDoc(doc(db, "shopDetailData", params.product));
-    deleteDoc(doc(db, "shopSimpleData", params.product));
+    deleteDoc(doc(db, "products", productId));
     router.push("/admin/product-map");
   };
 

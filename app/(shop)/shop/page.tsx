@@ -17,7 +17,7 @@ export default function ShopHome() {
   const [shopData, setShopData] = useState<IshopData[]>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const querysnapshots = await getDocs(collection(db, "shopSimpleData"));
+      const querysnapshots = await getDocs(collection(db, "products"));
       querysnapshots.forEach((doc) => {
         setShopData((prev) => [...prev, doc.data() as IshopData]);
       });
@@ -30,7 +30,7 @@ export default function ShopHome() {
       <div className="w-5/6 border flex flex-wrap justify-center gap-10">
         {shopData.map((data) => (
           <Link
-            href={`/shop/${data.id}`}
+            href={`/shop/${encodeURIComponent(data.id)}`}
             key={data.id}
             className="border w-96 h-[28rem]"
           >

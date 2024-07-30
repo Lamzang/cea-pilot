@@ -1,8 +1,15 @@
 "use client";
 
 import { db } from "@/lib/firebase/firebase";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import next from "next";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 interface IProduct {
@@ -10,8 +17,8 @@ interface IProduct {
   category: string;
   price: number;
   stock: number;
+  discount: number;
   description: string;
-  reviews: string[];
   id: string;
 }
 
@@ -21,14 +28,20 @@ export default function adminNewProduct() {
     category: "",
     price: 0,
     stock: 0,
+    discount: 0,
     description: "",
-    reviews: [],
     id: "",
   });
   useEffect(() => {
-    const newId =
-      product.name.split(" ").join("") +
-      Math.floor(1000 + Math.random() * 9000).toString();
+    const compositedName = product.name
+      .split(" ")
+      .join("")
+      .toLowerCase()
+      .substring(0, 15);
+    const randomNum = String(
+      Math.floor(Math.random() * 10 ** (19 - compositedName.length))
+    ).padStart(19 - compositedName.length, "0");
+    const newId = compositedName + "-" + randomNum;
     setProduct((prev) => ({ ...prev, id: newId }));
   }, [product.name]);
 
@@ -37,16 +50,7 @@ export default function adminNewProduct() {
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setDoc(doc(db, "shopSimpleData", product.id), {
-      name: product.name,
-      price: product.price,
-      id: product.id,
-    });
-    setDoc(doc(db, "shopDetailData", product.id), product);
-    updateDoc(doc(db, "category", product.category), {
-      productIdArray: arrayUnion(product.id),
-    });
+    setDoc(doc(db, "products", product.id), product);
   };
 
   return (
@@ -62,6 +66,7 @@ export default function adminNewProduct() {
               type="text"
               id="name"
               placeholder="Product name"
+              required
               className="mt-1 block w-full p-2 border rounded"
               onChange={onChange}
               value={product.name}
@@ -74,6 +79,7 @@ export default function adminNewProduct() {
             <input
               type="text"
               id="category"
+              required
               placeholder="Product category"
               className="mt-1 block w-full p-2 border rounded"
               onChange={onChange}
@@ -86,6 +92,7 @@ export default function adminNewProduct() {
             </label>
             <input
               type="number"
+              required
               id="price"
               placeholder="Product price"
               className="mt-1 block w-full p-2 border rounded"
@@ -101,6 +108,7 @@ export default function adminNewProduct() {
             <input
               type="number"
               id="stock"
+              required
               placeholder="Product stock"
               className="mt-1 block w-full p-2 border rounded"
               onChange={onChange}

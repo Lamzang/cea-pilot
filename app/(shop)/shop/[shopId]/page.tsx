@@ -1,8 +1,17 @@
 "use client";
 
 import { db } from "@/lib/firebase/firebase";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { authState } from "@/lib/recoil/auth";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 interface IShopDetailData {
   name: string;
@@ -15,27 +24,62 @@ interface IShopDetailData {
   reviews: string[];
 }
 
+interface IReviewData {
+  userId: string;
+  content: string;
+  rating: number;
+  reviewDate: string;
+}
+
 export default function ShopEach({ params }: { params: { shopId: string } }) {
   const [shopData, setShopData] = useState<IShopDetailData>();
+  const [reviewData, setReviewData] = useState<IReviewData[]>([]);
   const [review, setReview] = useState<string>("");
+  const [rating, setRating] = useState<number>(0);
+  const [userData, setUserData] = useRecoilState(authState);
   useEffect(() => {
     const fetchData = async () => {
       const querysnapshots = await getDoc(
-        doc(db, "shopDetailData", params.shopId)
+        doc(db, "products", decodeURIComponent(params.shopId))
       );
       setShopData(querysnapshots.data() as IShopDetailData);
+      console.log(querysnapshots.data());
+    };
+    const fetchReviewData = async () => {
+      const querysnapshots = await getDocs(
+        collection(db, "products", decodeURIComponent(params.shopId), "reviews")
+      );
+      querysnapshots.forEach((doc) => {
+        setReviewData((prev) => [...prev, doc.data() as IReviewData]);
+      });
     };
     fetchData();
+    fetchReviewData();
   }, []);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReview(e.target.value);
   };
+  const onRating = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRating(Number(e.target.value));
+  };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateDoc(doc(db, "shopDetailData", params.shopId), {
+    addDoc(
+      collection(db, "products", decodeURIComponent(params.shopId), "reviews"),
+      {
+        userId: userData.user.username,
+        content: review,
+        rating: rating,
+        reviewDate: new Date().toISOString(),
+      }
+    );
+
+    /* 
+    updateDoc(doc(db, "products", params.shopId), {
       reviews: [...(shopData?.reviews ?? []), review],
-    });
+    }); */
     setReview("");
+    setRating(0);
   };
   return (
     <div className="pt-24 flex justify-center items-center">
@@ -70,11 +114,17 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
               </div>
               <div>review content</div>
             </div> */}
-            {shopData?.reviews.map((review) => (
-              <div key={review}>{review}</div>
+            {reviewData.map((data, index) => (
+              <div key={index} className="flex gap-2">
+                <div>{data.userId}</div>
+                <div>{data.content}</div>
+                <div>{data.rating}</div>
+                <div>{data.reviewDate}</div>
+              </div>
             ))}
             <form onSubmit={onSubmit}>
               <input onChange={onChange} value={review} />
+              <input type="number" onChange={onRating} value={rating} />
               <button>submit</button>
             </form>
           </div>
