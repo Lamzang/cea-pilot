@@ -11,12 +11,19 @@ const CreateAccount = () => {
   const [state, dispatch] = useFormState(createAccount, null);
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="border w-1/4 h-3/4 flex flex-col justify-center content-between gap-5">
-        <div className=" flex justify-center text-3xl font-bold">회원가입</div>
-        <form action={dispatch} className=" flex flex-col">
+    <div className="flex justify-center items-center h-screen bg-gray-50">
+      <div className="border bg-white shadow-md rounded-lg w-full max-w-md p-8 flex flex-col justify-center gap-6">
+        <div className="flex justify-center text-3xl font-bold text-gray-800 mb-4">
+          회원가입
+        </div>
+        <form action={dispatch} className="flex flex-col gap-4">
           <div>
-            <label htmlFor="text">이름 : </label>
+            <label
+              htmlFor="text"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              이름 :
+            </label>
             <Input
               name="username"
               type="text"
@@ -27,7 +34,12 @@ const CreateAccount = () => {
             />
           </div>
           <div>
-            <label htmlFor="email">이메일 : </label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              이메일 :
+            </label>
             <Input
               name="userEmail"
               type="email"
@@ -36,9 +48,13 @@ const CreateAccount = () => {
               errors={state?.Error?.userEmail}
             />
           </div>
-
           <div>
-            <label htmlFor="password">비밀번호 : </label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              비밀번호 :
+            </label>
             <Input
               name="password"
               type="password"
@@ -49,7 +65,12 @@ const CreateAccount = () => {
             />
           </div>
           <div>
-            <label htmlFor="password">비밀번호 확인 : </label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              비밀번호 확인 :
+            </label>
             <Input
               name="password_confirm"
               type="password"
@@ -59,9 +80,13 @@ const CreateAccount = () => {
               errors={state?.Error?.password_confirm}
             />
           </div>
-          <button>회원가입</button>
+          <button className="bg-customBlue-light text-white py-2 rounded-md hover:bg-customBlue-dark transition duration-300">
+            회원가입
+          </button>
         </form>
-        <GoogleSignIn state="create-account" />
+        <div className="mt-4">
+          <GoogleSignIn state="create-account" />
+        </div>
       </div>
     </div>
   );

@@ -65,7 +65,17 @@ export default function GoogleSignIn({
   };
   return (
     <div className="cursor-grab" onClick={googleSignIn}>
-      {state === "create-account" ? "Google로 회원가입" : "Google로 로그인"}
+      {state === "create-account" ? (
+        <img
+          src="/assets/google/web_light_sq_SU@1x.png"
+          alt="google로 회원가입"
+        />
+      ) : (
+        <img
+          src="/assets/google/web_light_sq_SI@1x.png"
+          alt="google로 로그인"
+        />
+      )}
     </div>
   );
 }

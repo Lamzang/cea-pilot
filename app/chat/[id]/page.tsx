@@ -83,7 +83,7 @@ const ChatRoom = () => {
           })}
           <div ref={dummyRef} />
         </div>
-        <div className="h-14 flex justify-center items-center fixed bottom-0 bg-white">
+        <div className="h-14 flex justify-center items-center bottom-0 bg-white">
           <form
             onSubmit={onSubmit}
             className="flex justify-between w-full mx-10"
