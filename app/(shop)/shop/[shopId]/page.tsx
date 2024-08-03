@@ -2,14 +2,7 @@
 
 import { db } from "@/lib/firebase/firebase";
 import { authState } from "@/lib/recoil/auth";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -17,8 +10,8 @@ interface IShopDetailData {
   name: string;
   price: number;
   id: string;
-  category: "string";
-  description: "string";
+  category: string;
+  description: string;
   stock: number;
   discount: number;
   reviews: string[];
@@ -37,13 +30,13 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
   const [review, setReview] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
   const [userData, setUserData] = useRecoilState(authState);
+
   useEffect(() => {
     const fetchData = async () => {
       const querysnapshots = await getDoc(
         doc(db, "products", decodeURIComponent(params.shopId))
       );
       setShopData(querysnapshots.data() as IShopDetailData);
-      console.log(querysnapshots.data());
     };
     const fetchReviewData = async () => {
       const querysnapshots = await getDocs(
@@ -55,7 +48,8 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
     };
     fetchData();
     fetchReviewData();
-  }, []);
+  }, [params.shopId]);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReview(e.target.value);
   };
@@ -73,61 +67,79 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
         reviewDate: new Date().toISOString(),
       }
     );
-
-    /* 
-    updateDoc(doc(db, "products", params.shopId), {
-      reviews: [...(shopData?.reviews ?? []), review],
-    }); */
     setReview("");
     setRating(0);
   };
+
   return (
-    <div className="pt-24 flex justify-center items-center">
-      <div className="w-5/6 border flex flex-col">
-        <div className="border w-full flex">
-          <div className="w-1/2 h-auto border ">
-            <img className="w-full h-auto" src="/assets/textbook.jpg" />
+    <div className="pt-24 flex justify-center items-center bg-gray-100 min-h-screen">
+      <div className="w-5/6 bg-white p-6 rounded-lg shadow-lg">
+        <div className="flex flex-wrap md:flex-nowrap">
+          <div className="w-full md:w-1/2 h-auto">
+            <img
+              className="w-full h-auto rounded-lg"
+              src="/assets/textbook.jpg"
+              alt={shopData?.name}
+            />
           </div>
-          <div className="w-1/2 border ">
-            <div>{shopData?.name}</div>
-            <div>{shopData?.price}</div>
-            <div>{shopData?.description}</div>
-            <div className="flex gap-2">
-              <div className="border">장바구니</div>
-              <div className="border">바로구매</div>
+          <div className="w-full md:w-1/2 p-6">
+            <h2 className="text-2xl font-semibold mb-4">{shopData?.name}</h2>
+            <div className="text-xl text-gray-800 mb-4">
+              {shopData?.price}원
+            </div>
+            <p className="text-gray-700 mb-4">{shopData?.description}</p>
+            <div className="flex gap-4">
+              <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                장바구니
+              </button>
+              <button className="bg-green-500 text-white px-4 py-2 rounded">
+                바로구매
+              </button>
             </div>
           </div>
         </div>
-        <div>상품소개 이미지</div>
-        <div>
-          <div>review data</div>
+        <div className="mt-10">
+          <h3 className="text-xl font-semibold mb-4">상품소개 이미지</h3>
+          {/* Add product introduction images here */}
+        </div>
+        <div className="mt-10">
+          <h3 className="text-xl font-semibold mb-4">리뷰</h3>
           <div>
-            <div>order</div>
-            {/* <div>
-              <div className="flex">
-                <img />
-                <div>name</div>
-              </div>
-              <div className="flex ">
-                <div>review star</div>
-                <div>date</div>
-              </div>
-              <div>review content</div>
-            </div> */}
             {reviewData.map((data, index) => (
-              <div key={index} className="flex gap-2">
-                <div>{data.userId}</div>
-                <div>{data.content}</div>
-                <div>{data.rating}</div>
-                <div>{data.reviewDate}</div>
+              <div key={index} className="border-b py-4">
+                <div className="flex justify-between items-center">
+                  <div className="font-semibold">{data.userId}</div>
+                  <div className="text-sm text-gray-500">
+                    {new Date(data.reviewDate).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-yellow-500 mr-2">{data.rating} ★</div>
+                  <div>{data.content}</div>
+                </div>
               </div>
             ))}
-            <form onSubmit={onSubmit}>
-              <input onChange={onChange} value={review} />
-              <input type="number" onChange={onRating} value={rating} />
-              <button>submit</button>
-            </form>
           </div>
+          <form onSubmit={onSubmit} className="mt-6">
+            <input
+              onChange={onChange}
+              value={review}
+              placeholder="리뷰를 작성해주세요"
+              className="w-full p-2 border rounded mb-4"
+            />
+            <input
+              type="number"
+              onChange={onRating}
+              value={rating}
+              placeholder="별점 (1-5)"
+              className="w-full p-2 border rounded mb-4"
+              min={1}
+              max={5}
+            />
+            <button className="bg-blue-500 text-white px-4 py-2 rounded">
+              제출
+            </button>
+          </form>
         </div>
       </div>
     </div>

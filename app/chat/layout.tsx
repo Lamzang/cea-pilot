@@ -1,8 +1,9 @@
 "use client";
 
 import Input from "@/components/input";
-import { database } from "@/lib/firebase/firebase";
+import { database, db } from "@/lib/firebase/firebase";
 import { child, get, onChildAdded, ref, update } from "firebase/database";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -11,23 +12,23 @@ export default function ChatLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [chatHomes, setChatHomes] = useState<any>({});
+  const [chatHomes, setChatHomes] = useState<any>([]);
+  const [channelId, setChannelId] = useState("");
   const dbRef = ref(database);
 
   useEffect(() => {
-    get(child(dbRef, "/channelTitle")).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-        setChatHomes(Array.from(Object.entries(snapshot.val())));
-      } else {
-        console.log("No data available");
-      }
-    });
-  }, []);
+    const fetchData = async () => {
+      const querysnapshots = await getDocs(collection(db, "channels"));
+      querysnapshots.forEach((doc) => {
+        setChatHomes((prev: any) => [
+          ...prev,
+          { data: doc.data(), id: doc.id },
+        ]);
+      });
+    };
 
-  useEffect(() => {
-    console.log(chatHomes);
-  }, [chatHomes]);
+    fetchData();
+  }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,35 +36,37 @@ export default function ChatLayout({
       .toLowerCase()
       .split(" ")
       .join("");
-
-    const newRoom = {
-      title: title,
-      description: "New Room",
-    };
-    const updates: { [key: string]: any } = {};
-    updates["/channelTitle/" + title] = newRoom;
     e.currentTarget.makeRoom.value = "";
-    return update(ref(database), updates);
+    const fetchData = async () => {
+      const docRef = await addDoc(collection(db, "channels"), {
+        description: "New Room",
+        name: title,
+      });
+      await addDoc(collection(db, "channels", docRef.id, "rooms"), {
+        name: "공지사항",
+      });
+    };
+    fetchData();
   };
 
   return (
     <div className="flex h-screen">
       {/* Left Sidebar */}
-      <div className="bg-gray-900 text-white w-64 p-4 flex flex-col justify-between h-full">
+      <div className="bg-black text-white w-64 p-4 flex flex-col justify-between h-full">
         <div className="flex flex-col gap-5 h-5/6">
-          <Link href={"/chat"} className="text-xl font-bold ">
+          <Link href={"/chat"} className="text-xl font-bold">
             Chat Rooms
           </Link>
           <div className="flex flex-col flex-nowrap h-full overflow-auto">
             {chatHomes.map((data: any, index: number) => (
               <Link
-                href={`/chat/${data[0]}`}
+                href={`/chat/${data.id}`}
                 key={index}
                 className="p-2 mb-2 cursor-grab hover:bg-gray-700 rounded"
               >
-                <div className="font-semibold">{data[0]}</div>
+                <div className="font-semibold">{data.data.name}</div>
                 <div className="text-sm text-gray-400">
-                  {data[1].description}
+                  {data.data.description}
                 </div>
               </Link>
             ))}
@@ -72,14 +75,14 @@ export default function ChatLayout({
 
         <form onSubmit={onSubmit} className="mt-4">
           <div className="mb-4">
-            <Input name="makeRoom" placeholder="New Room" />
+            <Input name="makeRoom" placeholder="New Channel" />
           </div>
           <button className="bg-blue-500 w-full py-2 rounded">Create</button>
         </form>
       </div>
 
       {/* Right Main Chat Area */}
-      <div className="flex-1 bg-gray-100 p-4 flex flex-col">{children}</div>
+      <div className="flex-1 bg-gray-100 flex flex-col">{children}</div>
     </div>
   );
 }
