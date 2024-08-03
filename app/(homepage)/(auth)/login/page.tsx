@@ -1,10 +1,8 @@
 "use client";
 
-import GoogleSignIn from "@/app/(auth)/googleSignIn";
+import GoogleSignIn from "@/app/(homepage)/(auth)/googleSignIn";
 import Input from "@/components/input";
-import React, { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { logIn } from "./action";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { authState } from "@/lib/recoil/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -12,15 +10,10 @@ import { auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [state, dispatch] = useFormState(logIn, null);
   const [userAuth, setUserAuth] = useRecoilState(authState);
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
-  useEffect(() => {
-    if (state?.success) {
-      setUserAuth((prev) => ({ ...prev, isLoggedIn: true }));
-    }
-  }, [state]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signInWithEmailAndPassword(
@@ -35,6 +28,7 @@ const Login = () => {
             username: userCredential.user.displayName ?? "",
             email: userCredential.user.email ?? "",
             uid: userCredential.user.uid ?? "",
+            address: "",
           },
         });
         router.push("/");
@@ -43,13 +37,21 @@ const Login = () => {
         setErrorMsg(error.message);
       });
   };
+
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="border w-1/4 h-2/4 flex flex-col justify-center content-between gap-5">
-        <div className=" flex justify-center text-3xl font-bold">로그인</div>
-        <form onSubmit={onSubmit} className=" flex flex-col">
+    <div className="flex justify-center items-center h-screen bg-gray-50">
+      <div className="border bg-white shadow-md rounded-lg w-full max-w-md p-8 flex flex-col justify-center gap-6">
+        <div className="flex justify-center text-3xl font-bold text-gray-800 mb-4">
+          로그인
+        </div>
+        <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <div>
-            <label htmlFor="email">이메일 : </label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              이메일 :
+            </label>
             <Input
               name="userEmail"
               type="email"
@@ -60,7 +62,12 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="password">비밀번호 : </label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              비밀번호 :
+            </label>
             <Input
               name="password"
               type="password"
@@ -70,9 +77,13 @@ const Login = () => {
               errors={errorMsg ? [errorMsg] : undefined}
             />
           </div>
-          <button>로그인</button>
+          <button className="bg-customBlue-light text-white py-2 rounded-md hover:bg-customBlue-dark transition duration-300">
+            로그인
+          </button>
         </form>
-        <GoogleSignIn />
+        <div className="mt-4">
+          <GoogleSignIn state="login" />
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,71 @@
+users
+  └── userId
+        ├── name
+        ├── email
+        ├── address
+        ├── uid
+        ├── membership
+        ├── coupons
+        └── orders
+            └── orderId
+                  ├── products
+                  ├── totalAmount
+                  ├── status
+                  ├── orderDate
+                  └── shippingAddress
+
+products
+  └── productId
+        ├── name
+        ├── description
+        ├── price
+        ├── category
+        ├── stock
+        ├── id
+        ├── discount
+        └── reviews
+            └── reviewId
+                  ├── userId
+                  ├── rating
+                  ├── comment
+                  └── reviewDate
+
+orders
+  └── orderId
+        ├── userId
+        ├── products
+        ├── totalAmount
+        ├── status
+        └── orderDate
+
+reviews
+  └── reviewId
+        ├── userId
+        ├── productId
+        ├── rating
+        ├── comment
+        └── reviewDate
+
+categories
+  └── categoryId
+        ├── name
+        └── description
+
+carts
+  └── userId
+        └── items
+            ├── productId
+            ├── quantity
+            └── addedAt
+
+wishlists
+  └── userId
+        └── items
+            ├── productId
+            └── addedAt
+
+shippingMethods
+  └── methodId
+        ├── name
+        ├── cost
+        └── estimatedDeliveryTime

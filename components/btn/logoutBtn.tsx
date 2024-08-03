@@ -13,9 +13,10 @@ const LogoutBtn = () => {
         setUserAuth({
           isLoggedIn: false,
           user: {
-            username: "",
+            username: "annoymous",
             email: "",
-            uid: "",
+            uid: "basicuid",
+            address: "",
           },
         });
         router.push("/");

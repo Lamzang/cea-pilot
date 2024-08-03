@@ -12,7 +12,7 @@ import ProfileBtn from "../btn/profileBtn";
 const Navbar = () => {
   const isLogin = useRecoilValue(authState).isLoggedIn;
   return (
-    <nav className="p-4 bg-slate-50 border border-b-gray-200 fixed w-screen h-24 flex items-center px-14 justify-between box-border">
+    <nav className="p-4 bg-slate-50 border border-b-gray-200 w-full h-24 flex items-center px-14 justify-between box-border">
       <ul className="flex items-center">
         <li className="m-2">
           <Link href="/">

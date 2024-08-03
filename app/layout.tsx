@@ -21,10 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <RecoilWrapper>
-          <>
-            {children}
-            <Footer />
-          </>
+          <>{children}</>
         </RecoilWrapper>
       </body>
     </html>
