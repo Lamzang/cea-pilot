@@ -1,4 +1,4 @@
-export default function adminDeleteProduct() {
+export default function AdminDeleteProduct() {
   return (
     <div>
       <div>

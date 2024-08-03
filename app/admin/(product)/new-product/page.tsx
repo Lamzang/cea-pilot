@@ -22,7 +22,7 @@ interface IProduct {
   id: string;
 }
 
-export default function adminNewProduct() {
+export default function AdminNewProduct() {
   const [product, setProduct] = useState<IProduct>({
     name: "",
     category: "",

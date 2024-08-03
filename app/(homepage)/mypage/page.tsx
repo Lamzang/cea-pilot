@@ -55,15 +55,15 @@ const MyPage = () => {
           <div className="w-full flex gap-8 justify-center">
             <div className=" w-20 h-full flex flex-col items-center justify-center gap-4 font-medium">
               <div>쿠폰</div>
-              <div>{userData.coupons.coupons.length}개</div>
+              <div>0개</div>
             </div>
             <div className=" w-20 h-full flex flex-col items-center justify-center gap-4 font-medium">
               <div>포인트</div>
-              <div>{userData.coupons?.points}P</div>
+              <div>0P</div>
             </div>
             <div className=" w-20 h-full flex flex-col items-center justify-center gap-4 font-medium">
               <div>적립금</div>
-              <div>{userData.coupons?.accumulated}원</div>
+              <div>0원</div>
             </div>
           </div>
         </div>
