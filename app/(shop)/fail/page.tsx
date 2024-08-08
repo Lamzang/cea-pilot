@@ -1,3 +1,3 @@
 export default function Fail() {
-  return <div></div>;
+  return <div>fail</div>;
 }

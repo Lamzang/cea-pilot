@@ -1,16 +1,7 @@
 "use client";
 
 import { db } from "@/lib/firebase/firebase";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, ChangeEvent } from "react";
 
@@ -28,94 +19,159 @@ const AdminProduct = ({ params }: { params: { product: string } }) => {
   const [productData, setProductData] = useState<IProductData | null>(null);
   const productId = decodeURIComponent(params.product);
   const router = useRouter();
+
   useEffect(() => {
     const fetchData = async () => {
-      getDoc(doc(db, "products", productId)).then((doc) => {
-        if (doc.exists()) {
-          setProductData(doc.data() as IProductData);
-        }
-        console.log(params.product);
-      });
+      const docRef = doc(db, "products", productId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setProductData(docSnap.data() as IProductData);
+      } else {
+        console.log("No such document!");
+      }
     };
+
     fetchData();
-  }, [params.product]);
+  }, [productId]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (productData) {
-      setProductData({ ...productData, [e.target.name]: e.target.value });
+      const { name, value } = e.target;
+      setProductData({ ...productData, [name]: value });
     }
   };
 
-  const handleSave = () => {
-    // Implement save functionality here
-    //maybe we have to use merge option
-    console.log("Saved product data", productData);
-    setDoc(doc(db, "products", productId), productData);
+  const handleSave = async () => {
+    try {
+      await setDoc(doc(db, "products", productId), productData);
+      console.log("Saved product data", productData);
+      alert("Product data saved successfully!");
+    } catch (error) {
+      console.error("Error saving product data", error);
+      alert("Failed to save product data.");
+    }
   };
 
-  if (!productData) return <div>Maybe none</div>;
-  const onDelete = () => {
-    // Implement delete functionality here
-    console.log("Deleted product data", productData);
-    deleteDoc(doc(db, "products", productId));
-    router.push("/admin/product-map");
+  const handleDelete = async () => {
+    try {
+      await deleteDoc(doc(db, "products", productId));
+      console.log("Deleted product data", productData);
+      alert("Product deleted successfully!");
+      router.push("/admin/product-map");
+    } catch (error) {
+      console.error("Error deleting product data", error);
+      alert("Failed to delete product data.");
+    }
   };
+
+  if (!productData) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-col">
-      <button onClick={handleSave}>Save</button>
-      <input
-        name="name"
-        value={productData.name}
-        onChange={handleChange}
-        placeholder="Product Name"
-      />
-      <input
-        name="price"
-        type="number"
-        value={productData.price}
-        onChange={handleChange}
-        placeholder="Product Price"
-      />
-      <input
-        name="description"
-        value={productData.description}
-        onChange={handleChange}
-        placeholder="Product Description"
-      />
-      <input
-        name="category"
-        value={productData.category}
-        onChange={handleChange}
-        placeholder="Product Category"
-      />
-      <input
-        name="stock"
-        type="number"
-        value={productData.stock}
-        onChange={handleChange}
-        placeholder="Product Stock"
-      />
-      <input
-        name="discount"
-        type="number"
-        value={productData.discount}
-        onChange={handleChange}
-        placeholder="Product Discount"
-      />
-      <div>
-        <h3>Reviews</h3>
-        {/* {productData.reviews.map((review, index) => (
-          <div key={index} className="flex gap-5">
-            <div>Customer</div>
-            <div>{review}</div>
-            <div>Stars</div>
-            <div>Time</div>
-          </div>
-        ))} */}
-      </div>
-      <div onClick={onDelete} className="border cursor-grab">
-        Delete
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+      <h1 className="text-2xl font-bold mb-6 text-center">Edit Product</h1>
+      <div className="flex flex-col space-y-4">
+        <button
+          onClick={handleSave}
+          className="self-end px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+        >
+          Save
+        </button>
+        <div>
+          <label className="block text-xl font-semibold mb-2" htmlFor="name">
+            Product Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            value={productData.name}
+            onChange={handleChange}
+            placeholder="Product Name"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div>
+          <label className="block text-xl font-semibold mb-2" htmlFor="price">
+            Product Price
+          </label>
+          <input
+            id="price"
+            name="price"
+            type="number"
+            value={productData.price}
+            onChange={handleChange}
+            placeholder="Product Price"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div>
+          <label
+            className="block text-xl font-semibold mb-2"
+            htmlFor="description"
+          >
+            Product Description
+          </label>
+          <input
+            id="description"
+            name="description"
+            value={productData.description}
+            onChange={handleChange}
+            placeholder="Product Description"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div>
+          <label
+            className="block text-xl font-semibold mb-2"
+            htmlFor="category"
+          >
+            Product Category
+          </label>
+          <input
+            id="category"
+            name="category"
+            value={productData.category}
+            onChange={handleChange}
+            placeholder="Product Category"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div>
+          <label className="block text-xl font-semibold mb-2" htmlFor="stock">
+            Product Stock
+          </label>
+          <input
+            id="stock"
+            name="stock"
+            type="number"
+            value={productData.stock}
+            onChange={handleChange}
+            placeholder="Product Stock"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div>
+          <label
+            className="block text-xl font-semibold mb-2"
+            htmlFor="discount"
+          >
+            Product Discount
+          </label>
+          <input
+            id="discount"
+            name="discount"
+            type="number"
+            value={productData.discount}
+            onChange={handleChange}
+            placeholder="Product Discount"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <button
+          onClick={handleDelete}
+          className="self-end px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

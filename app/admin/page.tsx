@@ -1,87 +1,115 @@
 import Link from "next/link";
 
-export default function adminPage() {
+export default function AdminPage() {
   return (
-    <div>
-      <div>Dash board Home</div>
-      <div>
-        <div>User Graph</div>
-        <div>graph of new users</div>
-        <div>graph of total users</div>
-        <div>graph by google analytics</div>
-      </div>
-      <div>
-        <div>Product Graph</div>
-        <div>graph of sells</div>
-        <div>graph of total orders</div>
-        <div>graph by google analytics</div>
-      </div>
-      <div className=" border mr-20 ml-5">
-        <div>Latest Reviews</div>
-        <div className="flex gap-5 ">
-          <div className="w-80 border">product</div>
-          <div className="w-60 border">customer</div>
-          <div className="w-24 border">stars</div>
-          <div className="w-full border">review</div>
-          <div className="w-60 border">credentials</div>
-          <div className="w-60 border">time</div>
+    <div className="p-5">
+      <div className="text-2xl font-bold mb-4">Dashboard Home</div>
+      <div className="mb-8">
+        <div className="text-xl font-semibold mb-2">User Graph</div>
+        <div className="ml-4">
+          <div className="mb-2">Graph of new users</div>
+          <div className="mb-2">Graph of total users</div>
+          <div className="mb-2">Graph by Google Analytics</div>
         </div>
-        <div>
-          <div className="flex gap-5 ">
+      </div>
+      <div className="mb-8">
+        <div className="text-xl font-semibold mb-2">Product Graph</div>
+        <div className="ml-4">
+          <div className="mb-2">Graph of sales</div>
+          <div className="mb-2">Graph of total orders</div>
+          <div className="mb-2">Graph by Google Analytics</div>
+        </div>
+      </div>
+      <div className="border p-5">
+        <div className="text-xl font-semibold mb-4">Latest Reviews</div>
+        <div className="flex gap-5 mb-4">
+          <div className="w-80 border p-2">Product</div>
+          <div className="w-60 border p-2">Customer</div>
+          <div className="w-24 border p-2">Stars</div>
+          <div className="w-full flex-grow border p-2">Review</div>
+          <div className="w-60 border p-2">Credentials</div>
+          <div className="w-60 border p-2">Time</div>
+        </div>
+        <div className="mb-4">
+          <div className="flex gap-5 mb-2">
             <Link
+              className="w-80 border p-2 block"
               href={"/admin/products/summer-vacation"}
-              className="w-80 border"
             >
-              Summer workshop
+              Summer Workshop
             </Link>
-            <Link href={"/admin/Jane"} className="w-60 border">
+            <Link className="w-60 border p-2 block" href={"/admin/Jane"}>
               Jane
             </Link>
-            <div className="w-24 border">2.5</div>
-            <div className="w-full border">too hot to do workshop</div>
-            <div className="w-60 border">Basic</div>
-            <div className="w-60 border">Just now</div>
+            <div className="w-24 border p-2">2.5</div>
+            <div className="w-full flex-grow border p-2">
+              Too hot to do workshop
+            </div>
+            <div className="w-60 border p-2">Basic</div>
+            <div className="w-60 border p-2">Just now</div>
           </div>
-          <div className="flex">
-            <div className="w-32">your reply : </div>
-            <input className="w-full" value={"sorry"} />
-            <div>Edit</div>
-            <div>Delete</div>
+          <div className="flex mb-2">
+            <div className="w-32">Your reply:</div>
+            <input className="flex-grow border p-2" value="sorry" />
+            <button className="ml-2 px-3 py-1 bg-blue-500 text-white rounded">
+              Edit
+            </button>
+            <button className="ml-2 px-3 py-1 bg-red-500 text-white rounded">
+              Delete
+            </button>
           </div>
-
           <form className="flex">
-            <div className="w-32">new reply : </div>
-            <input type="text" placeholder="write reply" className="w-full" />
-            <button>Send</button>
+            <div className="w-32">New reply:</div>
+            <input
+              type="text"
+              placeholder="Write reply"
+              className="flex-grow border p-2"
+            />
+            <button className="ml-2 px-3 py-1 bg-green-500 text-white rounded">
+              Send
+            </button>
           </form>
         </div>
-        <div>
-          <div className="flex gap-5 ">
-            <Link href={"/admin/products/tb"} className="w-80 border">
+        <div className="mb-4">
+          <div className="flex gap-5 mb-2">
+            <Link className="w-80 border p-2 block" href={"/admin/products/tb"}>
               Textbook for CBE
             </Link>
-            <Link href={"/admin/Alley"} className="w-60 border">
+            <Link className="w-60 border p-2 block" href={"/admin/Alley"}>
               Alley
             </Link>
-            <div className="w-24 border">4.5</div>
-            <div className="w-full border">wonderful book I have ever seen</div>
-            <div className="w-60 border">Pro</div>
-            <div className="w-60 border">3 months ago</div>
+            <div className="w-24 border p-2">4.5</div>
+            <div className="w-full flex-grow border p-2">
+              Wonderful book I have ever seen
+            </div>
+            <div className="w-60 border p-2">Pro</div>
+            <div className="w-60 border p-2">3 months ago</div>
           </div>
-          <div className="flex">
-            <div className="w-32">your reply : </div>
-            <input className="w-full" value={"nice"} />
-            <div>Edit</div>
-            <div>Delete</div>
+          <div className="flex mb-2">
+            <div className="w-32">Your reply:</div>
+            <input className="flex-grow border p-2" value="nice" />
+            <button className="ml-2 px-3 py-1 bg-blue-500 text-white rounded">
+              Edit
+            </button>
+            <button className="ml-2 px-3 py-1 bg-red-500 text-white rounded">
+              Delete
+            </button>
           </div>
-
           <form className="flex">
-            <div className="w-32">new reply : </div>
-            <input type="text" placeholder="write reply" className="w-full" />
-            <button>Send</button>
+            <div className="w-32">New reply:</div>
+            <input
+              type="text"
+              placeholder="Write reply"
+              className="flex-grow border p-2"
+            />
+            <button className="ml-2 px-3 py-1 bg-green-500 text-white rounded">
+              Send
+            </button>
           </form>
         </div>
-        <div>view 10 more reviews</div>
+        <div className="text-blue-500 cursor-pointer hover:underline">
+          View 10 more reviews
+        </div>
       </div>
     </div>
   );

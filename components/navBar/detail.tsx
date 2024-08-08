@@ -1,32 +1,117 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
-import { Link } from "react-scroll";
 
-interface IDetailednavbar {
-  contentArray: string[];
-  id: string;
-}
-
-const Detaiednavbar = ({ contentArray, id }: IDetailednavbar) => {
+const Detaiednavbar = ({ setIsDetail }: any) => {
   return (
-    <ul
-      id={id}
-      className="absolute top-full left-0 border-gray-600 border z-10 hidden w-max bg-white"
+    <div
+      className="w-full h-48 bg-gray-100 p-4 px-14 shadow-md flex justify-center text-xs absolute top-32"
+      onClick={() => setIsDetail(false)}
     >
-      {contentArray.map((data, index) => {
-        return (
-          <li
-            className="p-3 h-10 border flex justify-center items-center hover:bg-gray-200 text-base cursor-pointer"
-            key={index}
-          >
-            <Link to={data} smooth={true} duration={500}>
-              {data}
+      <div className="w-[1100px] flex">
+        <div className="w-1/4"></div>
+        <div className="h-full w-3/4 flex justify-between items-center px-10">
+          <div className="flex flex-col h-full w-1/6 justify-center items-start">
+            <Link
+              href={"/introduce"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded font-bold w-full flex "
+            >
+              협회소개
             </Link>
-          </li>
-        );
-      })}
-    </ul>
+            <Link
+              href={"/history"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded w-full flex "
+            >
+              연혁
+            </Link>
+            <Link
+              href={"/organizational"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded w-full flex "
+            >
+              조직도
+            </Link>
+            <Link
+              href={"/vision"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded w-full flex "
+            >
+              비전강령
+            </Link>
+            <Link
+              href={"/location"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded w-full flex "
+            >
+              오시는길
+            </Link>
+          </div>
+          <div className="flex flex-col h-full w-1/6 items-start">
+            <Link
+              href="/notice-board"
+              className="font-bold py-2 px-4 cursor-pointer hover:bg-gray-200 rounded "
+            >
+              공지사항
+            </Link>
+          </div>
+
+          <div className="flex flex-col  h-full w-1/6 items-start">
+            <Link
+              href={"/support"}
+              className="font-bold py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              고객문의
+            </Link>
+            <Link
+              href={"/FAQ"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              FAQ
+            </Link>
+            <Link
+              href={"/individual"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              1:1문의
+            </Link>
+          </div>
+          <div className="flex flex-col  h-full w-1/6 items-start">
+            <Link
+              href={"donation"}
+              className="font-bold py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              후원하기
+            </Link>
+          </div>
+          <div className="flex flex-col  h-full w-1/6 items-start">
+            <Link
+              href={"/shop"}
+              className="font-bold py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              쇼핑하기
+            </Link>
+          </div>
+          <div className="flex flex-col  h-full w-1/6 items-start ">
+            <Link
+              href={"/data-container"}
+              className="font-bold py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              자료실
+            </Link>
+            <Link
+              href={"/gallery"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              갤러리
+            </Link>
+            <Link
+              href={"/projects"}
+              className="py-2 px-4 cursor-pointer hover:bg-gray-200 rounded"
+            >
+              프로젝트
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
