@@ -25,13 +25,6 @@ const LogoutBtn = () => {
         console.error(error);
       });
   };
-  return (
-    <div
-      className="p-1 px-3 border-gray-500 border rounded-3xl text-black bg-white hover:bg-slate-100 cursor-grab"
-      onClick={logout}
-    >
-      로그아웃
-    </div>
-  );
+  return <div onClick={logout}>로그아웃</div>;
 };
 export default LogoutBtn;

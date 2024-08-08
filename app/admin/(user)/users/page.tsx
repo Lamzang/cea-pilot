@@ -1,42 +1,51 @@
+"use client";
+
+import { db } from "@/lib/firebase/firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function AdminUsers() {
-  const USERID = "1234";
+  const [userData, setUserData] = useState<any>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const querysnapshots = await getDocs(collection(db, "users"));
+      querysnapshots.forEach((doc) => {
+        setUserData((prev: any) => [...prev, doc.data()]);
+      });
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div>
-      <div>User Data</div>
-      <div>order Method</div>
+    <div className="container mx-auto p-6">
+      <div className="text-2xl font-bold mb-4">User Data</div>
+      <div className="text-lg font-semibold mb-2">Order Method</div>
       <div>
-        <div className="flex gap-10 py-2">
-          <div>user name</div>
-          <div>user phone number</div>
-          <div>user email</div>
-          <div>user address</div>
-          <div>user credentials</div>
-          <Link href={`/admin/${USERID}`} className="bg-black text-white">
-            detail User
-          </Link>
+        <div className="grid grid-cols-6 gap-4 py-2 bg-gray-200 rounded-md">
+          <div className="font-semibold">User Name</div>
+          <div className="font-semibold">Phone Number</div>
+          <div className="font-semibold">Email</div>
+          <div className="font-semibold">Address</div>
+          <div className="font-semibold">Membership</div>
+          <div className="font-semibold">Actions</div>
         </div>
-        <div className="flex gap-10 py-2">
-          <div>user name</div>
-          <div>user phone number</div>
-          <div>user email</div>
-          <div>user address</div>
-          <div>user credentials</div>
-          <Link href={`/admin/${USERID}`} className="bg-black text-white">
-            detail User
-          </Link>
-        </div>
-        <div className="flex gap-10 py-2">
-          <div>user name</div>
-          <div>user phone number</div>
-          <div>user email</div>
-          <div>user address</div>
-          <div>user credentials</div>
-          <Link href={`/admin/${USERID}`} className="bg-black text-white">
-            detail User
-          </Link>
-        </div>
+        {userData.map((data: any, index: number) => (
+          <div key={index} className="grid grid-cols-6 gap-4 py-2 border-b">
+            <div>{data.username}</div>
+            <div>{data?.phoneNumber}</div>
+            <div>{data.email}</div>
+            <div>{data.address}</div>
+            <div>{data?.membership}</div>
+            <Link
+              className="bg-black text-white py-1 px-3 rounded hover:bg-gray-600"
+              href={`/admin/${data.uid}`}
+            >
+              Detail User
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );

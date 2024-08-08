@@ -6,12 +6,14 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { authState } from "@/lib/recoil/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
+import { doc, getDoc } from "firebase/firestore";
 
 const Login = () => {
   const [userAuth, setUserAuth] = useRecoilState(authState);
   const [errorMsg, setErrorMsg] = useState("");
+  let userName = "";
   const router = useRouter();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,11 +23,16 @@ const Login = () => {
       e.currentTarget.userEmail.value,
       e.currentTarget.password.value
     )
-      .then((userCredential) => {
+      .then(async (userCredential) => {
+        await getDoc(doc(db, "users", userCredential.user.uid)).then((doc) => {
+          if (doc.exists()) {
+            userName = doc.data().username;
+          }
+        });
         setUserAuth({
           isLoggedIn: true,
           user: {
-            username: userCredential.user.displayName ?? "",
+            username: userName,
             email: userCredential.user.email ?? "",
             uid: userCredential.user.uid ?? "",
             address: "",

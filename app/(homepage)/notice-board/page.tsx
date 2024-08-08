@@ -1,7 +1,48 @@
-import React from "react";
+"use client";
 
-const NoticeBoard = () => {
-  return <div>notice-board</div>;
+import React, { useEffect, useState } from "react";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from "@/lib/firebase/firebase";
+import Link from "next/link";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+const AnnouncementsPage: React.FC = () => {
+  const [announcements, setAnnouncements] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      const q = query(
+        collection(db, "announcements"),
+        orderBy("createdAt", "desc")
+      );
+      const querySnapshot = await getDocs(q);
+      const announcementsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAnnouncements(announcementsData);
+    };
+
+    fetchAnnouncements();
+  }, []);
+
+  return (
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg mb-32">
+      {announcements.map((announcement) => (
+        <Link href={`/notice-board/${announcement.id}`} key={announcement.id}>
+          <div className="bg-gray-100 border-gray-300 border-b-2 p-4  shadow-sm hover:bg-gray-200">
+            <h2 className="text-base mb-2 p-2">{announcement.title}</h2>
+            <p className="text-sm text-gray-500">
+              관리자 | 작성일:{" "}
+              {new Date(
+                announcement.createdAt.seconds * 1000
+              ).toLocaleDateString()}
+            </p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
 };
 
-export default NoticeBoard;
+export default AnnouncementsPage;
