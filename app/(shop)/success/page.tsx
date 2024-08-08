@@ -1,20 +1,29 @@
 "use client";
 
-import Link from "next/link";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface IPyamentInfo {
+interface IPaymentInfo {
   orderId: string | null;
   paymentKey: string | null;
   amount: string | null;
 }
 
 export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentComponent />
+    </Suspense>
+  );
+}
+
+function PaymentComponent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [paymentInfo, setPaymentInfo] = useState<IPyamentInfo>();
+  const [paymentInfo, setPaymentInfo] = useState<IPaymentInfo>();
+
   useEffect(() => {
     const paymentType = searchParams.get("paymentType");
     const orderId = searchParams.get("orderId");
@@ -44,6 +53,7 @@ export default function Page() {
     }
     confirm();
   }, []);
+
   return (
     <div className="p-8 bg-gray-100 min-h-screen flex flex-col items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg text-center">
