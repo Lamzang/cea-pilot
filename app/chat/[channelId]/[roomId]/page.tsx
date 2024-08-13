@@ -32,6 +32,7 @@ export default function Page({ params }: { params: { roomId: string } }) {
     const newMessage = {
       sender: user.user.username,
       message: message,
+      author: user.user.uid,
       timestamp: Date.now(),
     };
     const newMsgKey = push(child(ref(database), params.roomId)).key;

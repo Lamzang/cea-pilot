@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 
-export default function GoogleSignIn() {
+export default function GoogleSignUp() {
   const provider = new GoogleAuthProvider();
   const router = useRouter();
   const [userAuth, setUserAuth] = useRecoilState(authState);
@@ -22,7 +22,26 @@ export default function GoogleSignIn() {
     await signInWithPopup(auth, provider)
       .then(async (result) => {
         const user = result.user;
+        console.log(user);
 
+        const userData = {
+          username: user.displayName || "",
+          email: user.email,
+          uid: user.uid,
+        };
+
+        const response = await fetch("/api/auth", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        });
+        const json = await response.json();
+        if (!response.ok) {
+          console.log(json);
+          return;
+        }
         setUserAuth({
           isLoggedIn: true,
           user: {
@@ -42,7 +61,10 @@ export default function GoogleSignIn() {
   };
   return (
     <div className="cursor-grab" onClick={onClick}>
-      <img src="/assets/google/web_light_sq_SI@1x.png" alt="google로 로그인" />
+      <img
+        src="/assets/google/web_light_sq_SU@1x.png"
+        alt="google로 회원가입"
+      />
     </div>
   );
 }

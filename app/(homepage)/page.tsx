@@ -54,7 +54,7 @@ export default function Home() {
         {mainImages.length > 0 && (
           <>
             <div
-              className={`absolute w-screen mt-34 left-0 h-4/6 flex justify-center items-center 
+              className={`absolute w-screen mt-34 left-0 h-[500px] flex justify-center items-center 
           }`}
               style={{
                 zIndex: -1000,
@@ -66,7 +66,7 @@ export default function Home() {
               <div className="w-full h-full bg-black bg-opacity-20"></div>
             </div>
             <div
-              className={`absolute w-screen mt-34 left-0 h-4/6 flex justify-center items-center image-container
+              className={`absolute w-screen mt-34 left-0 h-[500px] flex justify-center items-center image-container
                 transition-opacity duration-500 ${
                   isFading ? "opacity-0" : "opacity-100"
                 }`}

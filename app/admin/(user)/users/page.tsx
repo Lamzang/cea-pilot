@@ -14,6 +14,7 @@ export default function AdminUsers() {
       querysnapshots.forEach((doc) => {
         setUserData((prev: any) => [...prev, doc.data()]);
       });
+      console.log(querysnapshots);
     };
     fetchData();
   }, []);

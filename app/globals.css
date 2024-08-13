@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
 
 #navbar-introduce:hover #detailed-introduce {
   display: block;
@@ -10,4 +11,5 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Noto Sans KR", sans-serif;
 }
