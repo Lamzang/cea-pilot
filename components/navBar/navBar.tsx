@@ -14,9 +14,9 @@ const Navbar = () => {
   const isLogin = useRecoilValue(authState).isLoggedIn;
   const [isDetail, setIsDetail] = useState(false);
   return (
-    <div>
+    <div className="">
       <div className="flex justify-center">
-        <div className="w-[1100px] px-16">
+        <div className="w-[1100px] px-16 cursor-grab">
           {isLogin ? (
             <div className="flex w-full justify-end">
               <div className="flex">
@@ -40,7 +40,7 @@ const Navbar = () => {
       </div>
 
       <div className=" flex justify-center w-screen bg-slate-50 border border-b-gray-200">
-        <nav className="w-[1100px] h-24 flex items-center justify-between box-border">
+        <nav className="cursor-grab w-[1100px] h-24 flex items-center justify-between box-border">
           <div className="flex items-center w-1/4">
             <Link href="/" className="w-[50px] m-2">
               <Image

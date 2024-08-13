@@ -24,6 +24,12 @@ const Footer = () => {
             <div>Address: 사업장 주소</div>
             <div>Email: 이메일</div>
           </div>
+          <div>
+            <div className="text-2xl py-1">SNS</div>
+            <div>Instagram</div>
+            <div>Facebook</div>
+            <div>Blog</div>
+          </div>
         </div>
       </div>
     </footer>

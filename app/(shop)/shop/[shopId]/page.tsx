@@ -52,13 +52,6 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
       let imageUrl;
       await getDownloadURL(imageRef)
         .then((url) => {
-          const xhr = new XMLHttpRequest();
-          xhr.responseType = "blob";
-          xhr.onload = (event) => {
-            const blob = xhr.response;
-          };
-          xhr.open("GET", url);
-          xhr.send();
           setImageUrl(url);
           setShowImage(url);
         })
