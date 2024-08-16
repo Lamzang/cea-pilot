@@ -50,12 +50,11 @@ export default function Home() {
 
   return (
     <main className="flex flex-col box-border m-0 p-0 overflow-x-hidden w-full">
-      <div className=" ">
+      <div>
         {mainImages.length > 0 && (
           <>
             <div
-              className={`absolute w-screen mt-34 left-0 h-[500px] flex justify-center items-center 
-          }`}
+              className={`absolute w-screen left-0 h-[300px] sm:h-[500px] flex justify-center items-center`}
               style={{
                 zIndex: -1000,
                 backgroundImage: `url("/assets/mainTitle/mainSubTitle.jpg")`,
@@ -66,13 +65,12 @@ export default function Home() {
               <div className="w-full h-full bg-black bg-opacity-20"></div>
             </div>
             <div
-              className={`absolute w-screen mt-34 left-0 h-[500px] flex justify-center items-center image-container
+              className={`absolute w-screen left-0 h-[300px] sm:h-[500px] flex justify-center items-center image-container
                 transition-opacity duration-500 ${
                   isFading ? "opacity-0" : "opacity-100"
                 }`}
               style={{
                 zIndex: -50,
-
                 backgroundImage: `url("/assets/mainTitle/mainTitle.jpg")`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
@@ -80,56 +78,58 @@ export default function Home() {
             >
               <div className="w-full h-full bg-black bg-opacity-20"></div>
             </div>
-            <div className="flex justify-center items-center flex-col h-[500px] z-50">
-              <div className="text-4xl font-bold text-white">
+            <div className="flex justify-center items-center flex-col h-[300px] sm:h-[500px] z-50">
+              <div className="text-2xl sm:text-4xl font-bold text-white">
                 한국개념기반교육협회
               </div>
-              <div className="text-white ">
+              <div className="text-white text-sm sm:text-base">
                 Korea concepted-based education association
               </div>
-              <div className="flex gap-10 text-lg mt-5">
-                <AuthBtn addCSS="px-4" type="login" />
-                <AuthBtn addCSS="px-4" type="create-account" />
+              <div className="flex gap-4 sm:gap-10 text-base sm:text-lg mt-3 sm:mt-5">
+                <AuthBtn addCSS="px-2 sm:px-4" type="login" />
+                <AuthBtn addCSS="px-2 sm:px-4" type="create-account" />
               </div>
             </div>
           </>
         )}
       </div>
 
-      <div className="flex h-[450px] mt-10 justify-between  ">
-        <div className="w-[300px] h-full">
-          {/** 바로가기 버튼들 */}
+      <div className="flex flex-col sm:flex-row h-auto sm:h-[450px] mt-10 px-4 justify-between">
+        <div className="w-full sm:w-[300px] h-full">
           <div className="flex flex-col justify-center items-center w-full">
-            <div className="border-b-2 border-gray-500  w-5/6"></div>
+            <div className="border-b-2 border-gray-500 w-full sm:w-5/6"></div>
             <Link
               href="/shop"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-5/6 h-[80px] flex justify-center items-center text-xl "
+              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
             >
               쇼핑하기
             </Link>
             <Link
               href="/classroom"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-5/6 h-[80px] flex justify-center items-center text-xl "
+              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
             >
               연수하기
             </Link>
             <Link
               href="/data-container"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-5/6 h-[80px] flex justify-center items-center text-xl "
+              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
             >
               자료실
             </Link>
             <Link
-              href="/about"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-5/6 h-[80px] flex justify-center items-center text-xl "
+              href="/donation"
+              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
             >
               후원하기
             </Link>
           </div>
         </div>
-        <div className="w-[300px] ">
+        <div className="w-full sm:w-[300px] mt-6 sm:mt-0">
           <div className="flex justify-between items-center border-b pb-2 mb-4">
-            <Link href={"/announcements"} className="text-2xl font-bold">
+            <Link
+              href={"/announcements"}
+              className="text-xl sm:text-2xl font-bold"
+            >
               공지사항
             </Link>
             <Link
@@ -151,9 +151,9 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="w-[300px]">
+        <div className="w-full sm:w-[300px] mt-6 sm:mt-0">
           <div className="flex justify-between items-center border-b pb-2 mb-4">
-            <Link href={"/gallery"} className="text-2xl font-bold">
+            <Link href={"/gallery"} className="text-xl sm:text-2xl font-bold">
               갤러리
             </Link>
             <Link
@@ -165,9 +165,13 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex w-full h-[300px]">
-        <div>오시는 길</div>
-        <div>후원하기</div>
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
+          오시는 길
+        </div>
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+          후원하기
+        </div>
       </div>
     </main>
   );

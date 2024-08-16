@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen">
-      <div className="w-1/5 flex flex-col justify-start border-r-2 border-gray-300 p-4 bg-gray-100 gap-2">
+    <div className="flex sm:flex-row flex-col min-h-screen">
+      <div className="sm:w-1/5 w-full flex sm:flex-col justify-start border-b-2 sm:border-b-0 sm:border-r-2 border-gray-300 p-4 bg-gray-100 gap-2">
         <Link
           href={"/data-container"}
           className="w-full flex justify-center font-bold hover:bg-gray-200 items-center rounded-full h-10"

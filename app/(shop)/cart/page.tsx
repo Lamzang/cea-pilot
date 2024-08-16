@@ -76,27 +76,38 @@ export default function Page() {
   );
 
   return (
-    <div className="p-5">
-      <h1 className="text-2xl font-bold mb-5">Shopping Cart</h1>
-      <div className="flex flex-col space-y-4">
+    <div className="p-4 sm:p-5 w-full">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-5">
+        Shopping Cart
+      </h1>
+      <div className="flex flex-col space-y-3 sm:space-y-4">
         {cartItems.products.map((item) => (
           <div
             key={item.id}
-            className="flex items-center space-x-4 border p-4 rounded-lg bg-white shadow-md"
+            className="flex flex-col sm:flex-row items-center justify-start sm:space-x-4 space-y-2 sm:space-y-0 border p-3 sm:p-4 rounded-lg bg-white shadow-md"
           >
-            <div className="w-32 text-gray-800">{item.name}</div>
-            <div className="w-32 text-gray-700">{item.price} 원</div>
-            <input
-              type="number"
-              min="1"
-              value={item.quantity}
-              onChange={(e) =>
-                handleQuantityChange(item.id, parseInt(e.target.value))
-              }
-              className="w-20 border rounded p-2"
-            />
-            <div className="w-32 text-gray-700">
-              {item.price * item.quantity} 원
+            <div className="w-full sm:w-32 text-gray-800">{item.name}</div>
+            <div className="w-full sm:w-32 text-gray-700">
+              단가 : {item.price} 원
+            </div>
+            <div className="w-full h-fit">
+              <label className="text-gray-700" htmlFor="amount">
+                수량 :{" "}
+              </label>
+              <input
+                id="amount"
+                type="number"
+                min="1"
+                value={item.quantity}
+                onChange={(e) =>
+                  handleQuantityChange(item.id, parseInt(e.target.value))
+                }
+                className="w-16 sm:w-20 border rounded p-2 text-center"
+              />
+            </div>
+
+            <div className="w-full sm:w-32 text-gray-700">
+              총금액 :{item.price * item.quantity} 원
             </div>
             <button
               onClick={() => handleRemoveItem(item.id)}
@@ -107,10 +118,12 @@ export default function Page() {
           </div>
         ))}
       </div>
-      <div className="mt-5 text-lg font-bold">Total: {totalPrice} 원</div>
-      <div className="mt-5">
+      <div className="mt-4 sm:mt-5 text-lg font-bold">
+        Total: {totalPrice} 원
+      </div>
+      <div className="mt-4 sm:mt-5">
         <Link
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          className="block w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 text-center"
           href="/cart/pay"
         >
           Proceed to Pay
