@@ -84,16 +84,14 @@ export default function Page() {
         {cartItems.products.map((item) => (
           <div
             key={item.id}
-            className="flex flex-col sm:flex-row items-center justify-start sm:space-x-4 space-y-2 sm:space-y-0 border p-3 sm:p-4 rounded-lg bg-white shadow-md"
+            className="sm:w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between  space-y-2 border p-3 sm:p-4 rounded-lg bg-white shadow-md"
           >
-            <div className="w-full sm:w-32 text-gray-800">{item.name}</div>
-            <div className="w-full sm:w-32 text-gray-700">
+            <div className="w-full sm:w-fit text-gray-800">{item.name}</div>
+            <div className="w-full sm:w-max text-gray-700">
               단가 : {item.price} 원
             </div>
-            <div className="w-full h-fit">
-              <label className="text-gray-700" htmlFor="amount">
-                수량 :{" "}
-              </label>
+            <div className="w-full sm:w-max h-fit">
+              <label className="text-gray-700">수량 : </label>
               <input
                 id="amount"
                 type="number"
@@ -106,15 +104,17 @@ export default function Page() {
               />
             </div>
 
-            <div className="w-full sm:w-32 text-gray-700">
+            <div className="w-full sm:w-fit text-gray-700">
               총금액 :{item.price * item.quantity} 원
             </div>
-            <button
-              onClick={() => handleRemoveItem(item.id)}
-              className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-300"
-            >
-              X
-            </button>
+            <div className="w-full sm:w-fit flex justify-start">
+              <button
+                onClick={() => handleRemoveItem(item.id)}
+                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-300"
+              >
+                X
+              </button>
+            </div>
           </div>
         ))}
       </div>
