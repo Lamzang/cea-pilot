@@ -3,11 +3,9 @@
 import { db } from "@/lib/firebase/firebase";
 import { authState } from "@/lib/recoil/auth";
 import { cartState } from "@/lib/recoil/product";
-import { set } from "firebase/database";
 import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -36,79 +34,60 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
   const [rating, setRating] = useState<number>(0);
   const [userData, setUserData] = useRecoilState(authState);
   const [cartItems, setCartItems] = useRecoilState(cartState);
-  const [imageUrl, setImageUrl] = useState<any>();
-  const [subtitleImageUrlArray, setSubtitleImageUrlArray] = useState<any[]>([]);
-  const [descriptionImageUrl, setDescriptionImageUrl] = useState<any>();
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [subtitleImageUrlArray, setSubtitleImageUrlArray] = useState<string[]>(
+    []
+  );
+  const [descriptionImageUrl, setDescriptionImageUrl] = useState<string>();
   const storage = getStorage();
   const [amount, setAmount] = useState<number>(1);
-  const [showImage, setShowImage] = useState(imageUrl);
+  const [showImage, setShowImage] = useState<string>();
 
   useEffect(() => {
     const fetchImg = async () => {
       const imageRef = ref(
         storage,
         `/images/${decodeURIComponent(params.shopId)}/title`
-      ); // Assuming images are stored with their id as the filename
-      let imageUrl;
+      );
       await getDownloadURL(imageRef)
         .then((url) => {
-          const xhr = new XMLHttpRequest();
-          xhr.responseType = "blob";
-          xhr.onload = (event) => {
-            const blob = xhr.response;
-          };
-          xhr.open("GET", url);
-          xhr.send();
           setImageUrl(url);
           setShowImage(url);
         })
-        .catch(() => "/assets/textbook.jpg"); // Fallback to a default image if not found
+        .catch(() => "/assets/textbook.jpg");
     };
+
     const fetchSubtitleImg = async () => {
+      const images: string[] = [];
       for (let i = 0; i < 5; i++) {
         try {
           const subtitleImageRef = ref(
             storage,
             `/images/${decodeURIComponent(params.shopId)}/subtitle${i}`
           );
-          await getDownloadURL(subtitleImageRef).then((url) => {
-            const xhr = new XMLHttpRequest();
-            xhr.responseType = "blob";
-            xhr.onload = (event) => {
-              const blob = xhr.response;
-            };
-            xhr.open("GET", url);
-            xhr.send();
-            setSubtitleImageUrlArray((prev) => [...prev, url]);
-          });
+          const url = await getDownloadURL(subtitleImageRef);
+          images.push(url);
         } catch (error) {
           console.error(error);
         }
       }
+      setSubtitleImageUrlArray(images);
     };
+
     const fetchDescriptionImg = async () => {
       const imageRef = ref(
         storage,
         `/images/${decodeURIComponent(params.shopId)}/description`
-      ); // Assuming images are stored with their id as the filename
-      let imageUrl;
+      );
       await getDownloadURL(imageRef)
-        .then((url) => {
-          const xhr = new XMLHttpRequest();
-          xhr.responseType = "blob";
-          xhr.onload = (event) => {
-            const blob = xhr.response;
-          };
-          xhr.open("GET", url);
-          xhr.send();
-          setDescriptionImageUrl(url);
-        })
-        .catch(() => "/assets/textbook.jpg"); // Fallback to a default image if not found
+        .then((url) => setDescriptionImageUrl(url))
+        .catch(() => "/assets/textbook.jpg");
     };
-    fetchDescriptionImg();
-    fetchSubtitleImg();
+
     fetchImg();
-  }, []);
+    fetchSubtitleImg();
+    fetchDescriptionImg();
+  }, [params.shopId, storage]);
 
   const onClick = () => {
     setCartItems((prev) => ({
@@ -132,6 +111,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
       );
       setShopData(querysnapshots.data() as IShopDetailData);
     };
+
     const fetchReviewData = async () => {
       const querysnapshots = await getDocs(
         collection(db, "products", decodeURIComponent(params.shopId), "reviews")
@@ -140,6 +120,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
         setReviewData((prev) => [...prev, doc.data() as IReviewData]);
       });
     };
+
     fetchData();
     fetchReviewData();
   }, [params.shopId]);
@@ -147,12 +128,14 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReview(e.target.value);
   };
+
   const onRating = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRating(Number(e.target.value));
   };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addDoc(
+    await addDoc(
       collection(db, "products", decodeURIComponent(params.shopId), "reviews"),
       {
         userId: userData.user.username,
@@ -166,20 +149,22 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
   };
 
   return (
-    <div className="py-24 flex justify-center items-center bg-gray-100 min-h-screen">
-      <div className="w-5/6 bg-white p-6 rounded-lg shadow-lg">
+    <div className="py-16 sm:py-24 flex justify-center items-center bg-gray-100 min-h-screen">
+      <div className="w-full sm:w-5/6 bg-white p-4 sm:p-6 rounded-lg shadow-lg">
         <div className="flex flex-wrap md:flex-nowrap">
-          <div className="w-full md:w-1/2 h-auto p-14">
+          <div className="w-full md:w-1/2 h-auto p-4 sm:p-14">
             <img
-              className="w-[350px] h-[350px] rounded-lg"
+              className="w-full h-auto max-w-xs sm:max-w-sm rounded-lg"
               src={showImage}
               alt={"Product Image"}
             />
           </div>
-          <div className="w-full md:w-1/2 p-20 flex flex-col justify-between">
+          <div className="w-full md:w-1/2 p-4 sm:p-20 flex flex-col justify-between">
             <div>
-              <h2 className="text-2xl font-semibold mb-4">{shopData?.name}</h2>
-              <div className="text-xl text-gray-800 mb-4">
+              <h2 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-4">
+                {shopData?.name}
+              </h2>
+              <div className="text-lg sm:text-xl text-gray-800 mb-2 sm:mb-4">
                 {shopData?.price}원
               </div>
               <p className="text-gray-700 mb-4 border-t-2 py-4">
@@ -188,7 +173,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
               <div className="flex items-center gap-2 mb-4">
                 <div>수량 :</div>
                 <input
-                  className="border w-20 p-2 rounded"
+                  className="border w-16 sm:w-20 p-2 rounded"
                   value={amount}
                   onChange={(e) => setAmount(Number(e.target.value))}
                   type="number"
@@ -197,32 +182,30 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-2 sm:gap-4">
               <div
                 onClick={onClick}
-                className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+                className="flex-1 bg-blue-500 text-white px-2 sm:px-4 py-2 rounded cursor-pointer text-center"
               >
-                <Link className="w-full h-full" href="/cart">
-                  장바구니
-                </Link>
+                <Link href="/cart">장바구니</Link>
               </div>
               <div
                 onClick={onClick}
-                className="bg-green-500 text-white px-4 py-2 rounded cursor-pointer"
+                className="flex-1 bg-green-500 text-white px-2 sm:px-4 py-2 rounded cursor-pointer text-center"
               >
-                <Link className="w-full h-full" href="/cart/pay">
-                  바로구매
-                </Link>
+                <Link href="/cart/pay">바로구매</Link>
               </div>
             </div>
           </div>
         </div>
-        <div className="mt-10">
-          <h3 className="text-xl font-semibold mb-4">상품소개 이미지</h3>
-          <div className="flex gap-4">
+        <div className="mt-6 sm:mt-10">
+          <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">
+            상품소개 이미지
+          </h3>
+          <div className="flex gap-2 sm:gap-4 overflow-x-auto">
             <img
               key={"title"}
-              className="w-[100px] h-auto rounded-lg"
+              className="w-24 h-auto rounded-lg cursor-pointer"
               src={imageUrl}
               onClick={() => setShowImage(imageUrl)}
               alt={"Product Image"}
@@ -230,23 +213,25 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
             {subtitleImageUrlArray.map((url, index) => (
               <img
                 key={index}
-                className="w-[100px] h-auto rounded-lg"
+                className="w-24 h-auto rounded-lg cursor-pointer"
                 onClick={() => setShowImage(url)}
                 src={url}
-                alt={"Product Image"}
+                alt={`Subtitle Image ${index + 1}`}
               />
             ))}
           </div>
         </div>
-        {descriptionImageUrl ? (
+        {descriptionImageUrl && (
           <img
-            className="w-full h-auto p-10 rounded-lg"
+            className="w-full h-auto p-4 sm:p-10 rounded-lg mt-6 sm:mt-10"
             src={descriptionImageUrl}
-            alt={"Product Image"}
+            alt={"Description Image"}
           />
-        ) : null}
-        <div className="mt-10">
-          <h3 className="text-xl font-semibold mb-4">리뷰</h3>
+        )}
+        <div className="mt-6 sm:mt-10">
+          <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">
+            리뷰
+          </h3>
           <div>
             {reviewData.map((data, index) => (
               <div key={index} className="border-b py-4">
@@ -263,7 +248,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
               </div>
             ))}
           </div>
-          <form onSubmit={onSubmit} className="mt-6">
+          <form onSubmit={onSubmit} className="mt-4 sm:mt-6">
             <input
               onChange={onChange}
               value={review}
@@ -279,7 +264,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
               min={1}
               max={5}
             />
-            <button className="bg-blue-500 text-white px-4 py-2 rounded">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded w-full sm:w-auto">
               제출
             </button>
           </form>

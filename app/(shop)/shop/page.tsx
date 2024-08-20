@@ -29,13 +29,6 @@ export default function ShopHome() {
           let imageUrl;
           await getDownloadURL(imageRef)
             .then((url) => {
-              const xhr = new XMLHttpRequest();
-              xhr.responseType = "blob";
-              xhr.onload = (event) => {
-                const blob = xhr.response;
-              };
-              xhr.open("GET", url);
-              xhr.send();
               imageUrl = url;
             })
             .catch(() => "/assets/textbook.jpg"); // Fallback to a default image if not found

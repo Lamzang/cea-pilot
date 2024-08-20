@@ -5,7 +5,7 @@ import React from "react";
 import { useFormState } from "react-dom";
 import { createAccount } from "./action";
 
-import GoogleSignIn from "@/app/(homepage)/(auth)/googleSignIn";
+import GoogleSignUp from "@/app/(homepage)/(auth)/googleSignUp";
 
 const CreateAccount = () => {
   const [state, dispatch] = useFormState(createAccount, null);
@@ -89,7 +89,7 @@ const CreateAccount = () => {
           </button>
         </form>
         <div className="mt-4">
-          <GoogleSignIn state="create-account" />
+          <GoogleSignUp />
         </div>
       </div>
     </div>

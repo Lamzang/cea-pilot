@@ -89,7 +89,7 @@ const Login = () => {
           </button>
         </form>
         <div className="mt-4">
-          <GoogleSignIn state="login" />
+          <GoogleSignIn />
         </div>
       </div>
     </div>

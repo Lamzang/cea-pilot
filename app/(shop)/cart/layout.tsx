@@ -11,18 +11,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     (acc, product) => acc + product.price * product.quantity,
     0
   );
+
   return (
-    <div className="wrapper flex flex-col lg:flex-row p-4 lg:p-8 bg-gray-100 min-h-screen gap-5">
+    <div className="wrapper flex flex-col lg:flex-row p-4 lg:p-8 bg-gray-100 min-h-screen  gap-5">
       <div className="w-full lg:w-3/4 mb-8 lg:mb-0">{children}</div>
-      <div className="w-1/4">
-        <div className="fixed w-1/5 bg-white p-4 rounded-lg shadow-lg">
+      <div className="w-full lg:w-1/4 flex justify-center h-fit">
+        <div className="lg:fixed w-full lg:w-auto bg-white p-4 rounded-t-lg lg:rounded-lg shadow-lg lg:shadow-none lg:border lg:border-gray-200">
           <div className="mb-6">
-            <h2 className="text-xl font-bold mb-2">적립혜택</h2>
+            <h2 className="text-lg lg:text-xl font-bold mb-2">적립혜택</h2>
             <p className="text-gray-600">description</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-bold mb-4">결제예정금액</h2>
+            <h2 className="text-lg lg:text-xl font-bold mb-4">결제예정금액</h2>
             <div className="flex justify-between mb-2">
               <span className="text-gray-700">상품금액</span>
               <span className="text-gray-900 font-semibold">

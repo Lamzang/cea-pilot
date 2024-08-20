@@ -34,7 +34,7 @@ export default function Page({
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md ">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg ">
       <h1 className="text-3xl font-bold mb-6 text-center">
         {announcement.title}
       </h1>
