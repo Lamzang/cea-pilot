@@ -19,7 +19,7 @@ export default function Page({ params }: { params: { roomId: string } }) {
   const [user, setUser] = useRecoilState<any>(authState);
 
   useEffect(() => {
-    const msgRef = ref(database, params.roomId);
+    const msgRef = ref(database, `${params.roomId}/messages`);
     onChildAdded(msgRef, (snapshot) => {
       setMessages((prev: any) => [...prev, snapshot.val()]);
     });
@@ -37,7 +37,8 @@ export default function Page({ params }: { params: { roomId: string } }) {
     };
     const newMsgKey = push(child(ref(database), params.roomId)).key;
     const updates: { [key: string]: any } = {};
-    updates["/" + params.roomId + "/" + newMsgKey] = newMessage;
+    updates["/" + params.roomId + "/" + "messages" + "/" + newMsgKey] =
+      newMessage;
     update(ref(database), updates);
   };
 
