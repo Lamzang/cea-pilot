@@ -4,12 +4,14 @@ import { cartState } from "@/lib/recoil/product";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { v4 as uuidv4 } from "uuid";
 
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
 const customerKey = "AGIqf-55qFSjC7E81aiQI";
 
 export default function Page() {
   const [cartItems, setCartItems] = useRecoilState(cartState);
+  const [orderId, setOrderId] = useState("");
   const [delivery, setDelivery] = useState({
     receiver: "",
     address: "",
@@ -42,6 +44,10 @@ export default function Page() {
     }
     fetchPaymentWidgets();
   }, [clientKey, customerKey]);
+
+  useEffect(() => {
+    setOrderId(uuidv4());
+  }, []);
 
   useEffect(() => {
     async function renderPaymentWidgets() {
@@ -179,7 +185,7 @@ export default function Page() {
 
                     // 결제 요청
                     await widgets.requestPayment({
-                      orderId: "fXl_9ipTxPAoIx1231",
+                      orderId: orderId,
                       orderName: "토스 티셔츠 외 2건",
                       successUrl: window.location.origin + "/success",
                       failUrl: window.location.origin + "/fail",

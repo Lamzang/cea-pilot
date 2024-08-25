@@ -33,11 +33,11 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="flex justify-center">
+      <div className="flex justify-center ">
         <div className="w-full max-w-[1100px] sm:px-14 cursor-grab">
           {isLogin ? (
             <div className="flex w-full justify-end">
-              <div className="flex">
+              <div className="flex gap-3">
                 <LogoutBtn />
                 <Link href="/mypage">마이페이지</Link>
               </div>
