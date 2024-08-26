@@ -18,8 +18,11 @@ const config: Config = {
       },
       colors: {
         customBlue: {
-          light: "#507fad",
-          default: "#1c3b71",
+          light: "#5B99C2",
+          default: "#1F316F",
+        },
+        customBg: {
+          default: "#F9DBBA",
         },
       },
     },
