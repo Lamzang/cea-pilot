@@ -8,12 +8,22 @@ import LogoutBtn from "../btn/logoutBtn";
 
 import { useState, useEffect } from "react";
 import Detaiednavbar from "./detail";
+import { auth } from "@/lib/firebase/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Navbar = () => {
-  const isLogin = useRecoilValue(authState).isLoggedIn;
   const [isDetail, setIsDetail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileDetail, setIsMobileDetail] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  });
 
   // 화면 크기에 따라 모바일 여부를 결정
   useEffect(() => {
