@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="flex bg-black w-screen min-h-28 text-white justify-center p-8">
+    <footer className="flex bg-black w-[calc(100vw-17px)] min-h-28 text-white justify-center p-8">
       {/* <nav className="flex gap-5 py-3">
         <Link href="/">회사소개</Link>
         <Link href="/shop">쇼핑몰</Link>

@@ -57,22 +57,16 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center w-screen bg-slate-50 border border-b-gray-200">
+      <div className="flex justify-center w-[calc(100vw-17px)] bg-slate-50 border border-b-gray-200">
         <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between box-border">
           <div className="flex items-center w-full sm:w-1/4">
-            <Link href="/" className="w-[50px] m-2">
+            <Link href="/" className="w-[300px] m-2">
               <Image
-                src={"/assets/logo.png"}
+                src={"/assets/logo_horizontal.png"}
                 alt="로고"
-                width={50}
+                width={300}
                 height={50}
               />
-            </Link>
-
-            <Link href="/" className="">
-              <div className="text-black text-xl font-bold">
-                한국개념기반교육협회
-              </div>
             </Link>
           </div>
 
