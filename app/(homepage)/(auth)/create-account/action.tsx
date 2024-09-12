@@ -23,6 +23,7 @@ export async function createAccount(prevState: any, formData: FormData) {
   //const hashedPassword = await bcrypt.hash(data.password, 12);
   await createUserWithEmailAndPassword(auth, data.userEmail, data.password)
     .then(async (userCredential) => {
+      console.log(userCredential);
       await setDoc(doc(db, "users", userCredential.user.uid), {
         username: data.username,
         email: data.userEmail,

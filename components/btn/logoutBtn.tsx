@@ -17,6 +17,7 @@ const LogoutBtn = () => {
             email: "",
             uid: "basicuid",
             address: "",
+            membership: "",
           },
         });
         router.push("/");
@@ -25,6 +26,10 @@ const LogoutBtn = () => {
         console.error(error);
       });
   };
-  return <div onClick={logout}>로그아웃</div>;
+  return (
+    <div className="hover:text-orange-500" onClick={logout}>
+      로그아웃
+    </div>
+  );
 };
 export default LogoutBtn;

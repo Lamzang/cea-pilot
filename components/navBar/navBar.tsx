@@ -16,10 +16,12 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileDetail, setIsMobileDetail] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const user = useRecoilValue(authState);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setIsLogin(true);
+      console.log("user changed", user);
     } else {
       setIsLogin(false);
     }
@@ -43,13 +45,16 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="flex justify-center ">
-        <div className="w-full max-w-[1100px] sm:px-14 cursor-grab">
+      <div className="flex justify-center bg-blue-500 text-white">
+        <div className="w-full max-w-[1100px]  sm:px-14  text-sm cursor-grab">
           {isLogin ? (
-            <div className="flex w-full justify-end">
+            <div className="flex w-full items-center h-8 justify-end">
               <div className="flex gap-3">
+                <div>{user.user.membership}</div>
                 <LogoutBtn />
-                <Link href="/mypage">마이페이지</Link>
+                <Link className="hover:text-orange-500" href="/mypage">
+                  마이페이지
+                </Link>
               </div>
             </div>
           ) : (

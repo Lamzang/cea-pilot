@@ -166,19 +166,31 @@ export default function Home() {
         </div>
       </div>
       {/* {"설명란에는 살짝 위로 올라가는 애니메이션을 넣어주면좋을 것 같습니다."} */}
-      <div className="flex-col sm:flex w-full h-auto sm:h-[300px] mt-10">
-        <div>사진</div>
-        <div>설명</div>
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
+          사진
+        </div>
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+          설명
+        </div>
         {/* "개념기반교육이란 무엇인가요?" */}
       </div>
-      <div className="flex-col sm:flex w-full h-auto sm:h-[300px] mt-10">
-        <div>설명</div>
-        <div>사진</div>
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
+          사진
+        </div>
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+          설명
+        </div>
         {/* "협회가 하는 일 소개" */}
       </div>
-      <div className="flex-col sm:flex w-full h-auto sm:h-[300px] mt-10">
-        <div>사진</div>
-        <div>설명</div>
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
+          사진
+        </div>
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+          설명
+        </div>
         {/* "신은정선생님 소개" */}
       </div>
       <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
