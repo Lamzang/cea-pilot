@@ -83,6 +83,38 @@ const CreateAccount = () => {
               onChange={handleInputChange}
             />
           </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              비밀번호 :
+            </label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              required
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password_confirm"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              비밀번호 확인 :
+            </label>
+            <Input
+              id="password_confirm"
+              name="password_confirm"
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              required
+              onChange={handleInputChange}
+            />
+          </div>
 
           {/* Step 2: 동의안 서명 */}
           <div className="mt-4">
@@ -288,7 +320,7 @@ const CreateAccount = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 자격 관련 서류 업로드 :
               </label>
-              <Input type="file" name="qualificationDocs" required />
+              <Input type="file" name="qualificationDocs" />
             </div>
           )}
 

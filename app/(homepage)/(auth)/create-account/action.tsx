@@ -8,9 +8,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 export async function createAccount(prevState: any, formData: FormData) {
   const data = {
     username: formData.get("username") as string,
-    userEmail: formData.get("userEmail") as string,
+    userEmail: formData.get("personalEmail") as string,
     password: formData.get("password") as string,
     password_confirm: formData.get("password_confirm") as string,
+    phoneNumber: formData.get("phoneNumber") as string,
+    region: (formData.get("region") as string) || "",
+    school: (formData.get("school") as string) || "",
+    major: (formData.get("major") as string) || "",
+    schoolEmail: (formData.get("schoolEmail") as string) || "",
   };
   const result = {
     success: false,
@@ -29,6 +34,12 @@ export async function createAccount(prevState: any, formData: FormData) {
         email: data.userEmail,
         uid: userCredential.user.uid,
         address: "",
+        phoneNumber: data.phoneNumber,
+        region: data.region,
+        school: data.school,
+        major: data.major,
+        schoolEmail: data.schoolEmail,
+
         membership: "basic",
         coupons: {
           points: 0,
