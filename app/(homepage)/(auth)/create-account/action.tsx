@@ -3,7 +3,7 @@
 import { doc, setDoc, collection, addDoc } from "firebase/firestore";
 import { redirect } from "next/navigation";
 import { auth, db } from "@/lib/firebase/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export async function createAccount(prevState: any, formData: FormData) {
   const data = {
@@ -29,6 +29,11 @@ export async function createAccount(prevState: any, formData: FormData) {
   await createUserWithEmailAndPassword(auth, data.userEmail, data.password)
     .then(async (userCredential) => {
       console.log(userCredential);
+      if (auth.currentUser) {
+        updateProfile(auth.currentUser, {
+          displayName: data.username,
+        });
+      }
       await setDoc(doc(db, "users", userCredential.user.uid), {
         username: data.username,
         email: data.userEmail,

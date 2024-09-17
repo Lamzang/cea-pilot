@@ -40,6 +40,7 @@ const Login = () => {
             email: userCredential.user.email ?? "",
             uid: userCredential.user.uid ?? "",
             address: "",
+            membership: "basic",
           },
         });
         router.push("/");

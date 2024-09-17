@@ -1,6 +1,8 @@
 "use client";
 import Input from "@/components/input";
+import Modal from "@/components/modal/modal";
 import { db } from "@/lib/firebase/firebase";
+import { getDatabase, ref, set } from "firebase/database";
 
 import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Link from "next/link";
@@ -15,6 +17,10 @@ const Layout = ({
 }) => {
   const [channelName, setChannelName] = useState<any>();
   const [rooms, setRooms] = useState<any>([]);
+  const [showModal, setShowModal] = useState(false);
+  const clickModal = () => setShowModal(!showModal);
+
+  const database = getDatabase();
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -52,15 +58,27 @@ const Layout = ({
       ...prev,
       { data: { name: title }, id: docRef.id },
     ]);
+    set(ref(database, `/${docRef.id}/messages`), {});
+    setShowModal(false);
+    window.location.reload();
   };
 
   return (
     <div className="flex justify-center items-center h-full bg-gray-100">
       <div className="h-full bg-gray-800 w-1/4 p-4 flex flex-col justify-between">
         <div>
-          <div className="w-full text-white flex font-bold text-xl mb-4">
-            {channelName?.name}
+          <div className="flex">
+            <div className="w-full text-white flex font-bold text-xl mb-4 p-2">
+              {channelName?.name}
+            </div>
+            <div
+              onClick={clickModal}
+              className="hover:bg-slate-500 cursor-grab text-white p-2"
+            >
+              +
+            </div>
           </div>
+
           <div className="w-full h-full flex flex-col overflow-y-auto">
             {rooms.map((data: any, index: number) => (
               <Link
@@ -73,13 +91,7 @@ const Layout = ({
             ))}
           </div>
         </div>
-
-        <form onSubmit={onSubmit} className="mt-4">
-          <div className="mb-4 text-white">
-            <Input name="makeRoom" placeholder="New Room" />
-          </div>
-          <button className="bg-blue-500 w-full py-2 rounded">Create</button>
-        </form>
+        {showModal && <Modal onSubmit={onSubmit} onClose={clickModal} />}
       </div>
       <div className="w-full h-full">
         {/* <div className="border-b h-16 flex items-center justify-center text-xl font-semibold bg-gray-200">
