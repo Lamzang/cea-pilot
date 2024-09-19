@@ -35,10 +35,6 @@ export default function Page({ params }: { params: { roomId: string } }) {
   }, [user]);
 
   useEffect(() => {
-    console.log(messages);
-  }, [messages]);
-
-  useEffect(() => {
     const msgRef = ref(database.current, `/${params.roomId}/messages`);
     const unsubscribe = onValue(msgRef, (snapshot) => {
       console.log("snapshot", snapshot.val());
