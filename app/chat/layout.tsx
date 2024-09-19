@@ -41,6 +41,9 @@ export default function ChatLayout({
       try {
         const querysnapshots = await getDocs(collection(db, "channels"));
         querysnapshots.forEach((doc) => {
+          if (!doc.data().members.includes(user.uid)) {
+            return;
+          }
           setChatHomes((prev: any) => [
             ...prev,
             { data: doc.data(), id: doc.id },
@@ -75,6 +78,7 @@ export default function ChatLayout({
         const docRef = await addDoc(collection(db, "channels"), {
           description: "New Room",
           name: title,
+          members: [user.uid],
         });
         await addDoc(collection(db, "channels", docRef.id, "rooms"), {
           name: "공지사항",
