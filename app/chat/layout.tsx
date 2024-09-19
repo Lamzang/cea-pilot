@@ -1,5 +1,7 @@
 "use client";
 
+import AuthModal from "@/components/modal/authModal";
+import CreateAccountModal from "@/components/modal/createAccountModal";
 import LoginModal from "@/components/modal/loginModal";
 import Modal from "@/components/modal/modal";
 import ProfileModal from "@/components/modal/profileModal";
@@ -21,9 +23,14 @@ export default function ChatLayout({
   const [showModal, setShowModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showCreateAccountModal, setShowCreateAccountModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
   const clickProfileModal = () => setShowProfileModal(!showProfileModal);
   const clickLoginModal = () => setShowLoginModal(!showLoginModal);
+  const clickCreateAccountModal = () =>
+    setShowCreateAccountModal(!showCreateAccountModal);
+  const clickAuthModal = () => setShowAuthModal(!showAuthModal);
 
   const [user, setUser] = useState<any>(null);
 
@@ -165,10 +172,20 @@ export default function ChatLayout({
             ) : (
               <div
                 className="relative bg-gray-700 hover:bg-gray-600 text-white px-4  rounded-full cursor-pointer  text-center w-full h-full flex justify-center items-center"
-                onClick={clickLoginModal}
+                onClick={clickAuthModal}
               >
+                {showAuthModal && (
+                  <AuthModal
+                    onClose={clickAuthModal}
+                    onCreateAccount={clickCreateAccountModal}
+                    onLogin={clickLoginModal}
+                  />
+                )}
+                {showCreateAccountModal && (
+                  <CreateAccountModal onClose={clickCreateAccountModal} />
+                )}
                 {showLoginModal && <LoginModal onClose={clickLoginModal} />}
-                <div>{"로그인"}</div>
+                <div>{"로그인/회원가입"}</div>
               </div>
             )}
           </div>
