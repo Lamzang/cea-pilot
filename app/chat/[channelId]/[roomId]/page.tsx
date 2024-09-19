@@ -1,48 +1,73 @@
 "use client";
 
-import { auth } from "@/lib/firebase/firebase";
-import { authState } from "@/lib/recoil/auth";
+import { useEffect, useRef, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import {
   child,
   getDatabase,
   onChildAdded,
+  onValue,
   push,
   ref,
   update,
 } from "firebase/database";
-import { useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
+import { auth } from "@/lib/firebase/firebase";
 
 export default function Page({ params }: { params: { roomId: string } }) {
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<
+    { sender: string; message: string; timestamp: number }[]
+  >([]);
   const [input, setInput] = useState<string>("");
-  const database = getDatabase();
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>(null);
+  const database = useRef(getDatabase()); // ref를 통해 초기화하여 재렌더링 방지
   const inputRef = useRef<HTMLDivElement>(null);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser(user);
-      console.log("user changed", user);
-    } else {
-      setUser(null);
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        setUser(newUser);
+      } else if (!newUser && user) {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   useEffect(() => {
-    const msgRef = ref(database, `/${params.roomId}/messages`);
-    onChildAdded(msgRef, (snapshot) => {
+    console.log(messages);
+  }, [messages]);
+
+  useEffect(() => {
+    const msgRef = ref(database.current, `/${params.roomId}/messages`);
+    const unsubscribe = onValue(msgRef, (snapshot) => {
+      console.log("snapshot", snapshot.val());
+      const data = snapshot.val();
+      if (data) {
+        setMessages(Object.values(data));
+      } else {
+        setMessages([]); // 메시지가 없는 경우 빈 배열로 초기화
+      }
+    });
+    return () => unsubscribe();
+  }, [params.roomId]);
+
+  useEffect(() => {
+    const msgRef = ref(database.current, `/${params.roomId}/messages`);
+    const unsubscribe = onChildAdded(msgRef, (snapshot) => {
       setMessages((prev) => [...prev, snapshot.val()]);
     });
-  }, [database, params.roomId]);
+    return () => unsubscribe(); // cleanup 추가
+  }, [params.roomId]);
 
   const onSubmit = (
     e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent
   ) => {
     e.preventDefault();
+    if (!user) return; // 유저가 없을 경우 리턴
+
     const message = input.trim();
-    if (message === "") return; // Avoid sending empty messages
+    if (message === "") return;
 
     const newMessage = {
       sender: user.displayName,
@@ -50,12 +75,12 @@ export default function Page({ params }: { params: { roomId: string } }) {
       author: user.uid,
       timestamp: Date.now(),
     };
-    const newMsgKey = push(child(ref(database), params.roomId)).key;
+
+    const newMsgKey = push(child(ref(database.current), params.roomId)).key;
     const updates: { [key: string]: any } = {};
     updates[`/${params.roomId}/messages/${newMsgKey}`] = newMessage;
-    update(ref(database), updates);
+    update(ref(database.current), updates);
 
-    // Clear the contentEditable div and input state
     if (inputRef.current) {
       inputRef.current.innerText = "";
     }
@@ -65,7 +90,7 @@ export default function Page({ params }: { params: { roomId: string } }) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      onSubmit(event); // Trigger message send on Enter without shift
+      onSubmit(event);
     }
   };
 
@@ -78,10 +103,10 @@ export default function Page({ params }: { params: { roomId: string } }) {
       <div className="flex-1 flex flex-col overflow-y-auto p-4 bg-white">
         {messages.map((data, index) => (
           <div className="mb-4 p-2 bg-gray-100 rounded" key={index}>
-            <div className="font-semibold">{data?.sender}</div>
-            <div style={{ whiteSpace: "pre-wrap" }}>{data?.message}</div>
+            <div className="font-semibold">{data.sender}</div>
+            <div style={{ whiteSpace: "pre-wrap" }}>{data.message}</div>
             <div className="text-xs text-gray-500">
-              {new Date(data?.timestamp).toLocaleString()}
+              {new Date(data.timestamp).toLocaleString()}
             </div>
           </div>
         ))}
@@ -94,9 +119,8 @@ export default function Page({ params }: { params: { roomId: string } }) {
             onInput={handleInput}
             onKeyDown={handleKeyDown}
             className="flex-1 mr-4 w-full h-10 px-3 bg-white rounded-3xl flex items-center overflow-auto"
-            style={{ whiteSpace: "pre-wrap" }} // Allow multiline input
+            style={{ whiteSpace: "pre-wrap" }}
           ></div>
-
           <button className="bg-blue-500 text-white px-4 py-2 rounded">
             Send
           </button>

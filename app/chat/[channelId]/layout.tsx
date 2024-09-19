@@ -15,12 +15,12 @@ const Layout = ({
   params: { channelId: string };
   children: React.ReactNode;
 }) => {
-  const [channelName, setChannelName] = useState<any>();
+  const [channelData, setChanelData] = useState<any>();
   const [rooms, setRooms] = useState<any>([]);
+  const [defaultRooms, setDefaultRooms] = useState<any>([]);
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
-
-  const database = getDatabase();
+  const [currentRoom, setCurrentRoom] = useState<any>();
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -28,6 +28,13 @@ const Layout = ({
         collection(db, `channels/${params.channelId}/rooms`)
       );
       querysnapshots.forEach((doc) => {
+        if (doc.data().role === "default") {
+          setDefaultRooms((prev: any) => [
+            ...prev,
+            { data: doc.data(), id: doc.id },
+          ]);
+          return;
+        }
         setRooms((prev: any) => [...prev, { data: doc.data(), id: doc.id }]);
       });
     };
@@ -35,7 +42,7 @@ const Layout = ({
       const querysnapshots = await getDoc(
         doc(db, `/channels/${params.channelId}`)
       );
-      setChannelName(querysnapshots.data());
+      setChanelData(querysnapshots.data());
     };
     fetchChannelName();
     fetchRooms();
@@ -43,6 +50,7 @@ const Layout = ({
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const database = getDatabase();
     const title = e.currentTarget.makeRoom.value
       .toLowerCase()
       .split(" ")
@@ -54,13 +62,12 @@ const Layout = ({
         name: title,
       }
     );
-    setRooms((prev: any) => [
+    await setRooms((prev: any) => [
       ...prev,
       { data: { name: title }, id: docRef.id },
     ]);
-    set(ref(database, `/${docRef.id}/messages`), {});
+    await set(ref(database, `/${docRef.id}/messages`), {});
     setShowModal(false);
-    window.location.reload();
   };
 
   return (
@@ -69,7 +76,7 @@ const Layout = ({
         <div>
           <div className="flex">
             <div className="w-full text-white flex font-bold text-xl mb-4 p-2">
-              {channelName?.name}
+              {channelData?.name}
             </div>
             <div
               onClick={clickModal}
@@ -78,13 +85,32 @@ const Layout = ({
               +
             </div>
           </div>
+          <div className="border-b-2 w-full flex flex-col">
+            {defaultRooms.map((data: any, index: number) => (
+              <Link
+                href={`/chat/${params.channelId}/${data.id}/${data.data.urlName}`}
+                className="p-2 px-4 my-3 rounded-full text-white"
+                style={{
+                  backgroundColor: currentRoom === data.id ? "#4b5563" : "",
+                }}
+                key={index}
+                onClick={() => setCurrentRoom(data.id)}
+              >
+                <div className="font-semibold">{data.data.name}</div>
+              </Link>
+            ))}
+          </div>
 
           <div className="w-full h-full flex flex-col overflow-y-auto">
             {rooms.map((data: any, index: number) => (
               <Link
                 href={`/chat/${params.channelId}/${data.id}`}
-                className="border-b border-gray-700 p-2 text-white"
+                className=" p-2 px-4 my-3 rounded-full text-white"
+                style={{
+                  backgroundColor: currentRoom === data.id ? "#4b5563" : "",
+                }}
                 key={index}
+                onClick={() => setCurrentRoom(data.id)}
               >
                 <div className="font-semibold">{data.data.name}</div>
               </Link>

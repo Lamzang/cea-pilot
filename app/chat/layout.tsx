@@ -1,6 +1,5 @@
 "use client";
 
-import Input from "@/components/input";
 import LoginModal from "@/components/modal/loginModal";
 import Modal from "@/components/modal/modal";
 import ProfileModal from "@/components/modal/profileModal";
@@ -8,6 +7,7 @@ import { auth, db } from "@/lib/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { addDoc, collection, getDocs } from "firebase/firestore";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -27,21 +27,29 @@ export default function ChatLayout({
 
   const [user, setUser] = useState<any>(null);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser(user);
-      console.log("user changed", user);
-    } else {
-      setUser(null);
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        // 새로운 user가 있거나, 기존 user와 다를 때만 setUser 실행
+
+        setUser(newUser);
+      } else if (!newUser && user) {
+        // user가 로그아웃 된 경우에만 setUser(null) 실행
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup on component unmount
+  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const querysnapshots = await getDocs(collection(db, "channels"));
         querysnapshots.forEach((doc) => {
-          if (!doc.data().members.includes(user.uid)) {
+          console.log("doc.data()", doc.data());
+          if (!doc.data().members.includes(user?.uid)) {
+            console.log("not a member");
             return;
           }
           setChatHomes((prev: any) => [
@@ -56,8 +64,10 @@ export default function ChatLayout({
       }
     };
 
-    fetchData();
-  }, []);
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,6 +92,18 @@ export default function ChatLayout({
         });
         await addDoc(collection(db, "channels", docRef.id, "rooms"), {
           name: "공지사항",
+          role: "default",
+          urlName: "announcement",
+        });
+        await addDoc(collection(db, "channels", docRef.id, "rooms"), {
+          name: "채널 홈",
+          role: "default",
+          urlName: "home",
+        });
+        await addDoc(collection(db, "channels", docRef.id, "rooms"), {
+          name: "일정",
+          role: "default",
+          urlName: "schedule",
         });
         window.location.reload();
       } catch (error) {
