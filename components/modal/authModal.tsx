@@ -17,8 +17,8 @@ export default function AuthModal({
         <div
           className="rounded-full hover:bg-gray-300"
           onClick={() => {
-            onLogin();
             onClose();
+            onLogin();
           }}
         >
           Login
@@ -26,8 +26,8 @@ export default function AuthModal({
         <div
           className="rounded-full hover:bg-gray-300"
           onClick={() => {
-            onCreateAccount();
             onClose();
+            onCreateAccount();
           }}
         >
           Create Account

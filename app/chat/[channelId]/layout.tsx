@@ -1,7 +1,9 @@
 "use client";
 import Input from "@/components/input";
+import InviteModal from "@/components/modal/inviteModal";
 import Modal from "@/components/modal/modal";
 import { db } from "@/lib/firebase/firebase";
+import { channel } from "diagnostics_channel";
 import { getDatabase, ref, set } from "firebase/database";
 
 import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
@@ -15,38 +17,80 @@ const Layout = ({
   params: { channelId: string };
   children: React.ReactNode;
 }) => {
-  const [channelData, setChanelData] = useState<any>();
-  const [rooms, setRooms] = useState<any>([]);
-  const [defaultRooms, setDefaultRooms] = useState<any>([]);
+  const [channelData, setChanelData] = useState<IChannel>();
+  const [rooms, setRooms] = useState<IRoom[]>([]);
+  const [defaultRooms, setDefaultRooms] = useState<IRoom[]>([]);
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
   const [currentRoom, setCurrentRoom] = useState<any>();
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const clickInviteModal = () => setShowInviteModal(!showInviteModal);
+  const [chatMembers, setChatMembers] = useState<IMember[]>([]);
+  const [inviteMembers, setInviteMembers] = useState<IMember[]>([]);
+
+  interface IRoom {
+    data: any;
+    id: string;
+  }
+  interface IMember {
+    uid: string;
+    name: string;
+  }
+  interface IChannel {
+    name: string;
+    members: string[];
+  }
 
   useEffect(() => {
     const fetchRooms = async () => {
       const querysnapshots = await getDocs(
         collection(db, `channels/${params.channelId}/rooms`)
       );
-      querysnapshots.forEach((doc) => {
+      const bufferDefaultRooms: IRoom[] = [];
+      const bufferRooms: IRoom[] = [];
+      await querysnapshots.forEach((doc) => {
         if (doc.data().role === "default") {
-          setDefaultRooms((prev: any) => [
-            ...prev,
-            { data: doc.data(), id: doc.id },
-          ]);
-          return;
+          bufferDefaultRooms.push({ data: doc.data(), id: doc.id });
+        } else {
+          bufferRooms.push({ data: doc.data(), id: doc.id });
         }
-        setRooms((prev: any) => [...prev, { data: doc.data(), id: doc.id }]);
       });
+      await setDefaultRooms(bufferDefaultRooms);
+      await setRooms(bufferRooms);
     };
     const fetchChannelName = async () => {
-      const querysnapshots = await getDoc(
-        doc(db, `/channels/${params.channelId}`)
-      );
-      setChanelData(querysnapshots.data());
+      await getDoc(doc(db, `/channels/${params.channelId}`))
+        .then((doc) => {
+          const data = doc.data();
+          if (data) {
+            setChanelData({ name: data.name, members: data.members });
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    const fetchUsers = async () => {
+      const querysnapshots = await getDocs(collection(db, `chat-members`));
+      const bufferChatMembers: IMember[] = [];
+      await querysnapshots.forEach((doc) => {
+        bufferChatMembers.push({
+          uid: doc.data().uid,
+          name: doc.data().displayName,
+        });
+      });
+      await setChatMembers(bufferChatMembers);
     };
     fetchChannelName();
     fetchRooms();
+    fetchUsers();
   }, []);
+
+  useEffect(() => {
+    setInviteMembers(
+      chatMembers.filter(
+        (member: any) => !channelData?.members.includes(member.uid)
+      )
+    );
+  }, [channelData, chatMembers]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,12 +115,18 @@ const Layout = ({
   };
 
   return (
-    <div className="flex justify-center items-center h-full bg-gray-100">
+    <div className="flex justify-center items-center h-full bg-gray-100 ">
       <div className="h-full bg-gray-800 w-1/4 p-4 flex flex-col justify-between">
         <div>
-          <div className="flex">
-            <div className="w-full text-white flex font-bold text-xl mb-4 p-2">
+          <div className="flex items-center gap-1">
+            <div className="w-full text-white flex font-bold text-xl mb-4 p-2 py-1">
               {channelData?.name}
+            </div>
+            <div
+              onClick={clickInviteModal}
+              className="hover:bg-slate-500 cursor-grab w-20 border-2 rounded-xl h-fit text-white px-2 py-1"
+            >
+              초대
             </div>
             <div
               onClick={clickModal}
@@ -118,6 +168,13 @@ const Layout = ({
           </div>
         </div>
         {showModal && <Modal onSubmit={onSubmit} onClose={clickModal} />}
+        {showInviteModal && (
+          <InviteModal
+            onClose={clickInviteModal}
+            members={inviteMembers}
+            onSubmit={() => {}}
+          />
+        )}
       </div>
       <div className="w-full h-full">
         {/* <div className="border-b h-16 flex items-center justify-center text-xl font-semibold bg-gray-200">

@@ -8,7 +8,7 @@ import ProfileModal from "@/components/modal/profileModal";
 import { auth, db } from "@/lib/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -33,45 +33,69 @@ export default function ChatLayout({
   const clickAuthModal = () => setShowAuthModal(!showAuthModal);
 
   const [user, setUser] = useState<any>(null);
+  const [adminUidArray, setAdminUidArray] = useState<any>([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (newUser) => {
       if (newUser && (!user || user.uid !== newUser.uid)) {
-        // 새로운 user가 있거나, 기존 user와 다를 때만 setUser 실행
-
-        setUser(newUser);
-      } else if (!newUser && user) {
-        // user가 로그아웃 된 경우에만 setUser(null) 실행
-        setUser(null);
+        setUser(newUser); // 로그인 시 사용자 설정
+      } else {
+        setUser(null); // 로그아웃 시 사용자 null 설정
       }
     });
 
-    return () => unsubscribe(); // Cleanup on component unmount
-  }, [user]);
+    // 컴포넌트 언마운트 시 감시자 해제
+    return () => unsubscribe();
+  }, []);
+
+  const fetchChatHomes = async (uid: string) => {
+    let isMounted = true; // Track component mounted state
+    setLoading(true); // Set loading to true before fetching data
+
+    try {
+      const querysnapshots = await getDocs(collection(db, "channels"));
+
+      if (isMounted) {
+        const homes = querysnapshots.docs
+          .filter(
+            (doc) =>
+              doc.data().members.includes(uid) || adminUidArray.includes(uid)
+          )
+          .map((doc) => ({ data: doc.data(), id: doc.id }));
+
+        setChatHomes(homes);
+      }
+    } catch (error) {
+      console.error("Error fetching channels: ", error);
+    } finally {
+      if (isMounted) {
+        setLoading(false); // Update loading state only if still mounted
+      }
+    }
+
+    return () => {
+      isMounted = false; // Clean up on unmount
+    };
+  };
+
+  const fetchAdmins = async () => {
+    await setAdminUidArray([]);
+    const q = query(
+      collection(db, "users"),
+      where("membership", "==", "admin")
+    );
+    const adminUids = await getDocs(q);
+    await adminUids.forEach((doc) => {
+      setAdminUidArray((prev: any) => [...prev, doc.data().uid]);
+    });
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querysnapshots = await getDocs(collection(db, "channels"));
-        querysnapshots.forEach((doc) => {
-          console.log("doc.data()", doc.data());
-          if (!doc.data().members.includes(user?.uid)) {
-            console.log("not a member");
-            return;
-          }
-          setChatHomes((prev: any) => [
-            ...prev,
-            { data: doc.data(), id: doc.id },
-          ]);
-        });
-      } catch (error) {
-        console.error("Error fetching channels: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (user) {
+      const fetchData = async () => {
+        await fetchAdmins();
+        await fetchChatHomes(user.uid);
+      };
       fetchData();
     }
   }, [user]);
@@ -95,7 +119,7 @@ export default function ChatLayout({
         const docRef = await addDoc(collection(db, "channels"), {
           description: "New Room",
           name: title,
-          members: [user.uid],
+          members: [user.uid, ...adminUidArray],
         });
         await addDoc(collection(db, "channels", docRef.id, "rooms"), {
           name: "공지사항",

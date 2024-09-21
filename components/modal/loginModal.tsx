@@ -29,7 +29,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="absolute -top-64 left-0 w-full flex justify-center z-50">
+    <div className="absolute bottom-0 left-0 w-full flex justify-center z-50">
       <div onClick={onClose} className="fixed top-0 left-0 w-full h-full " />
       <div
         onClick={(e) => e.stopPropagation()}

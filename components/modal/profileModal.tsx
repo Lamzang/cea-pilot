@@ -40,7 +40,7 @@ export default function ProfileModal({
         <div className="my-4">
           <form onSubmit={onSubmit} className="mt-4 flex flex-col gap-4">
             <input
-              value={name}
+              value={name || ""}
               onChange={onChange}
               className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
             />
