@@ -15,7 +15,11 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 
-export default function Page() {
+export default function Page({
+  params,
+}: {
+  params: { channelId: string; roomId: string };
+}) {
   interface Event {
     id: string;
     title: string;
@@ -31,7 +35,9 @@ export default function Page() {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   const fetchEvents = async () => {
-    const querySnapshot = await getDocs(collection(db, "events"));
+    const querySnapshot = await getDocs(
+      collection(db, `channels/${params.channelId}/events`)
+    );
     const bufferEvents: Event[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
@@ -85,13 +91,16 @@ export default function Page() {
       setEvents(updatedEvents);
 
       // Firestore에서 업데이트
-      await updateDoc(doc(db, "events", selectedEvent.id), {
-        title,
-        backgroundColor: color,
-        textColor: "#fff",
-        start: selectedRange.start,
-        end: selectedRange.end,
-      });
+      await updateDoc(
+        doc(db, "channels", params.channelId, "events", selectedEvent.id),
+        {
+          title,
+          backgroundColor: color,
+          textColor: "#fff",
+          start: selectedRange.start,
+          end: selectedRange.end,
+        }
+      );
 
       // FullCalendar 이벤트 업데이트 (자동으로 반영될 수 있음)
     } else {
@@ -105,7 +114,10 @@ export default function Page() {
       };
 
       // Firestore에 새 이벤트 추가
-      const docRef = await addDoc(collection(db, "events"), newEvent);
+      const docRef = await addDoc(
+        collection(db, `channels/${params.channelId}/events`),
+        newEvent
+      );
 
       // Firestore에서 생성된 ID를 이벤트에 반영
       const addedEvent = { ...newEvent, id: docRef.id };
@@ -123,7 +135,9 @@ export default function Page() {
       setEvents(filteredEvents); // 이벤트 리스트에서 삭제
 
       // Firestore에서 이벤트 삭제
-      await deleteDoc(doc(db, "events", selectedEvent.id));
+      await deleteDoc(
+        doc(db, "channels", params.channelId, "events", selectedEvent.id)
+      );
 
       selectedEvent.remove(); // FullCalendar에서 해당 이벤트 제거
       setIsModalOpen(false); // 모달창 닫기

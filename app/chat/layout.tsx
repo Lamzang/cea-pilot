@@ -132,7 +132,7 @@ export default function ChatLayout({
           urlName: "home",
         });
         await addDoc(collection(db, "channels", docRef.id, "rooms"), {
-          name: "일정",
+          name: "세부 일정",
           role: "default",
           urlName: "schedule",
         });
@@ -164,6 +164,18 @@ export default function ChatLayout({
             {showModal && <Modal onSubmit={onSubmit} onClose={clickModal} />}
 
             <div className="flex flex-col flex-nowrap h-full overflow-y-auto">
+              <Link
+                href={"/chat/schedule"}
+                className="p-2   mb-2 cursor-pointer"
+              >
+                전체 일정
+              </Link>
+              <Link
+                href={"/chat/DM"}
+                className="p-2 border-b-2 mb-2 cursor-pointer"
+              >
+                DM
+              </Link>
               {loading ? (
                 <p>Loading...</p>
               ) : (

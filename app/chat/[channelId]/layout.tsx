@@ -138,7 +138,7 @@ const Layout = ({
           <div className="border-b-2 w-full flex flex-col">
             {defaultRooms.map((data: any, index: number) => (
               <Link
-                href={`/chat/${params.channelId}/${data.id}/${data.data.urlName}`}
+                href={`/chat/${params.channelId}/${data.data.urlName}`}
                 className="p-2 px-4 my-3 rounded-full text-white"
                 style={{
                   backgroundColor: currentRoom === data.id ? "#4b5563" : "",
