@@ -116,18 +116,18 @@ const Layout = ({
 
   return (
     <div className="flex justify-center items-center h-full bg-gray-100 ">
-      <div className="h-full bg-gray-800 w-1/4 p-4 flex flex-col justify-between">
+      <div className="h-full bg-gray-800 overflow-y-auto w-1/4 p-4 flex flex-col justify-between">
         <div>
-          <div className="flex items-center gap-1">
-            <div className="w-full text-white flex font-bold text-xl mb-4 p-2 py-1">
+          <div className="flex items-center justify-between w-full ">
+            <div className="w-1/2 text-white flex font-bold text-xl  p-2 py-1">
               {channelData?.name}
             </div>
 
             <div
               onClick={clickModal}
-              className="hover:bg-slate-500 cursor-grab text-white p-2"
+              className="rounded-full border-white border-2 hover:bg-slate-500 cursor-grab text-white p-2"
             >
-              +
+              채팅방 +
             </div>
           </div>
           <div className="border-b-2 w-full flex flex-col">
@@ -164,7 +164,7 @@ const Layout = ({
             </Link>
           </div>
 
-          <div className="w-full h-full flex flex-col overflow-y-auto">
+          <div className="w-full flex flex-col overflow-y-auto">
             {rooms.map((data: any, index: number) => (
               <Link
                 href={`/chat/${params.channelId}/${data.id}`}
@@ -189,7 +189,7 @@ const Layout = ({
           />
         )}
       </div>
-      <div className="w-full h-full">
+      <div className="w-full h-full overflow-y-auto">
         {/* <div className="border-b h-16 flex items-center justify-center text-xl font-semibold bg-gray-200">
           Title
         </div> */}

@@ -18,9 +18,11 @@ export default function Modal({
       >
         <form onSubmit={onSubmit} className="mt-4">
           <div className="mb-4">
-            <Input name="makeRoom" placeholder="New Channel" />
+            <Input name="makeRoom" placeholder="제목을 입력하세요" />
           </div>
-          <button className="bg-blue-500 w-full py-2 rounded">Create</button>
+          <button className="bg-blue-500 text-white w-full py-2 rounded">
+            Create
+          </button>
         </form>
       </div>
     </div>

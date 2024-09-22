@@ -160,13 +160,13 @@ export default function ChatLayout({
           <div className="flex flex-col gap-5 h-5/6 w-full">
             <div className="flex justify-between pr-5">
               <Link href={"/chat"} className="text-xl font-bold">
-                Chat Rooms
+                KCBEA
               </Link>
               <div
                 onClick={clickModal}
                 className="hover:bg-blue-600 bg-blue-500 text-white p-2 rounded-full cursor-pointer  "
               >
-                +
+                채널 +
               </div>
             </div>
             {showModal && <Modal onSubmit={onSubmit} onClose={clickModal} />}
@@ -249,7 +249,7 @@ export default function ChatLayout({
         </div>
 
         {/* Right Main Chat Area */}
-        <div className="flex-1 bg-gray-100 flex h-full flex-col">
+        <div className="flex-1 bg-gray-100 flex h-full flex-col overflow-y-hidden">
           {children}
         </div>
       </div>
