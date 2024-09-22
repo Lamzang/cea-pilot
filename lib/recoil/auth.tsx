@@ -9,6 +9,7 @@ export const authState = atom({
       email: "",
       uid: "basicuid",
       address: "",
+      membership: "basic",
     },
   },
 });

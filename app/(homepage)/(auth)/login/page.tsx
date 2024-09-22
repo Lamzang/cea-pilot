@@ -18,6 +18,10 @@ const Login = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(
+      e.currentTarget.userEmail.value,
+      e.currentTarget.password.value
+    );
     signInWithEmailAndPassword(
       auth,
       e.currentTarget.userEmail.value,
@@ -36,6 +40,7 @@ const Login = () => {
             email: userCredential.user.email ?? "",
             uid: userCredential.user.uid ?? "",
             address: "",
+            membership: "basic",
           },
         });
         router.push("/");

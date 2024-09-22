@@ -54,7 +54,7 @@ export default function Home() {
         {mainImages.length > 0 && (
           <>
             <div
-              className={`absolute w-screen left-0 h-[300px] sm:h-[500px] flex justify-center items-center`}
+              className={`absolute w-[calc(100vw-17px)] left-0 h-[300px] sm:h-[500px] flex justify-center items-center`}
               style={{
                 zIndex: -1000,
                 backgroundImage: `url("/assets/mainTitle/mainSubTitle.jpg")`,
@@ -65,7 +65,7 @@ export default function Home() {
               <div className="w-full h-full bg-black bg-opacity-20"></div>
             </div>
             <div
-              className={`absolute w-screen left-0 h-[300px] sm:h-[500px] flex justify-center items-center image-container
+              className={`absolute w-[calc(100vw-17px)] left-0 h-[300px] sm:h-[500px] flex justify-center items-center image-container
                 transition-opacity duration-500 ${
                   isFading ? "opacity-0" : "opacity-100"
                 }`}
@@ -83,7 +83,7 @@ export default function Home() {
                 한국개념기반교육협회
               </div>
               <div className="text-white text-sm sm:text-base">
-                Korea concepted-based education association
+                Korea Concept-Based Education Association
               </div>
               <div className="flex gap-4 sm:gap-10 text-base sm:text-lg mt-3 sm:mt-5">
                 <AuthBtn addCSS="px-2 sm:px-4" type="login" />
@@ -164,6 +164,34 @@ export default function Home() {
             </Link>
           </div>
         </div>
+      </div>
+      {/* {"설명란에는 살짝 위로 올라가는 애니메이션을 넣어주면좋을 것 같습니다."} */}
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
+          사진
+        </div>
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+          설명
+        </div>
+        {/* "개념기반교육이란 무엇인가요?" */}
+      </div>
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
+          사진
+        </div>
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+          설명
+        </div>
+        {/* "협회가 하는 일 소개" */}
+      </div>
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
+          사진
+        </div>
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+          설명
+        </div>
+        {/* "신은정선생님 소개" */}
       </div>
       <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
         <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">

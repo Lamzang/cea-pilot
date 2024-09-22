@@ -49,6 +49,7 @@ export default function GoogleSignUp() {
             email: result.user.email || "",
             uid: result.user.uid || "",
             address: "",
+            membership: "basic",
           },
         });
         router.push("/");

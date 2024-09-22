@@ -6,7 +6,7 @@ import React from "react";
 const Detaiednavbar = ({ setIsDetail }: any) => {
   return (
     <div
-      className="w-screen h-48 bg-gray-100 pt-4 shadow-md flex justify-center text-xs absolute top-32"
+      className="w-[calc(100vw-17px)] h-48 bg-gray-100 pt-4 shadow-md flex justify-center text-xs absolute top-32"
       onClick={() => setIsDetail(false)}
     >
       <div className="w-full max-w-[1100px] flex justify-center items-center ">

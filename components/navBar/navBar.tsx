@@ -8,12 +8,24 @@ import LogoutBtn from "../btn/logoutBtn";
 
 import { useState, useEffect } from "react";
 import Detaiednavbar from "./detail";
+import { auth } from "@/lib/firebase/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Navbar = () => {
-  const isLogin = useRecoilValue(authState).isLoggedIn;
   const [isDetail, setIsDetail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileDetail, setIsMobileDetail] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const user = useRecoilValue(authState);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setIsLogin(true);
+      console.log("user changed", user);
+    } else {
+      setIsLogin(false);
+    }
+  });
 
   // 화면 크기에 따라 모바일 여부를 결정
   useEffect(() => {
@@ -33,13 +45,16 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="flex justify-center ">
-        <div className="w-full max-w-[1100px] sm:px-14 cursor-grab">
+      <div className="flex justify-center bg-blue-500 text-white">
+        <div className="w-full max-w-[1100px]  sm:px-14  text-sm cursor-grab">
           {isLogin ? (
-            <div className="flex w-full justify-end">
+            <div className="flex w-full items-center h-8 justify-end">
               <div className="flex gap-3">
+                <div>{user.user.membership}</div>
                 <LogoutBtn />
-                <Link href="/mypage">마이페이지</Link>
+                <Link className="hover:text-orange-500" href="/mypage">
+                  마이페이지
+                </Link>
               </div>
             </div>
           ) : (
@@ -57,22 +72,16 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center w-screen bg-slate-50 border border-b-gray-200">
+      <div className="flex justify-center w-[calc(100vw-17px)] bg-slate-50 border border-b-gray-200">
         <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between box-border">
           <div className="flex items-center w-full sm:w-1/4">
-            <Link href="/" className="w-[50px] m-2">
+            <Link href="/" className="w-[300px] m-2">
               <Image
-                src={"/assets/logo.png"}
+                src={"/assets/logo_horizontal.png"}
                 alt="로고"
-                width={50}
+                width={300}
                 height={50}
               />
-            </Link>
-
-            <Link href="/" className="">
-              <div className="text-black text-xl font-bold">
-                한국개념기반교육협회
-              </div>
             </Link>
           </div>
 

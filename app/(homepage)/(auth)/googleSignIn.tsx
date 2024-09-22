@@ -8,6 +8,7 @@ import {
   setPersistence,
   signInWithPopup,
 } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 
@@ -22,6 +23,7 @@ export default function GoogleSignIn() {
     await signInWithPopup(auth, provider)
       .then(async (result) => {
         const user = result.user;
+        const userData = (await getDoc(doc(db, "users", user.uid))).data();
 
         setUserAuth({
           isLoggedIn: true,
@@ -30,6 +32,7 @@ export default function GoogleSignIn() {
             email: result.user.email || "",
             uid: result.user.uid || "",
             address: "",
+            membership: userData?.membership ?? "basic",
           },
         });
         router.push("/");

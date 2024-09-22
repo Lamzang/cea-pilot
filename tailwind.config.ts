@@ -24,6 +24,9 @@ const config: Config = {
         customBg: {
           default: "#F9DBBA",
         },
+        customModalBg: {
+          default: "rgba(0, 0, 0, 0.4)",
+        },
       },
     },
   },
