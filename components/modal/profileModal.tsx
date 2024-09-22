@@ -31,14 +31,14 @@ export default function ProfileModal({
     onClose();
   };
   return (
-    <div className="absolute -top-64 left-0 w-full flex justify-center z-50">
+    <div className="absolute bottom-0 left-0 w-full flex justify-center z-50">
       <div onClick={onClose} className="fixed top-0 left-0 w-full h-full" />
       <div
         onClick={(e) => e.stopPropagation()}
         className="bg-white text-black flex flex-col rounded-2xl p-6 w-80 shadow-lg mt-4 z-50"
       >
         <div className="my-4">
-          <form onSubmit={onSubmit} className="mt-4 flex flex-col gap-4">
+          <form onSubmit={onSubmit} className=" flex flex-col gap-4">
             <input
               value={name || ""}
               onChange={onChange}

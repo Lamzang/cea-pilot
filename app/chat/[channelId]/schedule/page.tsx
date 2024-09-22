@@ -145,7 +145,7 @@ export default function Page({
   };
 
   return (
-    <div className="p-10 h-full overflow-y-auto">
+    <div className="p-10 h-full overflow-y-auto -z-40">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
         initialView="dayGridMonth"

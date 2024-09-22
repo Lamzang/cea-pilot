@@ -6,7 +6,7 @@ import {
   child,
   getDatabase,
   onChildAdded,
-  onValue,
+  onChildChanged,
   push,
   ref,
   update,
@@ -27,16 +27,19 @@ export default function Page({ params }: { params: { roomId: string } }) {
       fileUrl?: string;
       fileType?: string;
       timestamp: number;
+      isUploading?: boolean; // 임시로 업로드 중인 메시지인지 표시
     }[]
   >([]);
   const [input, setInput] = useState<string>("");
   const [user, setUser] = useState<any>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State for modal
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Modal state
+  const [isUploading, setIsUploading] = useState<boolean>(false); // File upload loading state
   const database = useRef(getDatabase());
   const inputRef = useRef<HTMLDivElement>(null);
   const storage = getStorage();
 
+  // Authentication state listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (newUser) => {
       if (newUser && (!user || user.uid !== newUser.uid)) {
@@ -47,38 +50,53 @@ export default function Page({ params }: { params: { roomId: string } }) {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, []);
 
+  // New message listener
   useEffect(() => {
     const msgRef = ref(database.current, `/${params.roomId}/messages`);
-    const unsubscribe = onValue(msgRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setMessages(Object.values(data));
-      } else {
-        setMessages([]);
-      }
-    });
-    return () => unsubscribe();
-  }, [params.roomId]);
 
-  useEffect(() => {
-    const msgRef = ref(database.current, `/${params.roomId}/messages`);
-    const unsubscribe = onChildAdded(msgRef, (snapshot) => {
+    // 메시지 추가 시 실행
+    const unsubscribeAdded = onChildAdded(msgRef, (snapshot) => {
       setMessages((prev) => [...prev, snapshot.val()]);
     });
-    return () => unsubscribe();
+
+    // 메시지가 변경될 때 실행 (예: 이미지 URL 추가)
+    const unsubscribeChanged = onChildChanged(msgRef, (snapshot) => {
+      const updatedMessage = snapshot.val();
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.timestamp === updatedMessage.timestamp ? updatedMessage : msg
+        )
+      );
+    });
+
+    return () => {
+      unsubscribeAdded();
+      unsubscribeChanged();
+    };
   }, [params.roomId]);
 
-  const handleFileUpload = async (file: File) => {
+  // File upload handler
+  const handleFileUpload = async (file: File, messageKey: string) => {
     const storageReference = storageRef(
       storage,
       `uploads/${params.roomId}/${file.name}`
     );
-    await uploadBytes(storageReference, file);
-    return getDownloadURL(storageReference); // Return file download URL
+    const snapshot = await uploadBytes(storageReference, file);
+    const fileUrl = await getDownloadURL(snapshot.ref);
+
+    const updates: { [key: string]: any } = {};
+    updates[`/${params.roomId}/messages/${messageKey}/fileUrl`] = fileUrl;
+    updates[`/${params.roomId}/messages/${messageKey}/fileType`] = file.type;
+    updates[`/${params.roomId}/messages/${messageKey}/isUploading`] = false; // 업로드 완료 표시
+
+    update(ref(database.current), updates); // Update message with file URL
+
+    setFile(null);
   };
 
+  // Message submit handler
   const onSubmit = async (
     e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent
   ) => {
@@ -93,24 +111,65 @@ export default function Page({ params }: { params: { roomId: string } }) {
       message: message || "",
       author: user.uid,
       timestamp: Date.now(),
+      isUploading: !!file, // 파일 업로드 중 표시
     };
-
-    if (file) {
-      const fileUrl = await handleFileUpload(file);
-      newMessage.fileUrl = fileUrl;
-      newMessage.fileType = file.type;
-      setFile(null);
-    }
 
     const newMsgKey = push(child(ref(database.current), params.roomId)).key;
     const updates: { [key: string]: any } = {};
     updates[`/${params.roomId}/messages/${newMsgKey}`] = newMessage;
+
+    // Update message immediately with text only (and indicate that it is uploading if file exists)
     update(ref(database.current), updates);
+
+    // If there is a file, upload it asynchronously
+    if (file) {
+      if (newMsgKey) {
+        handleFileUpload(file, newMsgKey); // 파일 업로드
+      }
+    }
 
     if (inputRef.current) {
       inputRef.current.innerText = "";
     }
     setInput("");
+    setFile(null); // 파일 초기화
+  };
+
+  const fileSubmit = async () => {
+    if (!user) return;
+
+    const message = input.trim();
+    if (!file) return;
+
+    const newMessage: any = {
+      sender: user.displayName,
+      message: message || "",
+      author: user.uid,
+      timestamp: Date.now(),
+      isUploading: !!file, // 파일 업로드 중 표시
+    };
+    console.log(newMessage);
+
+    const newMsgKey = push(child(ref(database.current), params.roomId)).key;
+    const updates: { [key: string]: any } = {};
+    updates[`/${params.roomId}/messages/${newMsgKey}`] = newMessage;
+
+    // Update message immediately with text only (and indicate that it is uploading if file exists)
+    update(ref(database.current), updates);
+
+    // If there is a file, upload it asynchronously
+    if (file) {
+      if (newMsgKey) {
+        handleFileUpload(file, newMsgKey); // 파일 업로드
+      }
+    }
+
+    if (inputRef.current) {
+      inputRef.current.innerText = "";
+    }
+    setInput("");
+    // 파일 초기화
+    setFile(null);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -130,16 +189,22 @@ export default function Page({ params }: { params: { roomId: string } }) {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setFile(null); // Reset the file when the modal is closed
+    if (file) {
+      setIsUploading(true); // 파일 업로드 상태 표시
+    }
   };
 
   const handleFileConfirm = async (file: File) => {
-    setFile(file); // Store the selected file
-    setIsModalOpen(false); // Close modal
-    await onSubmit(
-      new Event("submit") as unknown as React.FormEvent<HTMLFormElement>
-    ); // Trigger form submission with file
+    await setFile(file); // Store the selected file
+
+    await setIsModalOpen(false); // Close modal
   };
+
+  useEffect(() => {
+    if (file) {
+      fileSubmit();
+    }
+  }, [file]);
 
   return (
     <div className="flex flex-col h-full">
@@ -148,7 +213,7 @@ export default function Page({ params }: { params: { roomId: string } }) {
           <div className="mb-4 p-2 bg-gray-100 rounded" key={index}>
             <div className="font-semibold">{data.sender}</div>
             <div style={{ whiteSpace: "pre-wrap" }}>{data.message}</div>
-            {data.fileUrl && (
+            {data.fileUrl && !data.isUploading && (
               <>
                 {data.fileType && data.fileType.startsWith("image/") ? (
                   <img
@@ -168,12 +233,22 @@ export default function Page({ params }: { params: { roomId: string } }) {
                 )}
               </>
             )}
+            {/* 업로드 중일 때 상태 표시 */}
+            {data.isUploading && (
+              <div className="text-xs text-gray-500">Uploading image...</div>
+            )}
             <div className="text-xs text-gray-500">
               {new Date(data.timestamp).toLocaleString()}
             </div>
           </div>
         ))}
       </div>
+
+      {/* File ready state indicator */}
+      {isUploading && (
+        <div className="file-ready-indicator">File ready for upload!</div>
+      )}
+
       <div className="h-20 flex items-center p-4 bg-gray-200">
         <form onSubmit={onSubmit} className="flex w-full items-center">
           {/* File upload modal trigger */}
@@ -224,7 +299,7 @@ function FileUploadModal({ isOpen, onClose, onConfirm }: FileUploadModalProps) {
 
   const handleConfirm = () => {
     if (selectedFile) {
-      onConfirm(selectedFile); // 선택된 파일을 부모 컴포넌트로 전달
+      onConfirm(selectedFile); // Pass the selected file to the parent component
     }
   };
 
@@ -236,14 +311,14 @@ function FileUploadModal({ isOpen, onClose, onConfirm }: FileUploadModalProps) {
         <h2 className="text-lg font-semibold mb-4">파일 업로드</h2>
         <input
           type="file"
-          accept="image/*,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" // 이미지, PDF, 엑셀 파일 허용
+          accept="image/*,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" // Allow image, PDF, Excel files
           onChange={handleFileChange}
           className="mb-4"
         />
         <div className="flex justify-end">
           <button
             onClick={handleConfirm}
-            disabled={!selectedFile} // 파일이 선택되지 않으면 버튼 비활성화
+            disabled={!selectedFile} // Disable button if no file is selected
             className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
           >
             확인

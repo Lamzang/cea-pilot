@@ -122,12 +122,7 @@ const Layout = ({
             <div className="w-full text-white flex font-bold text-xl mb-4 p-2 py-1">
               {channelData?.name}
             </div>
-            <div
-              onClick={clickInviteModal}
-              className="hover:bg-slate-500 cursor-grab w-20 border-2 rounded-xl h-fit text-white px-2 py-1"
-            >
-              초대
-            </div>
+
             <div
               onClick={clickModal}
               className="hover:bg-slate-500 cursor-grab text-white p-2"
@@ -136,19 +131,37 @@ const Layout = ({
             </div>
           </div>
           <div className="border-b-2 w-full flex flex-col">
-            {defaultRooms.map((data: any, index: number) => (
-              <Link
-                href={`/chat/${params.channelId}/${data.data.urlName}`}
-                className="p-2 px-4 my-3 rounded-full text-white"
-                style={{
-                  backgroundColor: currentRoom === data.id ? "#4b5563" : "",
-                }}
-                key={index}
-                onClick={() => setCurrentRoom(data.id)}
-              >
-                <div className="font-semibold">{data.data.name}</div>
-              </Link>
-            ))}
+            <Link
+              href={`/chat/${params.channelId}/home`}
+              className="p-2 px-4 my-3 rounded-full text-white"
+              style={{
+                backgroundColor: currentRoom === "home" ? "#4b5563" : "",
+              }}
+              onClick={() => setCurrentRoom("home")}
+            >
+              <div className="font-semibold">{"채널 홈"}</div>
+            </Link>
+            <Link
+              href={`/chat/${params.channelId}/announcement`}
+              className="p-2 px-4 my-3 rounded-full text-white"
+              style={{
+                backgroundColor:
+                  currentRoom === "announcement" ? "#4b5563" : "",
+              }}
+              onClick={() => setCurrentRoom("announcement")}
+            >
+              <div className="font-semibold">{"공지사항"}</div>
+            </Link>
+            <Link
+              href={`/chat/${params.channelId}/schedule`}
+              className="p-2 px-4 my-3 rounded-full text-white"
+              style={{
+                backgroundColor: currentRoom === "schedule" ? "#4b5563" : "",
+              }}
+              onClick={() => setCurrentRoom("schedule")}
+            >
+              <div className="font-semibold">{"세부일정"}</div>
+            </Link>
           </div>
 
           <div className="w-full h-full flex flex-col overflow-y-auto">

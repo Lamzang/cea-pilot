@@ -10,11 +10,11 @@ export default function Modal({
   return (
     <div
       onClick={onClose}
-      className="fixed top-0 left-0 w-full h-full bg-customModalBg-default flex justify-center items-center"
+      className="fixed top-0 left-0 w-full h-full bg-customModalBg-default flex justify-center items-center z-40"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white text-black flex flex-col rounded-2xl p-4 w-72"
+        className="bg-white text-black flex flex-col rounded-2xl p-4 w-72 z-50"
       >
         <form onSubmit={onSubmit} className="mt-4">
           <div className="mb-4">

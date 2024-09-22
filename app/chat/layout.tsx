@@ -34,6 +34,7 @@ export default function ChatLayout({
 
   const [user, setUser] = useState<any>(null);
   const [adminUidArray, setAdminUidArray] = useState<any>([]);
+  const [chatMembers, setChatMembers] = useState<any>([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (newUser) => {
@@ -90,11 +91,21 @@ export default function ChatLayout({
     });
   };
 
+  const fetchChatMembers = async () => {
+    const querysnapshots = await getDocs(collection(db, "chat-members"));
+    const bufferChatMembers: any[] = [];
+    querysnapshots.forEach((doc) => {
+      bufferChatMembers.push(doc.data().uid);
+    });
+    setChatMembers(bufferChatMembers);
+  };
+
   useEffect(() => {
     if (user) {
       const fetchData = async () => {
         await fetchAdmins();
         await fetchChatHomes(user.uid);
+        await fetchChatMembers();
       };
       fetchData();
     }
@@ -164,18 +175,31 @@ export default function ChatLayout({
             {showModal && <Modal onSubmit={onSubmit} onClose={clickModal} />}
 
             <div className="flex flex-col flex-nowrap h-full overflow-y-auto">
-              <Link
-                href={"/chat/schedule"}
-                className="p-2   mb-2 cursor-pointer"
-              >
-                전체 일정
-              </Link>
-              <Link
-                href={"/chat/DM"}
-                className="p-2 border-b-2 mb-2 cursor-pointer"
-              >
-                DM
-              </Link>
+              {user && chatMembers.includes(user.uid) && (
+                <div className="flex flex-col">
+                  {adminUidArray.includes(user.uid) && (
+                    <Link
+                      href={"/chat/admin"}
+                      className="p-2  mb-2 cursor-pointer"
+                    >
+                      관리자 페이지
+                    </Link>
+                  )}
+                  <Link
+                    href={"/chat/schedule"}
+                    className="p-2  mb-2 cursor-pointer"
+                  >
+                    전체 일정
+                  </Link>
+                  <Link
+                    href={"/chat/DM"}
+                    className="p-2 border-b-2 mb-2 cursor-pointer"
+                  >
+                    DM
+                  </Link>
+                </div>
+              )}
+
               {loading ? (
                 <p>Loading...</p>
               ) : (
