@@ -48,11 +48,11 @@ export default function CreateAccountModal({
         auth,
         formData.email,
         formData.password
-      ).then((userCredential) => {
-        updateProfile(userCredential.user, {
+      ).then(async (userCredential) => {
+        await updateProfile(userCredential.user, {
           displayName: formData.displayName,
         });
-        addDoc(collection(db, "chat-standby"), {
+        await addDoc(collection(db, "chat-standby"), {
           uid: userCredential.user.uid,
           email: formData.email,
           displayName: formData.displayName,
@@ -60,10 +60,10 @@ export default function CreateAccountModal({
           membership: "standby",
         });
       });
-      onClose(); // Close modal after successful creation
+      await onClose(); // Close modal after successful creation
     } catch (err) {
       console.error("Error creating account: ", err);
-      setError("Account creation failed. Please try again.");
+      setError("Account creation failed. " + err);
     }
   };
 
@@ -84,6 +84,7 @@ export default function CreateAccountModal({
             placeholder="Email"
             value={formData.email || ""}
             onChange={handleChange}
+            required
           />
         </>
         <>
@@ -95,6 +96,7 @@ export default function CreateAccountModal({
             placeholder="이름"
             value={formData.displayName || ""}
             onChange={handleChange}
+            required
           />
         </>
         <>
@@ -106,6 +108,7 @@ export default function CreateAccountModal({
             placeholder="비밀번호"
             value={formData.password || ""}
             onChange={handleChange}
+            required
           />
         </>
         <>
@@ -117,6 +120,7 @@ export default function CreateAccountModal({
             placeholder="비밀번호 확인"
             value={formData.password_confirm || ""}
             onChange={handleChange}
+            required
           />
         </>
         {error && <p className="text-red-500">{error}</p>}

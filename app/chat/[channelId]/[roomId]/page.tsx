@@ -206,9 +206,17 @@ export default function Page({ params }: { params: { roomId: string } }) {
     }
   }, [file]);
 
+  const messageListRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    messageListRef.current?.lastElementChild?.scrollIntoView();
+  }, [messages]);
+
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 flex flex-col overflow-y-auto p-4 bg-white">
+      <div
+        ref={messageListRef}
+        className="flex-1 flex flex-col overflow-y-auto p-4 bg-white"
+      >
         {messages.map((data, index) => (
           <div className="mb-4 p-2 bg-gray-100 rounded" key={index}>
             <div className="font-semibold">{data.sender}</div>
