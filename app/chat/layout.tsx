@@ -81,12 +81,9 @@ export default function ChatLayout({
 
   const fetchAdmins = async () => {
     await setAdminUidArray([]);
-    const q = query(
-      collection(db, "users"),
-      where("membership", "==", "admin")
-    );
-    const adminUids = await getDocs(q);
-    await adminUids.forEach((doc) => {
+
+    const querysnapshots = await getDocs(collection(db, "chat-admins"));
+    await querysnapshots.forEach((doc) => {
       setAdminUidArray((prev: any) => [...prev, doc.data().uid]);
     });
   };
@@ -245,7 +242,7 @@ export default function ChatLayout({
                   <CreateAccountModal onClose={clickCreateAccountModal} />
                 )}
                 {showLoginModal && <LoginModal onClose={clickLoginModal} />}
-                <div>{"로그인/회원가입"}</div>
+                <div>로그인/회원가입</div>
               </div>
             )}
           </div>

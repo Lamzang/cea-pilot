@@ -70,7 +70,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main Content Area */}
-      <div className="w-3/4 p-6 bg-white overflow-auto">{children}</div>
+      <div className="w-3/4  bg-white overflow-auto">{children}</div>
     </div>
   );
 }

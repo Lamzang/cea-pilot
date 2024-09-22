@@ -1,6 +1,7 @@
 "use client";
 
-import { db } from "@/lib/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   getDocs,
@@ -12,8 +13,23 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Page() {
+  const [user, setUser] = useState<any>(null);
   const [members, setMembers] = useState<any>([]);
   const [standbyUsers, setStandbyUsers] = useState<any>([]);
+  const [adminUidArray, setAdminUidArray] = useState<any>([]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        setUser(newUser); // 로그인 시 사용자 설정
+      } else {
+        setUser(null); // 로그아웃 시 사용자 null 설정
+      }
+    });
+
+    // 컴포넌트 언마운트 시 감시자 해제
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchStandbyData = async () => {
@@ -33,8 +49,16 @@ export default function Page() {
       });
     };
 
+    const fetchAdminData = async () => {
+      const querysnapshots = await getDocs(collection(db, "chat-admins"));
+      querysnapshots.forEach((doc) => {
+        setAdminUidArray((prev: any) => [...prev, doc.data().uid]);
+      });
+    };
+
     fetchMemberData();
     fetchStandbyData();
+    fetchAdminData();
   }, []);
 
   const formatTimestamp = (timestamp: any) => {
@@ -81,71 +105,75 @@ export default function Page() {
   return (
     <div className="p-8 h-full bg-gray-50 overflow-y-auto">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Admin</h1>
-      <div className="h-full space-y-10">
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-700">Members</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {members.map((member: any) => (
-              <div
-                key={member.uid}
-                className="p-6 bg-white shadow-lg rounded-xl flex justify-between items-center"
-              >
-                <div className="flex items-center gap-4">
-                  <p className="text-lg font-medium text-gray-900">
-                    {member.displayName}
-                  </p>
-                </div>
-                <button
-                  onClick={() => userDelete("chat-members", member.id)}
-                  className="px-4 py-2 text-sm font-semibold bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
+      {user && adminUidArray.includes(user.uid) && (
+        <div className="h-full space-y-10">
+          <section className="mb-10">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+              Members
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {members.map((member: any) => (
+                <div
+                  key={member.uid}
+                  className="p-6 bg-white shadow-lg rounded-xl flex justify-between items-center"
                 >
-                  삭제
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
-            Standby Users
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {standbyUsers.map((standbyUser: any) => (
-              <div
-                key={standbyUser.uid}
-                className="p-6 bg-white shadow-lg rounded-xl"
-              >
-                <div className="mb-4">
-                  <p className="text-lg font-medium text-gray-900">
-                    {standbyUser.displayName}
-                  </p>
-                  <p className="text-sm text-gray-500">{standbyUser.email}</p>
-                  <p className="text-sm text-gray-500">
-                    {standbyUser.time
-                      ? formatTimestamp(standbyUser.time)
-                      : "No time available"}
-                  </p>
-                </div>
-                <div className="flex space-x-4">
+                  <div className="flex items-center gap-4">
+                    <p className="text-lg font-medium text-gray-900">
+                      {member.displayName}
+                    </p>
+                  </div>
                   <button
-                    onClick={() => userApprove(standbyUser)}
-                    className="px-4 py-2 text-sm font-semibold bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
-                  >
-                    승인
-                  </button>
-                  <button
-                    onClick={() => userDelete("chat-standby", standbyUser.id)}
+                    onClick={() => userDelete("chat-members", member.id)}
                     className="px-4 py-2 text-sm font-semibold bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
                   >
-                    거절
+                    삭제
                   </button>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+              Standby Users
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              {standbyUsers.map((standbyUser: any) => (
+                <div
+                  key={standbyUser.uid}
+                  className="p-6 bg-white shadow-lg rounded-xl"
+                >
+                  <div className="mb-4">
+                    <p className="text-lg font-medium text-gray-900">
+                      {standbyUser.displayName}
+                    </p>
+                    <p className="text-sm text-gray-500">{standbyUser.email}</p>
+                    <p className="text-sm text-gray-500">
+                      {standbyUser.time
+                        ? formatTimestamp(standbyUser.time)
+                        : "No time available"}
+                    </p>
+                  </div>
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={() => userApprove(standbyUser)}
+                      className="px-4 py-2 text-sm font-semibold bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
+                    >
+                      승인
+                    </button>
+                    <button
+                      onClick={() => userDelete("chat-standby", standbyUser.id)}
+                      className="px-4 py-2 text-sm font-semibold bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
+                    >
+                      거절
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }
