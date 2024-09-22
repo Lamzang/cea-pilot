@@ -10,6 +10,32 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [allUsers, setAllUsers] = useState<any>([]);
   const [myUser, setMyUser] = useState<any>({ uid: "" });
   const [currentDM, setCurrentDM] = useState<string | null>(null);
+  const [adminUidArray, setAdminUidArray] = useState<any>([]);
+
+  const fetchAdmins = async () => {
+    await setAdminUidArray([]);
+
+    const querysnapshots = await getDocs(collection(db, "chat-admins"));
+    await querysnapshots.forEach((doc) => {
+      setAdminUidArray((prev: any) => [...prev, doc.data().uid]);
+    });
+  };
+
+  const fetchChatMembers = async () => {
+    await getDocs(collection(db, "chat-members")).then((querySnapshot) => {
+      const users: any[] = [];
+      querySnapshot.forEach((doc) => {
+        if (adminUidArray.includes(doc.data().uid)) {
+          return;
+        }
+        users.push({
+          displayName: doc.data().displayName,
+          uid: doc.data().uid,
+        });
+      });
+      setAllUsers(users);
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (newUser) => {
@@ -24,17 +50,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    getDocs(collection(db, "chat-members")).then((querySnapshot) => {
-      const users: any[] = [];
-      querySnapshot.forEach((doc) => {
-        users.push({
-          displayName: doc.data().displayName,
-          uid: doc.data().uid,
-        });
-      });
-      setAllUsers(users);
-    });
+    const fetchData = async () => {
+      await fetchAdmins();
+    };
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchChatMembers();
+  }, [adminUidArray]);
 
   const makeCompositeKey = (uid1: string, uid2: string) => {
     if (uid1 < uid2) {
@@ -70,7 +94,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main Content Area */}
-      <div className="w-3/4  bg-white overflow-auto">{children}</div>
+      <div className="w-3/4  bg-white overflow-y-auto">{children}</div>
     </div>
   );
 }

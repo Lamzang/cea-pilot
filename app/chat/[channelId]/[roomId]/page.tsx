@@ -272,7 +272,7 @@ export default function Page({ params }: { params: { roomId: string } }) {
             ref={inputRef}
             onInput={handleInput}
             onKeyDown={handleKeyDown}
-            className="flex-1 mr-4 w-full h-10 px-3 bg-white rounded-3xl flex items-center overflow-auto"
+            className="flex-1 mr-4 w-full h-10 px-3 py-2 bg-white rounded-3xl flex items-center overflow-auto"
             style={{ whiteSpace: "pre-wrap" }}
           ></div>
           <button className="bg-blue-500 text-white px-4 py-2 rounded">
