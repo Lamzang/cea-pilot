@@ -9,8 +9,8 @@ import Link from "next/link";
 
 export default function Home() {
   const mainImages: string[] = [
-    "/assets/mainTitle/mainTitle.jpg",
-    "/assets/mainTitle/mainSubTitle.jpg",
+    "/assets/mainTitle/background3.jpg",
+    "/assets/mainTitle/background2.jpg",
   ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);

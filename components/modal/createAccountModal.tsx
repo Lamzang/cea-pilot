@@ -4,7 +4,7 @@ import { useState } from "react";
 import Input from "../input";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "@/lib/firebase/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 export default function CreateAccountModal({
   onClose,
@@ -58,6 +58,24 @@ export default function CreateAccountModal({
           displayName: formData.displayName,
           time: new Date().toISOString(),
           membership: "standby",
+        });
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          username: formData.displayName,
+          email: formData.email,
+          uid: userCredential.user.uid,
+          address: "",
+          phoneNumber: "",
+          region: "",
+          school: "",
+          major: "",
+          schoolEmail: "",
+
+          membership: "basic",
+          coupons: {
+            points: 0,
+            accumulated: 0,
+            coupons: [],
+          },
         });
       });
       await onClose(); // Close modal after successful creation

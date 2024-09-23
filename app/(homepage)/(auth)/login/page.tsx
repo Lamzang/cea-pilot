@@ -1,6 +1,5 @@
 "use client";
 
-import GoogleSignIn from "@/app/(homepage)/(auth)/googleSignIn";
 import Input from "@/components/input";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
@@ -93,9 +92,6 @@ const Login = () => {
             로그인
           </button>
         </form>
-        <div className="mt-4">
-          <GoogleSignIn />
-        </div>
       </div>
     </div>
   );
