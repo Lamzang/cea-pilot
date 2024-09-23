@@ -27,7 +27,6 @@ export interface IUser {
 
 export interface IChatUser {
   uid: string;
-  displayName: string;
-  email: string;
-  time: "";
+  displayName: string | null;
+  email: string | null;
 }

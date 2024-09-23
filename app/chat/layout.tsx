@@ -5,13 +5,16 @@ import CreateAccountModal from "@/components/modal/createAccountModal";
 import LoginModal from "@/components/modal/loginModal";
 import Modal from "@/components/modal/modal";
 import ProfileModal from "@/components/modal/profileModal";
+import { IChatUser } from "@/constant/interface";
 import { auth, db } from "@/lib/firebase/firebase";
+import { chatAuthState } from "@/lib/recoil/auth";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 export default function ChatLayout({
   children,
@@ -32,7 +35,7 @@ export default function ChatLayout({
     setShowCreateAccountModal(!showCreateAccountModal);
   const clickAuthModal = () => setShowAuthModal(!showAuthModal);
 
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useRecoilState<IChatUser | null>(chatAuthState);
   const [adminUidArray, setAdminUidArray] = useState<any>([]);
   const [chatMembers, setChatMembers] = useState<any>([]);
 
@@ -127,7 +130,7 @@ export default function ChatLayout({
         const docRef = await addDoc(collection(db, "channels"), {
           description: "New Room",
           name: title,
-          members: [user.uid, ...adminUidArray],
+          members: [user?.uid, ...adminUidArray],
         });
         await addDoc(collection(db, "channels", docRef.id, "rooms"), {
           name: "공지사항",

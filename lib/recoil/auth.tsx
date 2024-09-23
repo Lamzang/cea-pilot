@@ -1,4 +1,4 @@
-import { IUser } from "@/constant/interface";
+import { IChatUser, IUser } from "@/constant/interface";
 import { atom } from "recoil";
 
 export const authState = atom<IUser | null>({
@@ -6,7 +6,7 @@ export const authState = atom<IUser | null>({
   default: null,
 });
 
-export const chatAuthState = atom({
+export const chatAuthState = atom<IChatUser | null>({
   key: "chatAuthState",
   default: null,
 });
