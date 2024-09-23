@@ -29,11 +29,17 @@ export async function createAccount(prevState: any, formData: FormData) {
   await createUserWithEmailAndPassword(auth, data.userEmail, data.password)
     .then(async (userCredential) => {
       console.log(userCredential);
-      if (auth.currentUser) {
-        updateProfile(auth.currentUser, {
-          displayName: data.username,
-        });
-      }
+      await updateProfile(userCredential.user, {
+        displayName: data.username,
+      });
+      await addDoc(collection(db, "chat-standby"), {
+        uid: userCredential.user.uid,
+        email: data.userEmail,
+        displayName: data.username,
+        time: new Date().toISOString(),
+        membership: "standby",
+      });
+
       await setDoc(doc(db, "users", userCredential.user.uid), {
         username: data.username,
         email: data.userEmail,
