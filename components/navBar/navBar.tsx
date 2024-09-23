@@ -72,7 +72,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center w-[calc(100vw-17px)] bg-slate-50 border border-b-gray-200">
+      <div className="flex justify-center w-[calc(100vw-17px)] bg-white border border-b-gray-200">
         <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between box-border">
           <div className="flex items-center w-full sm:w-1/4">
             <Link href="/" className="w-[300px] m-2">
