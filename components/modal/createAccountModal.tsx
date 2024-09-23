@@ -69,6 +69,9 @@ export default function CreateAccountModal({
           school: "",
           major: "",
           schoolEmail: "",
+          membershipType: "임시회원",
+          agreement: false,
+          fileUrl: "",
 
           membership: "basic",
           coupons: {

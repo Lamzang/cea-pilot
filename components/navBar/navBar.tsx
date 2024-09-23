@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { authState } from "@/lib/recoil/auth";
 import LogoutBtn from "../btn/logoutBtn";
 
@@ -16,16 +16,33 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileDetail, setIsMobileDetail] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const user = useRecoilValue(authState);
+  const [user, setUser] = useRecoilState(authState);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setIsLogin(true);
-      console.log("user changed", user);
+  onAuthStateChanged(auth, (newUser) => {
+    if (newUser && !user) {
     } else {
-      setIsLogin(false);
     }
   });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        setIsLogin(true);
+        setUser({
+          uid: newUser.uid,
+          displayName: newUser.displayName,
+          email: newUser.email,
+        });
+        console.log("user logindddddddd");
+      } else {
+        setUser(null);
+        setIsLogin(false);
+        console.log("user logouttttttt  ");
+      }
+    });
+
+    // 컴포넌트 언마운트 시 감시자 해제
+    return () => unsubscribe();
+  }, []);
 
   // 화면 크기에 따라 모바일 여부를 결정
   useEffect(() => {
@@ -50,7 +67,7 @@ const Navbar = () => {
           {isLogin ? (
             <div className="flex w-full items-center h-8 justify-end">
               <div className="flex gap-3">
-                <div>{user.user.membership}</div>
+                <div>{}</div>
                 <LogoutBtn />
                 <Link className="hover:text-orange-500" href="/mypage">
                   마이페이지

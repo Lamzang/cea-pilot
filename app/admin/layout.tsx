@@ -12,7 +12,7 @@ export default function AdminLayout({
   const [viewProductDetail, setViewProductDetail] = useState(false);
   const [viewNoticeDetail, setViewNoticeDetail] = useState(false);
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-screen">
       <div className="bg-gray-100 p-4 border-b border-gray-300 flex justify-between">
         <Link className="text-blue-500 text-2xl" href={"/admin"}>
           Admin Home
@@ -87,9 +87,9 @@ export default function AdminLayout({
           )}
           <Link
             className="py-1 text-gray-700 hover:underline"
-            href={"/admin/message"}
+            href={"/chat/admin"}
           >
-            Send Message for Users
+            사내메신저 관리하기기
           </Link>
         </div>
         <div className="w-4/5 h-full flex-grow border-l border-gray-300">

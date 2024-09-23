@@ -1,41 +1,55 @@
 "use client";
 
-import { db } from "@/lib/firebase/firebase";
-import { authState } from "@/lib/recoil/auth";
+import { IUserDoc } from "@/constant/interface";
+import { auth, db } from "@/lib/firebase/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Link from "next/link";
-import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import React, { useEffect, useState } from "react";
 
 const MyPage = () => {
-  const [user, setUser] = useRecoilState(authState);
-  const [userData, setUserData] = React.useState<any>({});
+  const [user, setUser] = useState<any>(null);
+  const [userData, setUserData] = React.useState<IUserDoc>();
   const [orderData, setOrderData] = React.useState<any>([]);
 
   useEffect(() => {
-    getDoc(doc(db, "users", user.user.uid))
-      .then((doc) => {
-        if (doc.exists()) {
-          const data = doc.data();
-          setUserData(data);
-        } else {
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        setUser(newUser); // 로그인 시 사용자 설정
+      } else {
+        setUser(null); // 로그아웃 시 사용자 null 설정
+      }
+    });
 
-    const fetchOrderData = async () => {
-      const querysnapshots = await getDocs(
-        collection(db, "users", user.user.uid, "orders")
-      );
-      querysnapshots.forEach((doc) => {
-        setOrderData((prev: any) => [...prev, doc.data()]);
-      });
-    };
-    fetchOrderData();
-  }, [user.user.uid]);
+    // 컴포넌트 언마운트 시 감시자 해제
+    return () => unsubscribe();
+  }, []);
+  const fetchOrderData = async () => {
+    const querysnapshots = await getDocs(
+      collection(db, "users", user.uid, "orders")
+    );
+    querysnapshots.forEach((doc) => {
+      setOrderData((prev: any) => [...prev, doc.data()]);
+    });
+  };
+
+  useEffect(() => {
+    if (user) {
+      getDoc(doc(db, "users", user.uid))
+        .then((doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            setUserData(data as IUserDoc);
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
+      fetchOrderData();
+    }
+  }, [user]);
 
   return (
     <div className="flex justify-center flex-col h-full items-center">
@@ -50,16 +64,14 @@ const MyPage = () => {
             />
             <div className="flex flex-col gap-2 h-36 justify-between">
               <div className="text-2xl">
-                <span className="font-bold">{userData.username}</span>님은 현재{" "}
-                <span className="font-bold">
-                  {userData.membership ? userData.membership : "일반"}{" "}
-                </span>
+                <span className="font-bold">{userData?.username}</span>님은 현재{" "}
+                <span className="font-bold">{userData?.membershipType} </span>
                 입니다.
               </div>
-              <div>{userData.email}</div>
-              <div>uid : {userData.uid}</div>
-              <div>address : {userData.address}</div>
-              <div>phone : {userData.phoneNumber}</div>
+              <div>{userData?.email}</div>
+              <div>uid : {userData?.uid}</div>
+              <div>address : {userData?.address}</div>
+              <div>phone : {userData?.phoneNumber}</div>
               <Link
                 href={"mypage/edit-profile"}
                 className="text-blue-500 cursor-pointer"

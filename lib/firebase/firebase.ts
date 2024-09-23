@@ -27,11 +27,3 @@ export const storage = getStorage(app);
 auth.useDeviceLanguage();
 
 //https://firebase.google.com/docs/firestore/security/rules-query?hl=ko
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("User is signed in");
-  } else {
-    console.log("User is signed out");
-  }
-});

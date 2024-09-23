@@ -1,15 +1,12 @@
+import { IUser } from "@/constant/interface";
 import { atom } from "recoil";
 
-export const authState = atom({
+export const authState = atom<IUser | null>({
   key: "authState",
-  default: {
-    isLoggedIn: false,
-    user: {
-      username: "annoymous",
-      email: "",
-      uid: "basicuid",
-      address: "",
-      membership: "basic",
-    },
-  },
+  default: null,
+});
+
+export const chatAuthState = atom({
+  key: "chatAuthState",
+  default: null,
 });

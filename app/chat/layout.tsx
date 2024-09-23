@@ -172,9 +172,10 @@ export default function ChatLayout({
             {showModal && <Modal onSubmit={onSubmit} onClose={clickModal} />}
 
             <div className="flex flex-col flex-nowrap h-full overflow-y-auto">
-              {user && chatMembers.includes(user.uid) && (
+              {((user && chatMembers.includes(user.uid)) ||
+                adminUidArray.includes(user?.uid)) && (
                 <div className="flex flex-col">
-                  {adminUidArray.includes(user.uid) && (
+                  {adminUidArray.includes(user?.uid) && (
                     <Link
                       href={"/chat/admin"}
                       className="p-2  mb-2 cursor-pointer"
