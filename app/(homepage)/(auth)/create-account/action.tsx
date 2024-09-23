@@ -1,4 +1,4 @@
-"use server";
+/* "use server";
 
 import { doc, setDoc, collection, addDoc } from "firebase/firestore";
 import { redirect } from "next/navigation";
@@ -58,16 +58,7 @@ export async function createAccount(prevState: any, formData: FormData) {
           coupons: [],
         },
       });
-      /* const ordersCollection = addDoc(
-        collection(db, "users", userCredential.user.uid, "orders"),
-        {
-          products: "test",
-          totalAmount: 1,
-          status: "delivery",
-          orderDate: "2021-10-10",
-          shippingAddress: "서울시 서대문구 연세대",
-        }
-      ); */
+
 
       result.success = true;
     })
@@ -82,3 +73,4 @@ export async function createAccount(prevState: any, formData: FormData) {
   console.log(result);
   return result;
 }
+ */

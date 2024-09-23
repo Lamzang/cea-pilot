@@ -1,9 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/components/input";
-import { useFormState } from "react-dom";
-import { createAccount } from "./action";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db } from "@/lib/firebase/firebase";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 const CreateAccount = () => {
   const [stateAccount, setState] = useState({
@@ -15,15 +23,95 @@ const CreateAccount = () => {
     schoolEmail: "",
     personalEmail: "",
     agreement: false,
-    membershipType: "",
+    membershipType: "일반회원",
+    password: "",
+    password_confirm: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...stateAccount, [e.target.name]: e.target.value });
   };
-  const [state, dispatch] = useFormState(createAccount, null);
   const [showModal, setShowModal] = useState(false);
   const clickModal = () => setShowModal(!showModal);
+  const [error, setError] = useState<string | null>(null);
+  const storage = getStorage();
+  const router = useRouter();
+  const [file, setFile] = useState<any>();
+
+  const handleFile = async (file: any, uid: any) => {
+    const storageReference = storageRef(
+      storage,
+      `uploads/${uid}/${file?.name}`
+    );
+    const snapshot = await uploadBytes(storageReference, file);
+    const fileUrl = await getDownloadURL(snapshot.ref);
+    return fileUrl;
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    await e.preventDefault();
+    if (stateAccount.password !== stateAccount.password_confirm) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    await createUserWithEmailAndPassword(
+      auth,
+      stateAccount.personalEmail,
+      stateAccount.password
+    )
+      .then(async (userCredential) => {
+        let fileUrl = "";
+        if (file) {
+          fileUrl = await handleFile(file, userCredential.user.uid);
+        }
+        await updateProfile(userCredential.user, {
+          displayName: stateAccount.username,
+        });
+        await addDoc(collection(db, "chat-standby"), {
+          uid: userCredential.user.uid,
+          email: stateAccount.personalEmail,
+          displayName: stateAccount.username,
+          time: new Date().toISOString(),
+          membership: "standby",
+        });
+
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          username: stateAccount.username,
+          email: stateAccount.personalEmail,
+          uid: userCredential.user.uid,
+          address: "",
+          phoneNumber: stateAccount.phoneNumber,
+          region: stateAccount.region,
+          school: stateAccount.school,
+          major: stateAccount.major,
+          schoolEmail: stateAccount.schoolEmail,
+          membershipType: stateAccount.membershipType,
+          agreement: stateAccount.agreement,
+          fileUrl: file ? fileUrl : "",
+
+          membership: "basic",
+          coupons: {
+            points: 0,
+            accumulated: 0,
+            coupons: [],
+          },
+        });
+
+        await router.push("/login");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        setError(errorMessage);
+      });
+  };
 
   return (
     <div className="flex justify-center items-center h-full bg-gray-50">
@@ -33,7 +121,7 @@ const CreateAccount = () => {
         </div>
 
         {/* Step 1: 기본 정보 */}
-        <form action={dispatch} className="flex flex-col gap-4">
+        <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <div>
             <label
               htmlFor="username"
@@ -344,7 +432,12 @@ const CreateAccount = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 자격 관련 서류 업로드 :
               </label>
-              <Input type="file" name="qualificationDocs" />
+              <Input
+                accept="image/*,application/pdf"
+                type="file"
+                name="qualificationDocs"
+                onChange={handleFileChange}
+              />
               <div className="border-t-2 border-b-2 my-8 p-2 flex">
                 <div className="w-1/2 border-r-2 p-2">
                   <p>
@@ -371,6 +464,7 @@ const CreateAccount = () => {
           <button className="bg-customBlue-light text-white py-2 mt-5 rounded-md hover:bg-customBlue-dark transition duration-300">
             회원가입
           </button>
+          {error && <p className="text-red-500">{error}</p>}
         </form>
       </div>
     </div>
