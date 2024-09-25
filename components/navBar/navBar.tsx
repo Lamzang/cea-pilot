@@ -67,7 +67,7 @@ const Navbar = () => {
           {isLogin ? (
             <div className="flex w-full items-center h-8 justify-end">
               <div className="flex gap-3">
-                <div>{}</div>
+                <div>{user?.displayName}</div>
                 <LogoutBtn />
                 <Link className="hover:text-orange-500" href="/mypage">
                   마이페이지

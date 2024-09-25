@@ -14,21 +14,6 @@ export default function EditProfile() {
   const [userData, setUserData] = useState<IUserDoc>();
   const router = useRouter();
 
-  useEffect(() => {
-    if (user) {
-      const fetchUserData = async () => {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUserData(docSnap.data() as IUserDoc);
-        } else {
-          console.log("No such document!");
-        }
-      };
-      fetchUserData();
-    }
-  }, [user]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev: any) => ({
@@ -44,7 +29,7 @@ export default function EditProfile() {
       if (user && userData) {
         const docRef = doc(db, "users", user.uid);
 
-        await updateDoc(docRef, userData);
+        await updateDoc(docRef, userData as { [x: string]: any });
 
         console.error("User data is undefined");
 

@@ -36,20 +36,18 @@ export default function ChatLayout({
   const clickAuthModal = () => setShowAuthModal(!showAuthModal);
 
   const [user, setUser] = useRecoilState<IChatUser | null>(chatAuthState);
-  const [adminUidArray, setAdminUidArray] = useState<any>([]);
+  const [adminUidArray, setAdminUidArray] = useState<any>(null);
   const [chatMembers, setChatMembers] = useState<any>([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+    onAuthStateChanged(auth, (newUser) => {
       if (newUser && (!user || user.uid !== newUser.uid)) {
         setUser(newUser); // 로그인 시 사용자 설정
       } else {
         setUser(null); // 로그아웃 시 사용자 null 설정
       }
     });
-
     // 컴포넌트 언마운트 시 감시자 해제
-    return () => unsubscribe();
   }, []);
 
   const fetchChatHomes = async (uid: string) => {
@@ -83,12 +81,16 @@ export default function ChatLayout({
   };
 
   const fetchAdmins = async () => {
-    await setAdminUidArray([]);
-
-    const querysnapshots = await getDocs(collection(db, "chat-admins"));
-    await querysnapshots.forEach((doc) => {
-      setAdminUidArray((prev: any) => [...prev, doc.data().uid]);
-    });
+    const tempArray: any[] = [];
+    try {
+      const querysnapshots = await getDocs(collection(db, "chat-admins"));
+      await querysnapshots.forEach((doc) => {
+        tempArray.push(doc.data().uid);
+      });
+      await setAdminUidArray(tempArray);
+    } catch (error) {
+      console.error("Error fetching admins: ", error);
+    }
   };
 
   const fetchChatMembers = async () => {
@@ -104,12 +106,17 @@ export default function ChatLayout({
     if (user) {
       const fetchData = async () => {
         await fetchAdmins();
-        await fetchChatHomes(user.uid);
         await fetchChatMembers();
       };
       fetchData();
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user && adminUidArray) {
+      fetchChatHomes(user.uid);
+    }
+  }, [adminUidArray, user]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -176,7 +183,7 @@ export default function ChatLayout({
 
             <div className="flex flex-col flex-nowrap h-full overflow-y-auto">
               {((user && chatMembers.includes(user.uid)) ||
-                adminUidArray.includes(user?.uid)) && (
+                adminUidArray?.includes(user?.uid)) && (
                 <div className="flex flex-col">
                   {adminUidArray.includes(user?.uid) && (
                     <Link

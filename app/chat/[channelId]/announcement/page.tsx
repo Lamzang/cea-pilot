@@ -12,27 +12,18 @@ import {
   update,
 } from "firebase/database";
 import { auth } from "@/lib/firebase/firebase";
+import { useRecoilState } from "recoil";
+import { IChatUser } from "@/constant/interface";
+import { chatAuthState } from "@/lib/recoil/auth";
 
 export default function Page({ params }: { params: { channelId: string } }) {
   const [messages, setMessages] = useState<
     { sender: string; message: string; timestamp: number }[]
   >([]);
   const [input, setInput] = useState<string>("");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useRecoilState<IChatUser | null>(chatAuthState);
   const database = useRef(getDatabase()); // ref를 통해 초기화하여 재렌더링 방지
   const inputRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
-      if (newUser && (!user || user.uid !== newUser.uid)) {
-        setUser(newUser);
-      } else if (!newUser && user) {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [user]);
 
   useEffect(() => {
     const msgRef = ref(database.current, `/${params.channelId}/messages`);

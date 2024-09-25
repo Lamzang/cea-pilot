@@ -94,7 +94,7 @@ export default function Home() {
         )}
       </div>
 
-      <div className="flex flex-col sm:flex-row h-auto sm:h-[450px] mt-10 px-4 justify-between">
+      <div className="flex flex-col sm:flex-row h-auto sm:h-[350px] mt-10 px-4 justify-between">
         <div className="w-full sm:w-[300px] h-full">
           <div className="flex flex-col justify-center items-center w-full">
             <div className="border-b-2 border-gray-500 w-full sm:w-5/6"></div>
@@ -165,16 +165,33 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* {"설명란에는 살짝 위로 올라가는 애니메이션을 넣어주면좋을 것 같습니다."} */}
-
-      {/* <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
-        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
-          오시는 길
+      <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] ">
+        {/* 첫 번째 그리드 섹션 */}
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 grid grid-cols-2 ">
+          <div className="flex justify-center items-center bg-mainBlue-light font-semibold text-gray-700">
+            협회소개
+          </div>
+          <div className="flex justify-center items-center bg-mainBlue-default font-semibold text-gray-700">
+            협회가입
+          </div>
+          <div className="flex justify-center items-center  font-semibold text-gray-700">
+            협회 정관
+          </div>
+          <div className="flex justify-center items-center bg-mainBlue-light font-semibold text-gray-700">
+            협회 SNS
+          </div>
         </div>
-        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
+
+        {/* 상담하기 섹션 */}
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center text-lg font-bold text-gray-800">
+          상담하기
+        </div>
+
+        {/* 후원하기 섹션 */}
+        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center text-lg font-bold text-gray-800">
           후원하기
         </div>
-      </div> */}
+      </div>
     </main>
   );
 }
