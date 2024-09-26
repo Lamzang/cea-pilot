@@ -27,21 +27,6 @@ const Login = () => {
       e.currentTarget.password.value
     )
       .then(async (userCredential) => {
-        await getDoc(doc(db, "users", userCredential.user.uid)).then((doc) => {
-          if (doc.exists()) {
-            userName = doc.data().username;
-          }
-        });
-        setUserAuth({
-          isLoggedIn: true,
-          user: {
-            username: userName,
-            email: userCredential.user.email ?? "",
-            uid: userCredential.user.uid ?? "",
-            address: "",
-            membership: "basic",
-          },
-        });
         router.push("/");
       })
       .catch((error) => {
@@ -64,6 +49,7 @@ const Login = () => {
               이메일 :
             </label>
             <Input
+              autoComplete="off"
               name="userEmail"
               type="email"
               placeholder="이메일을 입력하세요"
@@ -82,6 +68,7 @@ const Login = () => {
             <Input
               name="password"
               type="password"
+              autoComplete="off"
               minLength={4}
               placeholder="비밀번호를 입력하세요"
               required

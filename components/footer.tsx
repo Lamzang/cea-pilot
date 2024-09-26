@@ -21,15 +21,14 @@ const Footer = () => {
           <div className="flex flex-col w-1/3">
             <div className="text-2xl py-1">Contact Us</div>
             <div>주소: 부산 기장군 기장읍 내리 소정안길 4-27 </div>
-            <div>이메일: http0518@gmail.com</div>
+            <div>이메일: graceshinnz@gmail.com</div>
+            <div>이메일: http05@gmail.com </div>
           </div>
           <div>
             <div className="text-2xl py-1">SNS</div>
-            <div>Instagram</div>
             <Link href={"https://www.facebook.com/groups/337483832687824"}>
-              Facebook
+              Facebook 바로가기
             </Link>
-            <div>Blog</div>
           </div>
         </div>
       </div>
