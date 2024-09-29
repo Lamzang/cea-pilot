@@ -8,7 +8,13 @@ export interface IUserDoc {
   school: string;
   major: string;
   schoolEmail: string;
-  membershipType: "임시회원" | "일반회원" | "준회원" | "정회원" | "관리자";
+  membershipType:
+    | "임시회원"
+    | "일반회원"
+    | "준회원"
+    | "정회원"
+    | "관리자"
+    | "대기중";
   agreement: boolean;
   fileURL: string;
   membership: string;
