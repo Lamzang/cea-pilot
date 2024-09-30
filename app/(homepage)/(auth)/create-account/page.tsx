@@ -83,7 +83,7 @@ const CreateAccount = () => {
           time: new Date().toISOString(),
           membership: "standby",
         });
-        await addDoc(collection(db, "mail"), {
+        /* await addDoc(collection(db, "mail"), {
           to: [`${stateAccount.personalEmail}`],
           message: {
             subject: "한국개념기반교육협회 회원가입을 환영합니다",
@@ -111,7 +111,7 @@ const CreateAccount = () => {
 
     `,
           },
-        });
+        }); */
 
         await setDoc(doc(db, "users", userCredential.user.uid), {
           username: stateAccount.username,
