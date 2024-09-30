@@ -4,14 +4,20 @@ import Input from "@/components/input";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { authState } from "@/lib/recoil/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
+import { getKoreanErrorText } from "@/lib/auth_functions";
 
 const Login = () => {
   const [userAuth, setUserAuth] = useRecoilState(authState);
   const [errorMsg, setErrorMsg] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const clickModal = () => setIsModalOpen((prev) => !prev);
   let userName = "";
   const router = useRouter();
 
@@ -30,8 +36,12 @@ const Login = () => {
         router.push("/");
       })
       .catch((error) => {
-        setErrorMsg(error.message);
+        setErrorMsg(getKoreanErrorText(error.code));
       });
+  };
+
+  const sendEmailfindPassword = () => {
+    sendPasswordResetEmail(auth, "");
   };
 
   return (
@@ -79,9 +89,54 @@ const Login = () => {
             로그인
           </button>
         </form>
+        <div onClick={() => setIsModalOpen(true)}>비밀번호 찾기</div>
+        {isModalOpen && <Modal onClose={clickModal} />}
       </div>
     </div>
   );
 };
 
 export default Login;
+
+function Modal({ onClose }: { onClose: () => void }) {
+  const [email, setEmail] = useState("");
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("이메일이 전송되었습니다.");
+      })
+      .catch((error) => {
+        alert("이메일 전송에 실패하였습니다.");
+      })
+      .finally(() => {
+        onClose();
+      });
+  };
+  return (
+    <div
+      onClick={onClose}
+      className="fixed top-0 left-0 w-full h-full bg-customModalBg-default flex justify-center items-center z-40"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white text-black flex flex-col rounded-2xl p-4 w-72 z-50"
+      >
+        <form onSubmit={onSubmit} className="mt-4">
+          <div className="mb-4">
+            <Input
+              name="makeRoom"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="이메일을 입력하세요"
+            />
+          </div>
+          <button className="bg-blue-500 text-white w-full py-2 rounded">
+            비밀번호 찾기
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}

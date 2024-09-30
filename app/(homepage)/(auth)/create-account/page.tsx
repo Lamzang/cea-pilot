@@ -83,14 +83,14 @@ const CreateAccount = () => {
           time: new Date().toISOString(),
           membership: "standby",
         });
-        await addDoc(collection(db, "mail"), {
+        /* await addDoc(collection(db, "mail"), {
           to: [`${stateAccount.personalEmail}`],
           message: {
             subject: "Hello from Firebase!",
             text: "This is the plaintext section of the email body.",
             html: "This is the <code>HTML</code> section of the email body.",
           },
-        });
+        }); */
 
         await setDoc(doc(db, "users", userCredential.user.uid), {
           username: stateAccount.username,
