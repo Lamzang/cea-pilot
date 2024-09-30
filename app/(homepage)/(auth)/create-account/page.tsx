@@ -86,9 +86,30 @@ const CreateAccount = () => {
         await addDoc(collection(db, "mail"), {
           to: [`${stateAccount.personalEmail}`],
           message: {
-            subject: "Hello from Firebase!",
+            subject: "한국개념기반교육협회 회원가입을 환영합니다",
             text: "This is the plaintext section of the email body.",
-            html: "This is the <code>HTML</code> section of the email body.",
+            html: `
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <h2>환영합니다!</h2>
+  <p><strong>${stateAccount.username}</strong>님, 한국개념기반교육협회에 가입해 주셔서 감사합니다.</p>
+  
+  <p>준회원 및 정회원 신청은 협회에서 승인 절차를 거친 후에 완료됩니다. 승인 처리에는 1~2일이 소요될 수 있습니다.</p>
+  
+  <p>승인이 완료되면 안내 이메일을 보내드리며, 입금 미확인 등의 이유로 승인이 거절될 경우에도 관련 안내 메일이 발송될 예정입니다.</p>
+  
+  <p>협회에서 제공하는 다양한 혜택을 즐기실 수 있습니다. 자세한 내용은 아래 링크를 통해 확인해 주세요:</p>
+  <a href="https://homepage--kcbea-portal.us-central1.hosted.app/" style="color: #1E90FF; text-decoration: none;">협회 홈페이지 방문하기</a>
+  
+  <br><br>
+  <p>궁금한 점이 있으시면 언제든지 <a href="mailto:http0518@gmail.com" style="color: #1E90FF;">http0518@gmail.com</a>으로 문의해 주세요.</p>
+  
+  <p>감사합니다,<br>한국개념기반교육협회 팀</p>
+  
+  <hr>
+  <p style="font-size: 12px; color: #777;">이 이메일은 자동으로 발송된 메일입니다. 답장하지 마세요.</p>
+</div>
+
+    `,
           },
         });
 
