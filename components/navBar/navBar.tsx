@@ -3,26 +3,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { authState } from "@/lib/recoil/auth";
+import { authState, userDocState } from "@/lib/recoil/auth";
 import LogoutBtn from "../btn/logoutBtn";
 
 import { useState, useEffect } from "react";
 import Detaiednavbar from "./detail";
-import { auth } from "@/lib/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { IUserDoc } from "@/constant/interface";
 
 const Navbar = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileDetail, setIsMobileDetail] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [userDoc, setUserDoc] = useRecoilState(userDocState);
   const [user, setUser] = useRecoilState(authState);
 
-  onAuthStateChanged(auth, (newUser) => {
-    if (newUser && !user) {
-    } else {
-    }
-  });
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (newUser) => {
       if (newUser && (!user || user.uid !== newUser.uid)) {
@@ -43,6 +41,16 @@ const Navbar = () => {
     // 컴포넌트 언마운트 시 감시자 해제
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getDoc(doc(db, "users", user.uid)).then((doc) => {
+        if (doc.exists()) {
+          setUserDoc(doc.data() as IUserDoc);
+        }
+      });
+    }
+  }, [user]);
 
   // 화면 크기에 따라 모바일 여부를 결정
   useEffect(() => {
