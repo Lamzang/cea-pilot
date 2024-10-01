@@ -49,7 +49,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col box-border m-0 p-0 overflow-x-hidden w-full">
+    <main className="flex flex-col m-0 p-0 overflow-x-hidden w-full">
       <div>
         {mainImages.length > 0 && (
           <>
@@ -95,33 +95,31 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col sm:flex-row h-auto sm:h-[350px] mt-10 px-4 justify-between">
-        <div className="w-full sm:w-[300px] h-full">
-          <div className="flex flex-col justify-center items-center w-full">
-            <div className="border-b-2 border-gray-500 w-full sm:w-5/6"></div>
+        <div className="w-full sm:w-[300px] mt-6 sm:mt-0 border-2 rounded-2xl">
+          <div className="flex justify-between items-center rounded-t-2xl px-4  pb-2 mb-4 bg-blue-500 text-white p-2">
             <Link
-              href="/shop"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
+              href={"/announcements"}
+              className="text-xl sm:text-2xl font-bold"
             >
-              쇼핑하기
+              진행예정 행사
             </Link>
             <Link
-              href="/classroom"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
+              href="/announcements"
+              className="text-blue-500 hover:underline"
             >
-              연수하기
+              더보기
             </Link>
-            <Link
-              href="/data-container"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
-            >
-              자료실
-            </Link>
-            <Link
-              href="/donation"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
-            >
-              후원하기
-            </Link>
+          </div>
+          <div className="space-y-2 w-full">
+            {announcements.map((announcement) => (
+              <Link
+                href={`notice-board/${announcement.id}`}
+                key={announcement.id}
+                className="p-1 border-gray-500 hover:bg-gray-100 w-full flex justify-between items-center"
+              >
+                <div>- {announcement.title}</div>
+              </Link>
+            ))}
           </div>
         </div>
         <div className="w-full sm:w-[300px] mt-6 sm:mt-0">

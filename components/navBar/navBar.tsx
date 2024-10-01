@@ -62,7 +62,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="flex justify-center bg-blue-500 text-white">
+      <div className="flex justify-center  text-gray-600 p-1">
         <div className="w-full max-w-[1100px]  sm:px-14  text-sm cursor-grab">
           {isLogin ? (
             <div className="flex w-full items-center h-8 justify-end">
@@ -90,7 +90,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex justify-center w-[calc(100vw-17px)] bg-white border border-b-gray-200">
-        <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between box-border">
+        <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between ">
           <div className="flex items-center w-full sm:w-1/4">
             <Link href="/" className="w-[300px] m-2">
               <Image

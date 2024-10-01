@@ -12,6 +12,7 @@ import { auth, db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { getKoreanErrorText } from "@/lib/auth_functions";
+import Link from "next/link";
 
 const Login = () => {
   const [userAuth, setUserAuth] = useRecoilState(authState);
@@ -45,8 +46,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-50">
-      <div className="border bg-white shadow-md rounded-lg w-full max-w-md p-8 flex flex-col justify-center gap-6">
+    <div className="flex justify-center items-center h-full bg-gray-50">
+      <div className="border bg-white shadow-md rounded-lg my-20 w-full max-w-md p-8 flex flex-col justify-center gap-6">
         <div className="flex justify-center text-3xl font-bold text-gray-800 mb-4">
           로그인
         </div>
@@ -85,11 +86,17 @@ const Login = () => {
               errors={errorMsg ? [errorMsg] : undefined}
             />
           </div>
-          <button className="bg-customBlue-light text-white py-2 rounded-md hover:bg-customBlue-dark transition duration-300">
+          <button className="bg-customBlue-light text-white mt-5 py-2 rounded-md hover:bg-customBlue-dark transition duration-300">
             로그인
           </button>
         </form>
-        <div onClick={() => setIsModalOpen(true)}>비밀번호 찾기</div>
+        <div className="w-full flex justify-between">
+          <div className="cursor-pointer" onClick={() => setIsModalOpen(true)}>
+            비밀번호 찾기
+          </div>
+          <Link href="/create-account">회원가입하기</Link>
+        </div>
+
         {isModalOpen && <Modal onClose={clickModal} />}
       </div>
     </div>

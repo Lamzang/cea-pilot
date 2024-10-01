@@ -57,21 +57,17 @@ const MyPage = () => {
       <div className="flex w-2/3 gap-16 flex-wrap">
         <div className="w-full p-10 border-2 border-gray-300 my-7 flex justify-between flex-wrap rounded-lg shadow-md">
           <div className="flex mb-10">
-            <img
-              className="w-20 h-20 mr-10 rounded-full"
-              alt="profile image"
-              src={"/assets/profile_example.png"}
-            />
             <div className="flex flex-col gap-2 h-36 justify-between">
               <div className="text-2xl">
                 <span className="font-bold">{userData?.username}</span>님은 현재{" "}
-                <span className="font-bold">{userData?.membershipType} </span>
+                <span className="font-bold">
+                  {userData?.membershipType}(승인대기중){" "}
+                </span>
                 입니다.
               </div>
-              <div>{userData?.email}</div>
-              <div>uid : {userData?.uid}</div>
+              <div>이메일 : {userData?.email}</div>
               <div>address : {userData?.address}</div>
-              <div>phone : {userData?.phoneNumber}</div>
+              <div>개인 휴대폰번호 : {userData?.phoneNumber}</div>
               <Link
                 href={"mypage/edit-profile"}
                 className="text-blue-500 cursor-pointer"
@@ -97,7 +93,7 @@ const MyPage = () => {
           </div> */}
         </div>
 
-        <div className="w-full p-10 border-2 border-gray-300 my-7 py-10 rounded-lg shadow-md">
+        {/* <div className="w-full p-10 border-2 border-gray-300 my-7 py-10 rounded-lg shadow-md">
           <div className="text-xl font-semibold mb-4">주문/배송</div>
           <div className="space-y-4">
             {orderData.map((order: any, index: number) => (
@@ -116,8 +112,8 @@ const MyPage = () => {
 
         <div className="w-full p-10 border-2 border-gray-300 my-7 py-10 rounded-lg shadow-md">
           <div className="text-xl font-semibold">기타</div>
-          {/* Add additional content here */}
-        </div>
+           Add additional content here 
+        </div> */}
       </div>
     </div>
   );
