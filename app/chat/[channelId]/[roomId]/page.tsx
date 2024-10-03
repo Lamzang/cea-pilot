@@ -18,6 +18,9 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+import { useRecoilState } from "recoil";
+import { IChatUser } from "@/constant/interface";
+import { chatAuthState } from "@/lib/recoil/auth";
 
 export default function Page({ params }: { params: { roomId: string } }) {
   const [messages, setMessages] = useState<
@@ -31,7 +34,7 @@ export default function Page({ params }: { params: { roomId: string } }) {
     }[]
   >([]);
   const [input, setInput] = useState<string>("");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useRecoilState<IChatUser | null>(chatAuthState);
   const [file, setFile] = useState<File | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Modal state
   const [isUploading, setIsUploading] = useState<boolean>(false); // File upload loading state
@@ -40,17 +43,6 @@ export default function Page({ params }: { params: { roomId: string } }) {
   const storage = getStorage();
 
   // Authentication state listener
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
-      if (newUser && (!user || user.uid !== newUser.uid)) {
-        setUser(newUser);
-      } else if (!newUser && user) {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   // New message listener
   useEffect(() => {

@@ -1,41 +1,55 @@
 "use client";
 
-import { db } from "@/lib/firebase/firebase";
-import { authState } from "@/lib/recoil/auth";
+import { IUserDoc } from "@/constant/interface";
+import { auth, db } from "@/lib/firebase/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Link from "next/link";
-import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import React, { useEffect, useState } from "react";
 
 const MyPage = () => {
-  const [user, setUser] = useRecoilState(authState);
-  const [userData, setUserData] = React.useState<any>({});
+  const [user, setUser] = useState<any>(null);
+  const [userData, setUserData] = React.useState<IUserDoc>();
   const [orderData, setOrderData] = React.useState<any>([]);
 
   useEffect(() => {
-    getDoc(doc(db, "users", user.user.uid))
-      .then((doc) => {
-        if (doc.exists()) {
-          const data = doc.data();
-          setUserData(data);
-        } else {
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        setUser(newUser); // 로그인 시 사용자 설정
+      } else {
+        setUser(null); // 로그아웃 시 사용자 null 설정
+      }
+    });
 
-    const fetchOrderData = async () => {
-      const querysnapshots = await getDocs(
-        collection(db, "users", user.user.uid, "orders")
-      );
-      querysnapshots.forEach((doc) => {
-        setOrderData((prev: any) => [...prev, doc.data()]);
-      });
-    };
-    fetchOrderData();
-  }, [user.user.uid]);
+    // 컴포넌트 언마운트 시 감시자 해제
+    return () => unsubscribe();
+  }, []);
+  const fetchOrderData = async () => {
+    const querysnapshots = await getDocs(
+      collection(db, "users", user.uid, "orders")
+    );
+    querysnapshots.forEach((doc) => {
+      setOrderData((prev: any) => [...prev, doc.data()]);
+    });
+  };
+
+  useEffect(() => {
+    if (user) {
+      getDoc(doc(db, "users", user.uid))
+        .then((doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            setUserData(data as IUserDoc);
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
+      fetchOrderData();
+    }
+  }, [user]);
 
   return (
     <div className="flex justify-center flex-col h-full items-center">
@@ -43,23 +57,17 @@ const MyPage = () => {
       <div className="flex w-2/3 gap-16 flex-wrap">
         <div className="w-full p-10 border-2 border-gray-300 my-7 flex justify-between flex-wrap rounded-lg shadow-md">
           <div className="flex mb-10">
-            <img
-              className="w-20 h-20 mr-10 rounded-full"
-              alt="profile image"
-              src={"/assets/profile_example.png"}
-            />
             <div className="flex flex-col gap-2 h-36 justify-between">
               <div className="text-2xl">
-                <span className="font-bold">{userData.username}</span>님은 현재{" "}
+                <span className="font-bold">{userData?.username}</span>님은 현재{" "}
                 <span className="font-bold">
-                  {userData.membership ? userData.membership : "일반"}{" "}
+                  {userData?.membershipType}(승인대기중){" "}
                 </span>
                 입니다.
               </div>
-              <div>{userData.email}</div>
-              <div>uid : {userData.uid}</div>
-              <div>address : {userData.address}</div>
-              <div>phone : {userData.phoneNumber}</div>
+              <div>이메일 : {userData?.email}</div>
+              <div>address : {userData?.address}</div>
+              <div>개인 휴대폰번호 : {userData?.phoneNumber}</div>
               <Link
                 href={"mypage/edit-profile"}
                 className="text-blue-500 cursor-pointer"
@@ -85,7 +93,7 @@ const MyPage = () => {
           </div> */}
         </div>
 
-        <div className="w-full p-10 border-2 border-gray-300 my-7 py-10 rounded-lg shadow-md">
+        {/* <div className="w-full p-10 border-2 border-gray-300 my-7 py-10 rounded-lg shadow-md">
           <div className="text-xl font-semibold mb-4">주문/배송</div>
           <div className="space-y-4">
             {orderData.map((order: any, index: number) => (
@@ -104,8 +112,8 @@ const MyPage = () => {
 
         <div className="w-full p-10 border-2 border-gray-300 my-7 py-10 rounded-lg shadow-md">
           <div className="text-xl font-semibold">기타</div>
-          {/* Add additional content here */}
-        </div>
+           Add additional content here 
+        </div> */}
       </div>
     </div>
   );

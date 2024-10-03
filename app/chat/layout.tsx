@@ -5,13 +5,16 @@ import CreateAccountModal from "@/components/modal/createAccountModal";
 import LoginModal from "@/components/modal/loginModal";
 import Modal from "@/components/modal/modal";
 import ProfileModal from "@/components/modal/profileModal";
+import { IChatUser } from "@/constant/interface";
 import { auth, db } from "@/lib/firebase/firebase";
+import { chatAuthState } from "@/lib/recoil/auth";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 export default function ChatLayout({
   children,
@@ -32,21 +35,19 @@ export default function ChatLayout({
     setShowCreateAccountModal(!showCreateAccountModal);
   const clickAuthModal = () => setShowAuthModal(!showAuthModal);
 
-  const [user, setUser] = useState<any>(null);
-  const [adminUidArray, setAdminUidArray] = useState<any>([]);
+  const [user, setUser] = useRecoilState<IChatUser | null>(chatAuthState);
+  const [adminUidArray, setAdminUidArray] = useState<any>(null);
   const [chatMembers, setChatMembers] = useState<any>([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+    onAuthStateChanged(auth, (newUser) => {
       if (newUser && (!user || user.uid !== newUser.uid)) {
         setUser(newUser); // 로그인 시 사용자 설정
       } else {
         setUser(null); // 로그아웃 시 사용자 null 설정
       }
     });
-
     // 컴포넌트 언마운트 시 감시자 해제
-    return () => unsubscribe();
   }, []);
 
   const fetchChatHomes = async (uid: string) => {
@@ -80,12 +81,16 @@ export default function ChatLayout({
   };
 
   const fetchAdmins = async () => {
-    await setAdminUidArray([]);
-
-    const querysnapshots = await getDocs(collection(db, "chat-admins"));
-    await querysnapshots.forEach((doc) => {
-      setAdminUidArray((prev: any) => [...prev, doc.data().uid]);
-    });
+    const tempArray: any[] = [];
+    try {
+      const querysnapshots = await getDocs(collection(db, "chat-admins"));
+      await querysnapshots.forEach((doc) => {
+        tempArray.push(doc.data().uid);
+      });
+      await setAdminUidArray(tempArray);
+    } catch (error) {
+      console.error("Error fetching admins: ", error);
+    }
   };
 
   const fetchChatMembers = async () => {
@@ -101,12 +106,17 @@ export default function ChatLayout({
     if (user) {
       const fetchData = async () => {
         await fetchAdmins();
-        await fetchChatHomes(user.uid);
         await fetchChatMembers();
       };
       fetchData();
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user && adminUidArray) {
+      fetchChatHomes(user.uid);
+    }
+  }, [adminUidArray, user]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -127,7 +137,7 @@ export default function ChatLayout({
         const docRef = await addDoc(collection(db, "channels"), {
           description: "New Room",
           name: title,
-          members: [user.uid, ...adminUidArray],
+          members: [user?.uid, ...adminUidArray],
         });
         await addDoc(collection(db, "channels", docRef.id, "rooms"), {
           name: "공지사항",
@@ -172,9 +182,10 @@ export default function ChatLayout({
             {showModal && <Modal onSubmit={onSubmit} onClose={clickModal} />}
 
             <div className="flex flex-col flex-nowrap h-full overflow-y-auto">
-              {user && chatMembers.includes(user.uid) && (
+              {((user && chatMembers.includes(user.uid)) ||
+                adminUidArray?.includes(user?.uid)) && (
                 <div className="flex flex-col">
-                  {adminUidArray.includes(user.uid) && (
+                  {adminUidArray.includes(user?.uid) && (
                     <Link
                       href={"/chat/admin"}
                       className="p-2  mb-2 cursor-pointer"

@@ -2,13 +2,37 @@
 
 import LogoutBtn from "@/components/btn/logoutBtn";
 import Footer from "@/components/footer";
+import { auth } from "@/lib/firebase/firebase";
 import { authState } from "@/lib/recoil/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const isLogin = useRecoilValue(authState).isLoggedIn;
+  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useRecoilState(authState);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        setIsLogin(true);
+        setUser({
+          uid: newUser.uid,
+          displayName: newUser.displayName,
+          email: newUser.email,
+        });
+        console.log("user logindddddddd");
+      } else {
+        setUser(null);
+        setIsLogin(false);
+        console.log("user logouttttttt  ");
+      }
+    });
+
+    // 컴포넌트 언마운트 시 감시자 해제
+    return () => unsubscribe();
+  }, []);
   return (
     <div>
       <div className="flex justify-center">

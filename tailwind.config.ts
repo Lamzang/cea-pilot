@@ -27,6 +27,12 @@ const config: Config = {
         customModalBg: {
           default: "rgba(0, 0, 0, 0.4)",
         },
+        mainBlue: {
+          light: "#B8D1FF",
+          default: "#51A2DA",
+          gray: "#C2CEE5",
+          white: "#F2F4F9",
+        },
       },
     },
   },

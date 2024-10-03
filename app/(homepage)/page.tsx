@@ -42,14 +42,14 @@ export default function Home() {
         id: doc.id,
         ...doc.data(),
       }));
-      setAnnouncements(announcementsData);
+      setAnnouncements(announcementsData.slice(0, 3));
     };
 
     fetchAnnouncements();
   }, []);
 
   return (
-    <main className="flex flex-col box-border m-0 p-0 overflow-x-hidden w-full">
+    <main className="flex flex-col m-0 p-0 overflow-hidden w-full">
       <div>
         {mainImages.length > 0 && (
           <>
@@ -94,87 +94,207 @@ export default function Home() {
         )}
       </div>
 
-      <div className="flex flex-col sm:flex-row h-auto sm:h-[450px] mt-10 px-4 justify-between">
-        <div className="w-full sm:w-[300px] h-full">
-          <div className="flex flex-col justify-center items-center w-full">
-            <div className="border-b-2 border-gray-500 w-full sm:w-5/6"></div>
+      <div className="flex flex-col sm:flex-row h-auto sm:h-auto mt-10 px-4 justify-between">
+        <div className="w-full mx-2 sm:w-2/3 mt-6 sm:mt-0 ">
+          <div className="flex justify-between items-center border-b-2 border-black  pl-4 py-3  text-black">
+            <div className="flex w-full justify-between">
+              <div className="text-lg sm:text-2xl ml-2 text-blue-500 font-bold">
+                공지사항 | 개정사항
+              </div>
+            </div>
+
             <Link
-              href="/shop"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
+              href="/notice-board"
+              className="text-black w-20 font-bold hover:underline"
             >
-              쇼핑하기
-            </Link>
-            <Link
-              href="/classroom"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
-            >
-              연수하기
-            </Link>
-            <Link
-              href="/data-container"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
-            >
-              자료실
-            </Link>
-            <Link
-              href="/donation"
-              className="border-b-2 border-gray-500 hover:bg-gray-100 w-full sm:w-5/6 h-[60px] sm:h-[80px] flex justify-center items-center text-lg sm:text-xl"
-            >
-              후원하기
-            </Link>
-          </div>
-        </div>
-        <div className="w-full sm:w-[300px] mt-6 sm:mt-0">
-          <div className="flex justify-between items-center border-b pb-2 mb-4">
-            <Link
-              href={"/announcements"}
-              className="text-xl sm:text-2xl font-bold"
-            >
-              공지사항
-            </Link>
-            <Link
-              href="/announcements"
-              className="text-blue-500 hover:underline"
-            >
-              더보기
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="#004cff"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  {" "}
+                  <path
+                    d="M6 12H18M12 6V18"
+                    stroke="#000000"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>{" "}
+                </g>
+              </svg>
             </Link>
           </div>
-          <div className="space-y-2 w-full">
+          <div className=" w-full overflow-y-auto ">
             {announcements.map((announcement) => (
               <Link
                 href={`notice-board/${announcement.id}`}
                 key={announcement.id}
-                className="p-1 border-gray-500 hover:bg-gray-100 w-full flex justify-between items-center"
+                className="p-4 px-6 border-b border-gray-300 hover:bg-gray-100 flex flex-col"
               >
-                <div>- {announcement.title}</div>
+                <div className="font-semibold text-lg text-gray-700">
+                  {announcement.title}
+                </div>
+                <div className="text-sm text-gray-500 flex justify-end">
+                  {new Date(
+                    announcement.createdAt.seconds * 1000
+                  ).toLocaleDateString()}
+                </div>
               </Link>
             ))}
           </div>
         </div>
-        <div className="w-full sm:w-[300px] mt-6 sm:mt-0">
-          <div className="flex justify-between items-center border-b pb-2 mb-4">
-            <Link href={"/gallery"} className="text-xl sm:text-2xl font-bold">
-              갤러리
-            </Link>
-            <Link
-              href="/announcements"
-              className="text-blue-500 hover:underline"
-            >
-              더보기
-            </Link>
+
+        <div className="w-full sm:w-1/3 mx-2 sm:ml-5 mt-6 sm:mt-0 rounded-2xl">
+          <div className="text-xl sm:text-2xl font-bold border-b-2 border-black w-full text-blue-500 mt-8 pb-8">
+            진행예정행사
+          </div>
+          <div className="space-y-2 w-full flex justify-center items-center">
+            {/* <img
+              className="mt-4 w-full h-full rounded-2xl"
+              src="/assets/mainTitle/background3.jpg"
+            /> */}
+            <span className="mt-10">진행예정 행사 없음</span>
           </div>
         </div>
       </div>
-      {/* {"설명란에는 살짝 위로 올라가는 애니메이션을 넣어주면좋을 것 같습니다."} */}
+      <div className="w-full sm:h-[400px] p-8">
+        <div className="w-full sm:w-full mx-2 sm:ml-5  sm:mt-0 rounded-2xl">
+          <div className="text-xl sm:text-2xl font-bold border-b-2 border-black w-full text-blue-500 mt-8 pb-8">
+            주요 활동
+          </div>
+          <div className="space-y-2 w-full flex justify-center items-center">
+            {/* <img
+              className="mt-4 w-full h-full rounded-2xl"
+              src="/assets/mainTitle/background3.jpg"
+            /> */}
+            <span className="mt-10">주요활동 내용 들어갈 공간</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col w-full pl-10 sm:flex-row  h-auto sm:h-[500px] ">
+        {/* 상담하기 섹션 */}
+        <div className="w-full border-8 rounded-3xl sm:w-1/3 h-48 sm:h-[400px] mt-4 justify-center items-center text-lg font-bold text-gray-800">
+          <h2 className="pl-8 py-2 font-bold rounded-t-2xl text-xl bg-blue-500 text-white  ">
+            간편 상담 서비스
+          </h2>
+          <form className="bg-white   px-8 pt-6 pb-8   w-full max-w-md">
+            {/* Title Input */}
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-semibold mb-1"
+                htmlFor="title"
+              >
+                상담제목
+              </label>
+              <input
+                id="title"
+                type="text"
+                placeholder="상담제목"
+                className=" appearance-none border rounded w-full text-base py-2 px-3 text-gray-700 leading-tight  "
+              />
+            </div>
 
-      {/* <div className="flex flex-col sm:flex-row w-full h-auto sm:h-[300px] mt-10">
-        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-200 flex justify-center items-center">
-          오시는 길
+            {/* Content Editable Field */}
+            <div className="mb-6">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="description"
+              >
+                상담내용
+              </label>
+              <textarea
+                id="description"
+                placeholder="상담 내용을 입력하세요"
+                className="shadow appearance-none border text-base rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-24 resize-none"
+              ></textarea>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex items-center justify-center">
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                상담하기
+              </button>
+            </div>
+          </form>
         </div>
-        <div className="w-full sm:w-1/2 h-48 sm:h-full bg-gray-300 flex justify-center items-center">
-          후원하기
+
+        {/* 후원하기 섹션 */}
+        {/* 첫 번째 그리드 섹션 */}
+        <div className="w-full sm:w-2/3 mt-4 border-8 rounded-3xl mx-6 h-48 sm:h-[400px]">
+          <h2 className="pl-8 w-full font-bold text-xl p-2 rounded-t-2xl text-white bg-blue-500">
+            바로가기 서비스
+          </h2>
+          <div className="h-48 sm:h-[340px] rounded-b-2xl  p-4 bg-gray-100">
+            <div className="sm:h-full grid grid-cols-3 gap-4">
+              <Link
+                href="/introduce"
+                className="flex flex-col gap-5 h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 p-4"
+              >
+                <div className="w-1/3 h-1/3">
+                  <img src="/assets/svg/home.svg" />
+                </div>
+                <span className="text-lg">협회소개</span>
+              </Link>
+              <Link
+                href="/create-account"
+                className="flex flex-col gap-5 h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 p-4"
+              >
+                <div className="w-1/4 h-1/4">
+                  <img src="/assets/svg/account.svg" />
+                </div>
+                <span className="text-lg">협회가입</span>
+              </Link>
+              <Link
+                href="/introduce"
+                className="flex flex-col gap-5 h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 p-4"
+              >
+                <div className="w-1/4 h-1/4">
+                  <img src="/assets/svg/document.svg" />
+                </div>
+                <span className="text-lg">협회정관</span>
+              </Link>
+              <Link
+                href="https://www.facebook.com/groups/337483832687824"
+                className="flex flex-col gap-5 h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 p-4"
+              >
+                <div className="w-1/4 h-1/4">
+                  <img src="/assets/svg/facebook.svg" />
+                </div>
+                <span className="text-lg">협회 SNS</span>
+              </Link>
+              <Link
+                href="/shop"
+                className="flex flex-col gap-5 h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 p-4"
+              >
+                <div className="w-1/3 h-1/3">
+                  <img src="/assets/svg/cart.svg" />
+                </div>
+                <span>쇼핑하기</span>
+              </Link>
+              <Link
+                href="/shop"
+                className="flex flex-col gap-5 h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 p-4"
+              >
+                <div className="w-1/3 h-1/3">
+                  <img src="/assets/svg/papers.svg" />
+                </div>
+                <span>자료마당</span>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div> */}
+      </div>
     </main>
   );
 }

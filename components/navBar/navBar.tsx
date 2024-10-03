@@ -2,30 +2,55 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
-import { authState } from "@/lib/recoil/auth";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { authState, userDocState } from "@/lib/recoil/auth";
 import LogoutBtn from "../btn/logoutBtn";
 
 import { useState, useEffect } from "react";
 import Detaiednavbar from "./detail";
-import { auth } from "@/lib/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { IUserDoc } from "@/constant/interface";
 
 const Navbar = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileDetail, setIsMobileDetail] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const user = useRecoilValue(authState);
+  const [userDoc, setUserDoc] = useRecoilState(userDocState);
+  const [user, setUser] = useRecoilState(authState);
 
-  onAuthStateChanged(auth, (user) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      if (newUser && (!user || user.uid !== newUser.uid)) {
+        setIsLogin(true);
+        setUser({
+          uid: newUser.uid,
+          displayName: newUser.displayName,
+          email: newUser.email,
+        });
+        console.log("user logindddddddd");
+      } else {
+        setUser(null);
+        setIsLogin(false);
+        console.log("user logouttttttt  ");
+      }
+    });
+
+    // 컴포넌트 언마운트 시 감시자 해제
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
     if (user) {
-      setIsLogin(true);
-      console.log("user changed", user);
-    } else {
-      setIsLogin(false);
+      getDoc(doc(db, "users", user.uid)).then((doc) => {
+        if (doc.exists()) {
+          setUserDoc(doc.data() as IUserDoc);
+        }
+      });
     }
-  });
+  }, [user]);
 
   // 화면 크기에 따라 모바일 여부를 결정
   useEffect(() => {
@@ -45,12 +70,12 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="flex justify-center bg-blue-500 text-white">
+      <div className="flex justify-center bg-gray-100  text-gray-600 p-1">
         <div className="w-full max-w-[1100px]  sm:px-14  text-sm cursor-grab">
           {isLogin ? (
             <div className="flex w-full items-center h-8 justify-end">
               <div className="flex gap-3">
-                <div>{user.user.membership}</div>
+                <div>{user?.displayName}</div>
                 <LogoutBtn />
                 <Link className="hover:text-orange-500" href="/mypage">
                   마이페이지
@@ -73,7 +98,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex justify-center w-[calc(100vw-17px)] bg-white border border-b-gray-200">
-        <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between box-border">
+        <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between ">
           <div className="flex items-center w-full sm:w-1/4">
             <Link href="/" className="w-[300px] m-2">
               <Image

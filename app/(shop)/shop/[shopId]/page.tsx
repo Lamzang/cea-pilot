@@ -138,7 +138,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
     await addDoc(
       collection(db, "products", decodeURIComponent(params.shopId), "reviews"),
       {
-        userId: userData.user.username,
+        userId: userData?.displayName,
         content: review,
         rating: rating,
         reviewDate: new Date().toISOString(),

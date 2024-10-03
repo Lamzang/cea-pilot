@@ -7,29 +7,12 @@ import { useRecoilState } from "recoil";
 import { authState } from "@/lib/recoil/auth";
 import { useRouter } from "next/navigation";
 import { set } from "firebase/database";
+import { IUserDoc } from "@/constant/interface";
 
 export default function EditProfile() {
   const [user, setUser] = useRecoilState(authState);
-  const [userData, setUserData] = useState<any>({
-    username: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-  });
+  const [userData, setUserData] = useState<IUserDoc>();
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const docRef = doc(db, "users", user.user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setUserData(docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
-    };
-    fetchUserData();
-  }, [user.user.uid]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,10 +24,17 @@ export default function EditProfile() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const docRef = doc(db, "users", user.user.uid);
+
     try {
-      await updateDoc(docRef, userData);
-      router.push("/mypage");
+      if (user && userData) {
+        const docRef = doc(db, "users", user.uid);
+
+        await updateDoc(docRef, userData as { [x: string]: any });
+
+        console.error("User data is undefined");
+
+        router.push("/mypage");
+      }
     } catch (error) {
       console.error("Error updating profile: ", error);
     }
@@ -65,7 +55,7 @@ export default function EditProfile() {
             type="text"
             id="username"
             name="username"
-            value={userData.username}
+            value={userData?.username}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
@@ -81,7 +71,7 @@ export default function EditProfile() {
             type="email"
             id="email"
             name="email"
-            value={userData.email}
+            value={userData?.email}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
@@ -97,7 +87,7 @@ export default function EditProfile() {
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            value={userData.phoneNumber}
+            value={userData?.phoneNumber}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
@@ -113,7 +103,7 @@ export default function EditProfile() {
             type="text"
             id="address"
             name="address"
-            value={userData.address}
+            value={userData?.address}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />

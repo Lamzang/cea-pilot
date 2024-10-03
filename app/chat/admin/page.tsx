@@ -1,6 +1,8 @@
 "use client";
 
+import { IChatUser } from "@/constant/interface";
 import { auth, db } from "@/lib/firebase/firebase";
+import { chatAuthState } from "@/lib/recoil/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
@@ -11,25 +13,13 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 export default function Page() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useRecoilState<IChatUser | null>(chatAuthState);
   const [members, setMembers] = useState<any>([]);
   const [standbyUsers, setStandbyUsers] = useState<any>([]);
   const [adminUidArray, setAdminUidArray] = useState<any>([]);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
-      if (newUser && (!user || user.uid !== newUser.uid)) {
-        setUser(newUser); // 로그인 시 사용자 설정
-      } else {
-        setUser(null); // 로그아웃 시 사용자 null 설정
-      }
-    });
-
-    // 컴포넌트 언마운트 시 감시자 해제
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     const fetchStandbyData = async () => {

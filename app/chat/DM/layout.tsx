@@ -1,24 +1,31 @@
 "use client";
 
+import { IChatUser } from "@/constant/interface";
 import { auth, db } from "@/lib/firebase/firebase";
+import { chatAuthState } from "@/lib/recoil/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [allUsers, setAllUsers] = useState<any>([]);
-  const [myUser, setMyUser] = useState<any>({ uid: "" });
+  const [myUser, setMyUser] = useRecoilState<IChatUser | null>(chatAuthState);
   const [currentDM, setCurrentDM] = useState<string | null>(null);
   const [adminUidArray, setAdminUidArray] = useState<any>([]);
 
   const fetchAdmins = async () => {
-    await setAdminUidArray([]);
-
-    const querysnapshots = await getDocs(collection(db, "chat-admins"));
-    await querysnapshots.forEach((doc) => {
-      setAdminUidArray((prev: any) => [...prev, doc.data().uid]);
-    });
+    const tempArray: any[] = [];
+    try {
+      const querysnapshots = await getDocs(collection(db, "chat-admins"));
+      await querysnapshots.forEach((doc) => {
+        tempArray.push(doc.data().uid);
+      });
+      await setAdminUidArray(tempArray);
+    } catch (error) {
+      console.error("Error fetching admins: ", error);
+    }
   };
 
   const fetchChatMembers = async () => {
@@ -36,18 +43,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       setAllUsers(users);
     });
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
-      if (newUser && (!myUser || myUser.uid !== newUser.uid)) {
-        setMyUser(newUser); // 로그인 시 사용자 설정
-      } else {
-        setMyUser({ uid: "" }); // 로그아웃 시 사용자 null 설정
-      }
-    });
-
-    return () => unsubscribe(); // 컴포넌트 언마운트 시 감시자 해제
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +71,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ul className="space-y-3 overflow-y-auto flex-grow">
           {allUsers.map((user: any) => (
             <li key={user.uid}>
-              <Link href={`/chat/DM/${makeCompositeKey(myUser.uid, user.uid)}`}>
+              <Link
+                href={`/chat/DM/${makeCompositeKey(
+                  myUser?.uid || "",
+                  user.uid
+                )}`}
+              >
                 <div
                   className={`flex items-center p-4 rounded-lg hover:bg-gray-700 cursor-pointer transition duration-200 ease-in-out ${
                     currentDM === user.uid ? "bg-gray-700" : "bg-gray-600"

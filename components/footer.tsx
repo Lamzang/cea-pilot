@@ -21,15 +21,20 @@ const Footer = () => {
           <div className="flex flex-col w-1/3">
             <div className="text-2xl py-1">Contact Us</div>
             <div>주소: 부산 기장군 기장읍 내리 소정안길 4-27 </div>
-            <div>이메일: http0518@gmail.com</div>
+            <div>이메일: graceshinnz@gmail.com</div>
+            <div>이메일: http05@gmail.com </div>
           </div>
           <div>
             <div className="text-2xl py-1">SNS</div>
-            <div>Instagram</div>
-            <Link href={"https://www.facebook.com/groups/337483832687824"}>
-              Facebook
+            <Link
+              className="flex gap-2"
+              href={"https://www.facebook.com/groups/337483832687824"}
+            >
+              <div className="w-8 h-8">
+                <img src="/assets/svg/facebook.svg" />
+              </div>
+              Facebook 바로가기
             </Link>
-            <div>Blog</div>
           </div>
         </div>
       </div>
