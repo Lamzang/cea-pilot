@@ -6,8 +6,6 @@ import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
-import { useRecoilState } from "recoil";
-import { authState, userDocState } from "@/lib/recoil/auth";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
@@ -19,7 +17,6 @@ const RichTextExample: React.FC = () => {
     EditorState.createEmpty()
   );
   const [title, setTitle] = useState<string>("");
-  const [userDoc, setUserDoc] = useRecoilState(userDocState);
 
   const onEditorStateChange = (newEditorState: EditorState): void => {
     setEditorState(newEditorState);
@@ -46,16 +43,6 @@ const RichTextExample: React.FC = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
-
-  if (userDoc?.membershipType !== "관리자" || !userDoc) {
-    return (
-      <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-        <h1 className="text-xl font-bold mb-6 text-center">
-          수정 권한이 없습니다
-        </h1>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">

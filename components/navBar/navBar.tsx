@@ -70,7 +70,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="flex justify-center  text-gray-600 p-1">
+      <div className="flex justify-center bg-gray-100  text-gray-600 p-1">
         <div className="w-full max-w-[1100px]  sm:px-14  text-sm cursor-grab">
           {isLogin ? (
             <div className="flex w-full items-center h-8 justify-end">

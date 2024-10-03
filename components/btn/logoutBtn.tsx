@@ -10,16 +10,6 @@ const LogoutBtn = () => {
   const logout = () => {
     signOut(auth)
       .then(() => {
-        setUserAuth({
-          isLoggedIn: false,
-          user: {
-            username: "annoymous",
-            email: "",
-            uid: "basicuid",
-            address: "",
-            membership: "",
-          },
-        });
         router.push("/");
       })
       .catch((error) => {

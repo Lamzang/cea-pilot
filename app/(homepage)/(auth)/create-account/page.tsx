@@ -276,7 +276,7 @@ const CreateAccount = () => {
               htmlFor="schoolEmail"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              학교/기관 이메일 주소 :
+              직장/다른 이메일 주소 :
             </label>
             <Input
               id="schoolEmail"
@@ -678,11 +678,11 @@ function AgreementModal({
         onClick={(e) => e.stopPropagation()}
         className="bg-white text-black flex flex-col gap-5 rounded-2xl p-4 w-full max-w-3xl h-full max-h-[95vh] overflow-y-auto z-50"
       >
-        <div className=" border-2 p-2">
-          <h2 className="text-lg font-bold mb-4">
+        <div className="h-[45%] border-2 p-2">
+          <h2 className="text-2xl font-bold mb-4">
             {"<학문적 정직성 및 저작권 보호에 관한 정책 문서>"}
           </h2>
-          <div className="h-52 overflow-y-auto">
+          <div className="h-[90%] overflow-y-auto">
             <p>개정: 2024.00.00</p>
             <p>한국 개념 기반 교육 협회</p>
             <p className="mt-2">
@@ -763,12 +763,12 @@ function AgreementModal({
           </div>
         </div>
 
-        <div className=" border-2 p-2">
-          <h2 className="text-lg font-bold mb-2">
+        <div className="h-[45%] border-2 p-2">
+          <h2 className="text-2xl font-bold mb-2">
             한국 개념 기반 교육 협회 정관
           </h2>
 
-          <div className="h-52 overflow-y-auto mt-4">
+          <div className="h-[90%] overflow-y-auto mt-4">
             <p>2024년 7월 29일 개정</p>
             <p>
               <br />

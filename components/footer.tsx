@@ -26,7 +26,13 @@ const Footer = () => {
           </div>
           <div>
             <div className="text-2xl py-1">SNS</div>
-            <Link href={"https://www.facebook.com/groups/337483832687824"}>
+            <Link
+              className="flex gap-2"
+              href={"https://www.facebook.com/groups/337483832687824"}
+            >
+              <div className="w-8 h-8">
+                <img src="/assets/svg/facebook.svg" />
+              </div>
               Facebook 바로가기
             </Link>
           </div>
