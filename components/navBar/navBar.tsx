@@ -17,14 +17,12 @@ const Navbar = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileDetail, setIsMobileDetail] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
   const [userDoc, setUserDoc] = useRecoilState(userDocState);
   const [user, setUser] = useRecoilState(authState);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
-      if (newUser && (!user || user.uid !== newUser.uid)) {
-        setIsLogin(true);
+    onAuthStateChanged(auth, (newUser) => {
+      if (newUser) {
         setUser({
           uid: newUser.uid,
           displayName: newUser.displayName,
@@ -33,13 +31,9 @@ const Navbar = () => {
         console.log("user logindddddddd");
       } else {
         setUser(null);
-        setIsLogin(false);
         console.log("user logouttttttt  ");
       }
     });
-
-    // 컴포넌트 언마운트 시 감시자 해제
-    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -71,10 +65,18 @@ const Navbar = () => {
   return (
     <div>
       <div className="flex justify-center bg-gray-100  text-gray-600 p-1">
-        <div className="w-full max-w-[1100px]  sm:px-14  text-sm cursor-grab">
-          {isLogin ? (
+        <div className="w-full sm:mx-20 sm:px-14  text-sm cursor-grab">
+          {user ? (
             <div className="flex w-full items-center h-8 justify-end">
-              <div className="flex gap-3">
+              <div className="flex gap-3 items-center">
+                {userDoc?.membershipType === ("관리자" || "멤버") ? (
+                  <Link
+                    className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
+                    href={"/chat"}
+                  >
+                    채팅앱으로 가기
+                  </Link>
+                ) : null}
                 <div>{user?.displayName}</div>
                 <LogoutBtn />
                 <Link className="hover:text-orange-500" href="/mypage">
@@ -97,8 +99,8 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center w-[calc(100vw-17px)] bg-white border border-b-gray-200">
-        <nav className="cursor-grab w-full max-w-[1100px] h-24 flex items-center justify-between ">
+      <div className="flex justify-center w-full bg-white border border-b-gray-200">
+        <nav className="cursor-grab w-full mx-20 h-24 flex items-center justify-between ">
           <div className="flex items-center w-full sm:w-1/4">
             <Link href="/" className="w-[300px] m-2">
               <Image

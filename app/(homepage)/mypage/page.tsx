@@ -13,16 +13,13 @@ const MyPage = () => {
   const [orderData, setOrderData] = React.useState<any>([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
-      if (newUser && (!user || user.uid !== newUser.uid)) {
+    onAuthStateChanged(auth, (newUser) => {
+      if (newUser) {
         setUser(newUser); // 로그인 시 사용자 설정
       } else {
         setUser(null); // 로그아웃 시 사용자 null 설정
       }
     });
-
-    // 컴포넌트 언마운트 시 감시자 해제
-    return () => unsubscribe();
   }, []);
   const fetchOrderData = async () => {
     const querysnapshots = await getDocs(
@@ -60,9 +57,7 @@ const MyPage = () => {
             <div className="flex flex-col gap-2 h-36 justify-between">
               <div className="text-2xl">
                 <span className="font-bold">{userData?.username}</span>님은 현재{" "}
-                <span className="font-bold">
-                  {userData?.membershipType}(승인대기중){" "}
-                </span>
+                <span className="font-bold">{userData?.membershipType} </span>
                 입니다.
               </div>
               <div>이메일 : {userData?.email}</div>
