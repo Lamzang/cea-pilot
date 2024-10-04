@@ -13,10 +13,13 @@ export interface IUserDoc {
     | "일반회원"
     | "준회원"
     | "정회원"
+    | "멤버"
     | "관리자"
-    | "대기중";
+    | "정회원(승인대기중)"
+    | "준회원(승인대기중)";
   agreement: boolean;
   fileURL: string;
+  fileQualifyUrl: string;
   membership: string;
   coupons: {
     points: number;

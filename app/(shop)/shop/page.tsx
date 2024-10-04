@@ -64,6 +64,7 @@ export default function ShopHome() {
             </div>
           </Link>
         ))}
+        {shopData.length === 0 && <p>상품 준비중입니다</p>}
       </div>
     </div>
   );

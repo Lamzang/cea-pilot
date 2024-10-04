@@ -41,13 +41,18 @@ export default function ChatLayout({
 
   useEffect(() => {
     onAuthStateChanged(auth, (newUser) => {
-      if (newUser && (!user || user.uid !== newUser.uid)) {
-        setUser(newUser); // 로그인 시 사용자 설정
+      if (newUser) {
+        setUser({
+          uid: newUser.uid,
+          displayName: newUser.displayName,
+          email: newUser.email,
+        });
+        console.log("user logindddddddd");
       } else {
-        setUser(null); // 로그아웃 시 사용자 null 설정
+        setUser(null);
+        console.log("user logouttttttt  ");
       }
     });
-    // 컴포넌트 언마운트 시 감시자 해제
   }, []);
 
   const fetchChatHomes = async (uid: string) => {
@@ -96,21 +101,19 @@ export default function ChatLayout({
   const fetchChatMembers = async () => {
     const querysnapshots = await getDocs(collection(db, "chat-members"));
     const bufferChatMembers: any[] = [];
-    querysnapshots.forEach((doc) => {
+    await querysnapshots.forEach((doc) => {
       bufferChatMembers.push(doc.data().uid);
     });
     setChatMembers(bufferChatMembers);
   };
 
   useEffect(() => {
-    if (user) {
-      const fetchData = async () => {
-        await fetchAdmins();
-        await fetchChatMembers();
-      };
-      fetchData();
-    }
-  }, [user]);
+    const fetchData = async () => {
+      await fetchAdmins();
+      await fetchChatMembers();
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (user && adminUidArray) {
@@ -164,13 +167,22 @@ export default function ChatLayout({
 
   return (
     <div className="h-screen flex flex-col">
+      <div className=" bg-white px-14 text-black flex justify-between items-center">
+        <div className="text-lg font-bold">KCBEA 채팅방</div>
+        <Link
+          className="my-1 p-1 px-4 rounded-2xl text-xs border hover:bg-gray-200"
+          href={"/"}
+        >
+          협회 홈으로가기
+        </Link>
+      </div>
       <div className="flex h-full w-full">
         {/* Left Sidebar */}
         <div className="bg-black text-white w-64 p-4 flex flex-col justify-between h-full">
           <div className="flex flex-col gap-5 h-5/6 w-full">
-            <div className="flex justify-between pr-5">
+            <div className="flex justify-between items-center pr-5">
               <Link href={"/chat"} className="text-xl font-bold">
-                KCBEA
+                채팅방
               </Link>
               <div
                 onClick={clickModal}
@@ -240,7 +252,7 @@ export default function ChatLayout({
             ) : (
               <div
                 className="relative bg-gray-700 hover:bg-gray-600 text-white px-4  rounded-full cursor-pointer  text-center w-full h-full flex justify-center items-center"
-                onClick={clickAuthModal}
+                onClick={clickLoginModal}
               >
                 {showAuthModal && (
                   <AuthModal

@@ -64,7 +64,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-full bg-gray-100">
       {/* Left Sidebar for User List */}
       <div className="w-1/4 p-6 bg-gray-800 text-white flex flex-col">
         <h1 className="text-2xl font-bold text-center mb-6">Direct Messages</h1>

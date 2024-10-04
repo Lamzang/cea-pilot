@@ -24,10 +24,7 @@ const Login = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(
-      e.currentTarget.userEmail.value,
-      e.currentTarget.password.value
-    );
+
     signInWithEmailAndPassword(
       auth,
       e.currentTarget.userEmail.value,
@@ -39,10 +36,6 @@ const Login = () => {
       .catch((error) => {
         setErrorMsg(getKoreanErrorText(error.code));
       });
-  };
-
-  const sendEmailfindPassword = () => {
-    sendPasswordResetEmail(auth, "");
   };
 
   return (

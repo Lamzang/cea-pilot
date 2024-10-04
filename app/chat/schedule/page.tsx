@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 
-export default function Page({}: {}) {
+export default function Page() {
   interface Event {
     id: string;
     title: string;
