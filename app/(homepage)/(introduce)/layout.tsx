@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href={"/introduce"}
           className="w-full flex justify-center font-bold text-2xl text-white bg-blue-800 hover:bg-blue-400 items-center h-28"
         >
-          협회소개
+          <div>협회소개</div>
         </Link>
         <Link
           href={"/introduce"}

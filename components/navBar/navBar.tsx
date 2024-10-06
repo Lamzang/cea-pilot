@@ -63,8 +63,8 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div>
-      <div className="flex justify-center bg-blue-500  text-white p-1">
+    <div className="">
+      <div className="flex justify-center bg-blue-500  text-white p-1 ">
         <div className="w-full sm:mx-20 sm:px-14  text-sm cursor-grab">
           {user ? (
             <div className="flex w-full items-center h-8 justify-end">
