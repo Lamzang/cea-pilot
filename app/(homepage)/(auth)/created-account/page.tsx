@@ -7,7 +7,7 @@ export default function Page() {
         <div className="flex justify-center text-3xl font-bold text-gray-800 mb-4">
           회원가입이 완료되었습니다.
         </div>
-        <p>로그인 후 이제 더 많은 정보와 서비스를 즐기실 수 있습니다.</p>
+        <p>이제 더 많은 정보와 서비스를 즐기실 수 있습니다.</p>
 
         <Link
           className="py-3 px-5 bg-blue-500 text-white font-bold flex justify-center items-center"

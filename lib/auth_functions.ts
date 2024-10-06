@@ -1,9 +1,10 @@
 export function getKoreanErrorText(errorCode: string): string {
   switch (errorCode) {
-    case "auth/user-not-found" || "auth/wrong-password":
+    case "auth/user-not-found":
+    case "auth/wrong-password":
       return "이메일 혹은 비밀번호가 일치하지 않습니다.";
     case "auth/email-already-in-use":
-      return "이미 사용 중인 이메일입니다.";
+      return "이미 사용 중인 이메일입니다. 개인 이메일 주소를 변경하십시오";
     case "auth/weak-password":
       return "비밀번호는 6글자 이상이어야 합니다.";
     case "auth/network-request-failed":

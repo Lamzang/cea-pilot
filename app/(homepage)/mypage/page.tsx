@@ -1,52 +1,17 @@
 "use client";
 
 import { IUserDoc } from "@/constant/interface";
+import checkPhoneNum from "@/lib/checkPhoneNum";
 import { auth, db } from "@/lib/firebase/firebase";
+import { authState, userDocState } from "@/lib/recoil/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 const MyPage = () => {
-  const [user, setUser] = useState<any>(null);
-  const [userData, setUserData] = React.useState<IUserDoc>();
-  const [orderData, setOrderData] = React.useState<any>([]);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (newUser) => {
-      if (newUser) {
-        setUser(newUser); // 로그인 시 사용자 설정
-      } else {
-        setUser(null); // 로그아웃 시 사용자 null 설정
-      }
-    });
-  }, []);
-  const fetchOrderData = async () => {
-    const querysnapshots = await getDocs(
-      collection(db, "users", user.uid, "orders")
-    );
-    querysnapshots.forEach((doc) => {
-      setOrderData((prev: any) => [...prev, doc.data()]);
-    });
-  };
-
-  useEffect(() => {
-    if (user) {
-      getDoc(doc(db, "users", user.uid))
-        .then((doc) => {
-          if (doc.exists()) {
-            const data = doc.data();
-            setUserData(data as IUserDoc);
-          } else {
-            console.log("No such document!");
-          }
-        })
-        .catch((error) => {
-          console.log("Error getting document:", error);
-        });
-      fetchOrderData();
-    }
-  }, [user]);
+  const [userData, setUserDoc] = useRecoilState(userDocState);
 
   return (
     <div className="flex justify-center flex-col h-full items-center">
@@ -61,8 +26,9 @@ const MyPage = () => {
                 입니다.
               </div>
               <div>이메일 : {userData?.email}</div>
-              <div>address : {userData?.address}</div>
-              <div>개인 휴대폰번호 : {userData?.phoneNumber}</div>
+              <div>
+                개인 휴대폰번호 : {checkPhoneNum(userData?.phoneNumber)}
+              </div>
               <Link
                 href={"mypage/edit-profile"}
                 className="text-blue-500 cursor-pointer"
