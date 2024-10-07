@@ -516,7 +516,7 @@ const CreateAccount = () => {
               소요됩니다.
             </div>
             <div className="text-red-500 text-sm">
-              * 자세한 안내는 가입 후 메일로 안내드립니다.
+              * 올해 가입하는 회원은 연회비 적용을 2025년 연말까지 적용합니다.
             </div>
           </div>
 

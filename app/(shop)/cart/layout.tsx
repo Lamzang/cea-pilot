@@ -8,7 +8,8 @@ import { useRecoilState } from "recoil";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useRecoilState(cartState);
   const totalPrice = cart.products.reduce(
-    (acc, product) => acc + product.price * product.quantity,
+    (acc, product: { price: number; quantity: number }) =>
+      acc + product?.price * product?.quantity,
     0
   );
 
@@ -19,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="lg:fixed w-full lg:w-auto bg-white p-4 rounded-t-lg lg:rounded-lg shadow-lg lg:shadow-none lg:border lg:border-gray-200">
           <div className="mb-6">
             <h2 className="text-lg lg:text-xl font-bold mb-2">적립혜택</h2>
-            <p className="text-gray-600">description</p>
+            <p className="text-gray-600"></p>
           </div>
 
           <div>

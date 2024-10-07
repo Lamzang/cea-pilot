@@ -2,7 +2,45 @@
 
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { cartState } from "@/lib/recoil/product";
+import { atom } from "recoil";
+
+interface ICartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface ICartState {
+  products: ICartItem[];
+  deliveryFee: number;
+  discount: number;
+  delivery: {
+    receiver: string;
+    address: string;
+    addressNumber: string;
+    addressDetail: string;
+    phone: string;
+    email: string;
+  };
+}
+
+export const cartState = atom<ICartState>({
+  key: "cartState",
+  default: {
+    products: [],
+    deliveryFee: 0,
+    discount: 0,
+    delivery: {
+      receiver: "",
+      address: "",
+      addressNumber: "",
+      addressDetail: "",
+      phone: "",
+      email: "",
+    },
+  },
+});
 
 interface ICartItem {
   id: string;

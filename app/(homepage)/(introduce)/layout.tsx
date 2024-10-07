@@ -12,39 +12,33 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Link>
         <Link
           href={"/introduce"}
-          className="w-full flex hover:bg-gray-200 items-center  h-16 border-b px-4"
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
         >
           인사말
         </Link>
         <Link
           href={"/history"}
-          className="w-full flex hover:bg-gray-200 items-center  h-16 border-b px-4"
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
         >
           연혁
         </Link>
         <Link
+          href={"/vision"}
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
+        >
+          비전/미션
+        </Link>
+        <Link
           href={"/executive"}
-          className="w-full flex hover:bg-gray-200 items-center  h-16 border-b px-4"
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
         >
           임원진
         </Link>
         <Link
           href={"/organizational"}
-          className="w-full flex hover:bg-gray-200 items-center  h-16 border-b px-4"
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
         >
           조직도
-        </Link>
-        <Link
-          href={"/vision"}
-          className="w-full flex hover:bg-gray-200 items-center  h-16 border-b px-4"
-        >
-          비전강령
-        </Link>
-        <Link
-          href={"/location"}
-          className="w-full flex hover:bg-gray-200 items-center  h-16 border-b px-4"
-        >
-          오시는길
         </Link>
       </div>
 

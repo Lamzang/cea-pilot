@@ -104,7 +104,7 @@ const Navbar = () => {
           <div className="flex items-center w-full sm:w-1/4">
             <Link href="/" className="w-[300px] m-2">
               <Image
-                src={"/assets/logo_horizontal.png"}
+                src={"/assets/logo_withtext.png"}
                 alt="로고"
                 width={300}
                 height={50}
@@ -116,22 +116,22 @@ const Navbar = () => {
             className="hidden sm:flex items-center px-10 justify-between w-3/4 h-full"
             onClick={() => setIsDetail((prev) => !prev)}
           >
-            <div className="text-black w-1/6 justify-center flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               협회소개
             </div>
-            <div className="text-black w-1/6 justify-center flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               공지사항
             </div>
-            <div className="text-black w-1/6 justify-center flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               고객문의
             </div>
-            <div className="text-black w-1/6 justify-center flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               후원하기
             </div>
-            <div className="text-black w-1/6 justify-center flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               쇼핑하기
             </div>
-            <div className="text-black w-1/6 justify-center flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               자료마당
             </div>
           </div>
@@ -164,7 +164,7 @@ const Navbar = () => {
             공지사항
           </Link>
           <Link href={"/support"} className="text-black m-4 w-full text-center">
-            고객문의
+            문의사항
           </Link>
           <Link
             href={"/donation"}
