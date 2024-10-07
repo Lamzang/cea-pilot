@@ -10,7 +10,7 @@ const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
 const customerKey = "AGIqf-55qFSjC7E81aiQI";
 
 export default function Page() {
-  const [cartItems, setCartItems] = useRecoilState(cartState);
+  /*   const [cartItems, setCartItems] = useRecoilState(cartState);
   const [orderId, setOrderId] = useState("");
   const [delivery, setDelivery] = useState({
     receiver: "",
@@ -70,11 +70,11 @@ export default function Page() {
       setReady(true);
     }
     renderPaymentWidgets();
-  }, [widgets]);
+  }, [widgets]); */
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold mb-6">주문 결제</h1>
-      <div className="bg-white p-6 rounded-lg shadow-lg">
+      {/* <div className="bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4">배송 정보</h2>
         <div className="space-y-4">
           <input
@@ -143,11 +143,11 @@ export default function Page() {
           </div>
           <div className="wrapper">
             <div className="box_section">
-              {/* 결제 UI */}
+             
               <div id="payment-method" />
-              {/* 이용약관 UI */}
+               
               <div id="agreement" />
-              {/* 쿠폰 체크박스 */}
+               
               <div>
                 <div>
                   <label htmlFor="coupon-box">
@@ -171,7 +171,7 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* 결제하기 버튼 */}
+              
               <button
                 className="button w-full block mt-10 text-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
                 disabled={!ready}
@@ -204,7 +204,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

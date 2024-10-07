@@ -43,7 +43,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
   const [amount, setAmount] = useState<number>(1);
   const [showImage, setShowImage] = useState<string>();
 
-  useEffect(() => {
+  /*   useEffect(() => {
     const fetchImg = async () => {
       const imageRef = ref(
         storage,
@@ -147,10 +147,10 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
     setReview("");
     setRating(0);
   };
-
+ */
   return (
     <div className="py-16 sm:py-24 flex justify-center items-center bg-gray-100 min-h-screen">
-      <div className="w-full sm:w-5/6 bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+      {/* <div className="w-full sm:w-5/6 bg-white p-4 sm:p-6 rounded-lg shadow-lg">
         <div className="flex flex-wrap md:flex-nowrap">
           <div className="w-full md:w-1/2 h-auto p-4 sm:p-14">
             <img
@@ -269,7 +269,7 @@ export default function ShopEach({ params }: { params: { shopId: string } }) {
             </button>
           </form>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
