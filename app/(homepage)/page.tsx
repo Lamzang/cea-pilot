@@ -4,6 +4,8 @@ import Link from "next/link";
 import BackgroundImage from "@/components/background";
 import AnnouncementComponent from "@/components/announcementComponent";
 
+import InterviewComponent from "@/components/interviewComponent";
+
 export default function Home() {
   return (
     <main className="flex flex-col m-0 p-0 overflow-hidden w-full">
@@ -61,48 +63,7 @@ export default function Home() {
           <h2 className="pl-8 py-2 font-bold rounded-t-2xl text-xl bg-blue-500 text-white  ">
             간편 상담 서비스
           </h2>
-          <form className="bg-white px-8 pt-6 pb-8  w-full ">
-            {/* Title Input */}
-            <div className="mb-4 w-full">
-              <label
-                className="block text-gray-700 text-sm font-semibold mb-1"
-                htmlFor="title"
-              >
-                상담제목
-              </label>
-              <input
-                id="title"
-                type="text"
-                placeholder="상담제목"
-                className=" appearance-none border rounded w-full text-base py-2 px-3 text-gray-700 leading-tight  "
-              />
-            </div>
-
-            {/* Content Editable Field */}
-            <div className="mb-6 w-full">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="description"
-              >
-                상담내용
-              </label>
-              <textarea
-                id="description"
-                placeholder="상담 내용을 입력하세요"
-                className="shadow appearance-none border text-base rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-24 resize-none"
-              ></textarea>
-            </div>
-
-            {/* Submit Button */}
-            <div className="flex w-full items-center justify-center">
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                상담하기
-              </button>
-            </div>
-          </form>
+          <InterviewComponent />
         </div>
 
         {/* 후원하기 섹션 */}

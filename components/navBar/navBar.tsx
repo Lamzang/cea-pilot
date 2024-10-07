@@ -123,7 +123,7 @@ const Navbar = () => {
               공지사항
             </div>
             <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
-              고객문의
+              문의사항
             </div>
             <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               후원하기

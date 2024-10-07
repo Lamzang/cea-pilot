@@ -9,16 +9,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex sm:flex-row flex-col min-h-screen">
-      <div className="sm:w-1/5 w-full flex sm:flex-col justify-start border-b-2 sm:border-b-0 sm:border-r-2 border-gray-300 p-4 bg-gray-100 gap-2">
+      <div className="w-full sm:w-1/5 flex sm:flex-col justify-start border-b-2 sm:border-b-0 sm:border-r-2 border-gray-300">
         <Link
           href={"/data-container"}
-          className="w-full flex justify-center font-bold hover:bg-gray-200 items-center rounded-full h-10"
+          className="w-full flex justify-center font-bold text-2xl text-white bg-blue-800 hover:bg-blue-400 items-center h-28"
+        >
+          <div>자료마당</div>
+        </Link>
+        <Link
+          href={"/data-container"}
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
         >
           자료실
         </Link>
         <Link
           href={"/gallery"}
-          className="w-full flex justify-center hover:bg-gray-200 items-center rounded-full h-10"
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
         >
           갤러리
         </Link>
@@ -27,9 +33,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           userDoc?.membershipType !== "정회원") ? null : (
           <Link
             href={"/projects"}
-            className="w-full flex justify-center hover:bg-gray-200 items-center rounded-full h-10"
+            className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
           >
-            프로젝트
+            문의사항
           </Link>
         )}
       </div>

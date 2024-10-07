@@ -6,7 +6,7 @@ import React from "react";
 const Detaiednavbar = ({ setIsDetail }: any) => {
   return (
     <div
-      className="w-full h-56 bg-blue-50 pt-4 shadow-md flex justify-center text-xs absolute top-32 "
+      className="w-full h-56 bg-blue-50 pt-4 shadow-md flex justify-center text-xs absolute top-32 z-20 "
       onClick={() => setIsDetail(false)}
     >
       <div className="w-full mx-20 flex justify-center items-center ">
@@ -60,12 +60,6 @@ const Detaiednavbar = ({ setIsDetail }: any) => {
               className=" py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
             >
               문의사항
-            </Link>
-            <Link
-              href={"/FAQ"}
-              className="py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
-            >
-              FAQ
             </Link>
           </div>
           <div className="flex mx-4 flex-col  h-full w-1/6 justify-start items-center">
