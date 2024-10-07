@@ -32,6 +32,8 @@ const CreateAccount = () => {
     membershipType: "일반회원",
     password: "",
     password_confirm: "",
+    selectedOptions: [],
+    optionsETC: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +56,49 @@ const CreateAccount = () => {
   const [fileQualify, setFileQualify] = useState<any>();
   const [agree, setAgree] = useState(false);
   const [agreeIndividual, setAgreeIndividual] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [optionsETC, setOptionsETC] = useState("");
+
+  const handleOptionsETC = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setOptionsETC(e.target.value);
+  };
+
+  const options = [
+    {
+      id: "연수팀",
+      label:
+        "[연수팀] 우리는 협력과 연구를 통해 교육의 질을 높인다. 외부 신청에 의해 나눔 연수를 운영한다.",
+    },
+    {
+      id: "교육과정개발팀",
+      label:
+        "[교육과정개발팀] 개념적 이해를 강조하고 고차원적 사고를 개발하는 설계원칙을 수립하고 교육과정 개발을 위해 협력한다.",
+    },
+    {
+      id: "협력지원팀",
+      label:
+        "[협력지원팀] 우리는 사례연구와 발표를 통해 전문성을 강화한다. 국내외 교육자들과 교류하며 혁신적 아이디어와 새로운 현상을 탐색한다. ",
+    },
+    {
+      id: "연구개발팀",
+      label:
+        "[연구개발팀] 우리는 다양하고 전문적인 교사 연수 프로그램을 개발한다.",
+    },
+    {
+      id: "운영팀",
+      label:
+        "[운영팀] 협회인들이 만나서 신뢰를 구축하고 연대할 환경을 구축한다.",
+    },
+  ];
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, checked } = event.target;
+    if (checked) {
+      setSelectedOptions([...selectedOptions, id]);
+    } else {
+      setSelectedOptions(selectedOptions.filter((option) => option !== id));
+    }
+  };
 
   const handleFile = async (file: any, uid: any) => {
     const storageReference = storageRef(
@@ -206,7 +251,7 @@ const CreateAccount = () => {
             })
           : null;
 
-        await setDoc(doc(db, "user", userCredential.user.uid), {
+        await setDoc(doc(db, "users", userCredential.user.uid), {
           username: stateAccount.username,
           email: stateAccount.personalEmail,
           uid: userCredential.user.uid,
@@ -221,6 +266,8 @@ const CreateAccount = () => {
           individualAgreement: stateAccount.individualAgreement,
           fileUrl: file ? fileUrl : "",
           fileQualifyUrl: fileQualify ? fileQualifyUrl : "",
+          options: selectedOptions,
+          optionsETC: optionsETC,
 
           membership: "basic",
           coupons: {
@@ -230,7 +277,7 @@ const CreateAccount = () => {
           },
         });
 
-        await router.push("/login");
+        await router.push("/");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -381,7 +428,10 @@ const CreateAccount = () => {
                 checked={agreeIndividual}
                 onChange={(e) => {
                   setAgreeIndividual((prev) => !prev);
-                  setState({ ...stateAccount, agreement: e.target.checked });
+                  setState({
+                    ...stateAccount,
+                    individualAgreement: e.target.checked,
+                  });
                 }}
               />
               <label onClick={clickIndividualModal} className="ml-2 text-sm">
@@ -660,6 +710,54 @@ const CreateAccount = () => {
               {showQualifyModal && (
                 <InfoQualifyModal onClose={clickQualifyModal} />
               )}
+              <div className="border-4 rounded-2xl mt-6 p-5">
+                <label className="block text-sm font-medium  text-gray-700 mb-4">
+                  협회에서 활동하고 싶은 부서가 있나요? (하나 이상 가능)
+                </label>
+                <div className="flex flex-col space-y-2">
+                  {options.map((option) => (
+                    <div key={option.id} className="flex items-center">
+                      <input
+                        id={option.id}
+                        type="checkbox"
+                        checked={selectedOptions.includes(option.id)}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      />
+                      <label
+                        htmlFor={option.id}
+                        className="ml-2 block text-sm text-gray-900"
+                      >
+                        {option.label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center mt-2">
+                  <input
+                    id="other"
+                    type="checkbox"
+                    checked={selectedOptions.includes("other")}
+                    onChange={handleCheckboxChange}
+                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                  />
+                  <label
+                    htmlFor="other"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    기타
+                  </label>
+                  {selectedOptions.includes("other") && (
+                    <input
+                      type="text"
+                      className="ml-4 mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm"
+                      placeholder="Other option"
+                      onChange={handleOptionsETC}
+                      value={optionsETC}
+                    />
+                  )}
+                </div>
+              </div>
 
               <div className="border-t-2 border-b-2 my-8 p-2 flex">
                 <div className="w-1/2 border-r-2 p-2">
@@ -682,7 +780,7 @@ const CreateAccount = () => {
             </div>
           )}
 
-          <button className="bg-customBlue-light text-white py-2 mt-5 rounded-md hover:bg-customBlue-dark transition duration-300">
+          <button className="bg-customBlue-light text-white py-2 mt-5 rounded-md hover:bg-customBlue-dark active:scale-95 transition-transform duration-300 ease-in-out">
             회원가입
           </button>
           {error && <p className="text-red-500">{error}</p>}

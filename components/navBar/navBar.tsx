@@ -63,13 +63,13 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div>
-      <div className="flex justify-center bg-gray-100  text-gray-600 p-1">
+    <div className="">
+      <div className="flex justify-center bg-blue-500  text-white p-1 ">
         <div className="w-full sm:mx-20 sm:px-14  text-sm cursor-grab">
           {user ? (
             <div className="flex w-full items-center h-8 justify-end">
               <div className="flex gap-3 items-center">
-                {userDoc?.membershipType === ("관리자" || "멤버") ? (
+                {["관리자", "멤버"].includes(userDoc?.membershipType ?? "") ? (
                   <Link
                     className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
                     href={"/chat"}
@@ -77,7 +77,7 @@ const Navbar = () => {
                     채팅앱으로 가기
                   </Link>
                 ) : null}
-                <div>{user?.displayName}</div>
+                <div>{userDoc?.username}</div>
                 <LogoutBtn />
                 <Link className="hover:text-orange-500" href="/mypage">
                   마이페이지
