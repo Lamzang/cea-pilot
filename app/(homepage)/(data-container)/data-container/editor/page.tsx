@@ -14,6 +14,7 @@ import {
 } from "firebase/storage";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/lib/recoil/auth";
+import Link from "next/link";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
@@ -93,6 +94,20 @@ const RichTextExample: React.FC = () => {
   useEffect(() => {
     console.log(selectedFiles);
   }, [selectedFiles]);
+
+  if (!user) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <div className="mt-20  text-lg">로그인이 필요합니다.</div>
+        <Link
+          className="border p-1 px-4 mt-5 w-fit rounded-xl bg-blue-500 text-white hover:bg-blue-600"
+          href="/login"
+        >
+          로그인하러 가기{" "}
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">

@@ -30,9 +30,16 @@ export default function Page() {
   }, []);
   return (
     <div>
-      <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-10">
-        자료실
-      </h1>
+      <div className="flex ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
+        <h1 className="text-3xl font-bold  ">자료실</h1>
+        <Link
+          className="text-base border rounded-full px-4 bg-blue-500 text-white py-1 hover:bg-blue-600"
+          href="/data-container/editor"
+        >
+          글쓰기
+        </Link>
+      </div>
+
       <div className="mx-16 pt-10">
         {announcements.map((announcement) => (
           <Link

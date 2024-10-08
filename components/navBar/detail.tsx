@@ -85,12 +85,7 @@ const Detaiednavbar = ({ setIsDetail }: any) => {
             >
               자료마당
             </Link>
-            <Link
-              href={"/gallery"}
-              className="py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
-            >
-              갤러리
-            </Link>
+
             <Link
               href={"/projects"}
               className="py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
