@@ -5,14 +5,17 @@ import AnnouncementsPage from "../../notice-board/page";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { authState } from "@/lib/recoil/auth";
 
 export default function Page() {
   const [announcements, setAnnouncements] = useState<any[]>([]);
+  const user = useRecoilValue(authState);
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
       const q = query(
-        collection(db, "announcements"),
+        collection(db, "reference"),
         orderBy("createdAt", "desc")
       );
       const querySnapshot = await getDocs(q);
@@ -32,12 +35,15 @@ export default function Page() {
       </h1>
       <div className="mx-16 pt-10">
         {announcements.map((announcement) => (
-          <Link href={`/notice-board/${announcement.id}`} key={announcement.id}>
+          <Link
+            href={`/data-container/${announcement.id}`}
+            key={announcement.id}
+          >
             <div className="bg-gray-100 border-gray-300 border-b-2 p-4   hover:bg-gray-200">
               <h2 className="text-base mb-2 p-2">{announcement.title}</h2>
 
               <p className="text-sm text-gray-500">
-                관리자 | 작성일:{" "}
+                {announcement.author ? announcement.author : "관리자"} | 작성일:{" "}
                 {new Date(
                   announcement.createdAt.seconds * 1000
                 ).toLocaleDateString()}
@@ -45,6 +51,7 @@ export default function Page() {
             </div>
           </Link>
         ))}
+        {announcements.length === 0 && <div>게시글이 없습니다.</div>}
       </div>
     </div>
   );
