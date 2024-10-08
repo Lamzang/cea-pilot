@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+/* import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { cartState } from "@/lib/recoil/product";
+import { atom } from "recoil";
 
 interface ICartItem {
   id: string;
@@ -11,35 +11,47 @@ interface ICartItem {
   quantity: number;
 }
 
+interface ICartState {
+  products: ICartItem[];
+  deliveryFee: number;
+  discount: number;
+  delivery: {
+    receiver: string;
+    address: string;
+    addressNumber: string;
+    addressDetail: string;
+    phone: string;
+    email: string;
+  };
+}
+
+export const cartState = atom<ICartState>({
+  key: "cartState",
+  default: {
+    products: [],
+    deliveryFee: 0,
+    discount: 0,
+    delivery: {
+      receiver: "",
+      address: "",
+      addressNumber: "",
+      addressDetail: "",
+      phone: "",
+      email: "",
+    },
+  },
+}); */
+
 export default function Page() {
-  const [cartItems, setCartItems] = useRecoilState(cartState);
+  /*   const [cartItems, setCartItems] = useRecoilState(cartState);
 
   const handleQuantityChange = (id: string, quantity: number) => {
-    setCartItems(
-      (prevItems: {
-        products: {
-          id: string;
-          name: string;
-          price: number;
-          quantity: number;
-        }[];
-        deliveryFee: number;
-        discount: number;
-        delivery: {
-          receiver: string;
-          address: string;
-          addressNumber: string;
-          addressDetail: string;
-          phone: string;
-          email: string;
-        };
-      }) => ({
-        ...prevItems,
-        products: prevItems.products.map((item) =>
-          item.id === id ? { ...item, quantity } : item
-        ),
-      })
-    );
+    setCartItems((prevItems: ICartState) => ({
+      ...prevItems,
+      products: prevItems.products.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      ),
+    }));
   };
 
   const handleRemoveItem = (id: string) => {
@@ -73,14 +85,14 @@ export default function Page() {
   const totalPrice = cartItems.products.reduce(
     (acc, product) => acc + product.price * product.quantity,
     0
-  );
+  ); */
 
   return (
     <div className="p-4 sm:p-5 w-full">
       <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-5">
         Shopping Cart
       </h1>
-      <div className="flex flex-col space-y-3 sm:space-y-4">
+      {/* <div className="flex flex-col space-y-3 sm:space-y-4">
         {cartItems.products.map((item) => (
           <div
             key={item.id}
@@ -128,7 +140,7 @@ export default function Page() {
         >
           Proceed to Pay
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

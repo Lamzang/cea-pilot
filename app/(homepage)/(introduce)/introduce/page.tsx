@@ -5,7 +5,7 @@ export default function Page() {
         인사말
       </h1>
       <div className="bg-white  rounded-lg p-10 m-4  ">
-        <h1 className="text-3xl font-bold   mb-6">
+        <h1 className="text-3xl font-bold   mb-10">
           한국개념기반교육협회 홈페이지 방문을 진심으로 환영합니다.
         </h1>
         <h2 className="text-xl  text-gray-800 mb-9  pb-4 border-b-2 ">
