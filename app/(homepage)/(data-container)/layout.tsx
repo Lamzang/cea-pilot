@@ -22,12 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         >
           자료실
         </Link>
-        <Link
-          href={"/gallery"}
-          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
-        >
-          갤러리
-        </Link>
+
         {!userDoc ||
         (userDoc?.membershipType !== "관리자" &&
           userDoc?.membershipType !== "정회원") ? null : (
@@ -35,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             href={"/projects"}
             className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
           >
-            문의사항
+            프로젝트
           </Link>
         )}
       </div>
