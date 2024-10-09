@@ -1,7 +1,11 @@
 "use client";
 
+import { auth } from "@/lib/firebase/firebase";
+import { authState, userDocState } from "@/lib/recoil/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 export default function AdminLayout({
   children,
@@ -11,6 +15,22 @@ export default function AdminLayout({
   const [viewUserDetail, setViewUserDetail] = useState(false);
   const [viewProductDetail, setViewProductDetail] = useState(false);
   const [viewNoticeDetail, setViewNoticeDetail] = useState(false);
+  const [user, setUser] = useRecoilState(userDocState);
+
+  if (user?.membershipType !== "관리자") {
+    return (
+      <div className="w-full h-screen flex justify-center items-center flex-col gap-10">
+        <span className="text-xl">권한이 없습니다.</span>{" "}
+        <Link
+          href={"/"}
+          className="text-xl border p-2 px-6 rounded-full bg-blue-500 text-white font-bold"
+        >
+          돌아가기
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col w-full h-screen">
       <div className="bg-gray-100 p-4 border-b border-gray-300 flex justify-between">
