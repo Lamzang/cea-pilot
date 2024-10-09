@@ -59,7 +59,7 @@ export default function Page() {
             type="email"
             id="email"
             name="email"
-            placeholder="이메일"
+            placeholder="답변받을 이메일 주소"
             className="border-2 border-gray-300 p-2 rounded-lg"
             onChange={handleInputChange}
             required

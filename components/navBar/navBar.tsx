@@ -137,7 +137,7 @@ const Navbar = () => {
               후원하기
             </div>
             <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
-              쇼핑하기
+              협회장터
             </div>
             <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               자료마당
@@ -185,7 +185,7 @@ const Navbar = () => {
             후원하기
           </Link>
           <Link href={"/shop"} className="text-black m-4 w-full text-center">
-            쇼핑하기
+            협회장터
           </Link>
           <Link
             href={"/data-container"}
