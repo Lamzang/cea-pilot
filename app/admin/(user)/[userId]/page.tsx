@@ -80,7 +80,7 @@ export default function AdminUserDetail({
         <div className="font-semibold">school:</div>
         <div>{userData.school}</div>
         <div className="font-semibold">교사 신분증:</div>
-        <Link href={userData?.file ?? ""}>
+        <Link href={userData?.fileUrl ?? ""}>
           {userData.file ? "파일 다운로드" : "파일 없음"}
         </Link>
         <div className="font-semibold">자격 관련 서류:</div>

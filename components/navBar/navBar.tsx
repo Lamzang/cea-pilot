@@ -28,10 +28,8 @@ const Navbar = () => {
           displayName: newUser.displayName,
           email: newUser.email,
         });
-        console.log("user logindddddddd");
       } else {
         setUser(null);
-        console.log("user logouttttttt  ");
       }
     });
   }, []);
