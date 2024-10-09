@@ -33,6 +33,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             프로젝트
           </Link>
         )}
+        <Link
+          href={"/data-container/article"}
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
+        >
+          협회정관
+        </Link>
+        <Link
+          href={"/data-container/individual-agreement"}
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
+        >
+          개인정보동의서
+        </Link>
+        <Link
+          href={"/data-container/policy"}
+          className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
+        >
+          학문적 윤리 정책
+        </Link>
       </div>
       <div className="w-4/5 p-4">{children}</div>
     </div>

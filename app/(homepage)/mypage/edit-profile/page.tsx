@@ -14,6 +14,16 @@ export default function EditProfile() {
   const [userData, setUserData] = useState<IUserDoc>();
   const router = useRouter();
 
+  useEffect(() => {
+    if (user) {
+      getDoc(doc(db, "users", user.uid)).then((doc) => {
+        if (doc.exists()) {
+          setUserData(doc.data() as IUserDoc);
+        }
+      });
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev: any) => ({
@@ -24,16 +34,11 @@ export default function EditProfile() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       if (user && userData) {
         const docRef = doc(db, "users", user.uid);
-
         await updateDoc(docRef, userData as { [x: string]: any });
-
-        console.error("User data is undefined");
-
-        router.push("/mypage");
+        router.push("/");
       }
     } catch (error) {
       console.error("Error updating profile: ", error);
@@ -49,7 +54,7 @@ export default function EditProfile() {
             htmlFor="username"
             className="block text-sm font-medium text-gray-700"
           >
-            Username
+            이름
           </label>
           <input
             type="text"
@@ -65,7 +70,7 @@ export default function EditProfile() {
             htmlFor="email"
             className="block text-sm font-medium text-gray-700"
           >
-            Email
+            개인 이메일 주소
           </label>
           <input
             type="email"
@@ -81,7 +86,7 @@ export default function EditProfile() {
             htmlFor="phoneNumber"
             className="block text-sm font-medium text-gray-700"
           >
-            Phone Number
+            전화번호
           </label>
           <input
             type="text"
@@ -92,28 +97,83 @@ export default function EditProfile() {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
+
         <div>
           <label
-            htmlFor="address"
+            htmlFor="schoolEmail"
             className="block text-sm font-medium text-gray-700"
           >
-            Address
+            직장/다른 이메일 주소
           </label>
           <input
             type="text"
-            id="address"
-            name="address"
-            value={userData?.address}
+            id="schoolEmail"
+            name="schoolEmail"
+            value={userData?.schoolEmail}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
-        <div>
+        {userData?.membershipType === "준회원" ||
+        userData?.membershipType === "정회원" ? (
+          <div className="space-y-6 mb-10">
+            <div>
+              <label
+                htmlFor="region"
+                className="block text-sm font-medium text-gray-700"
+              >
+                소속 지역 교육청
+              </label>
+              <input
+                type="text"
+                id="region"
+                name="region"
+                value={userData?.region}
+                onChange={handleChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="school"
+                className="block text-sm font-medium text-gray-700"
+              >
+                학교 이름 또는 교육 기관 이름
+              </label>
+              <input
+                type="text"
+                id="school"
+                name="school"
+                value={userData?.school}
+                onChange={handleChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="major"
+                className="block text-sm font-medium text-gray-700"
+              >
+                전공 또는 학년
+              </label>
+              <input
+                type="text"
+                id="major"
+                name="major"
+                value={userData?.major}
+                onChange={handleChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+          </div>
+        ) : null}
+
+        <div className="py-10">
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Save Changes
+            변경사항 저장하기
           </button>
         </div>
       </form>
