@@ -137,12 +137,16 @@ const Navbar = () => {
           </div>
 
           <div className="sm:hidden flex items-center w-1/4 justify-center">
-            <button
+            <div
+              className="w-full"
               onClick={() => setIsMobileDetail((prev) => !prev)}
-              className="text-black"
             >
-              메뉴
-            </button>
+              <img
+                src="/assets/svg/menu.svg"
+                className="w-full"
+                alt="menu button"
+              />
+            </div>
           </div>
         </nav>
       </div>
