@@ -6,18 +6,30 @@ export default function AdminPage() {
       <div className="text-2xl font-bold mb-4">Dashboard Home</div>
       <div className="mb-8">
         <div className="text-xl font-semibold mb-2">User Graph</div>
-        <div className="ml-4">
-          <div className="mb-2">Graph of new users</div>
-          <div className="mb-2">Graph of total users</div>
-          <div className="mb-2">Graph by Google Analytics</div>
+        <div className="ml-4 flex justify-between px-20 border m-2 rounded-2xl my-5 py-2">
+          <div className=" hover:bg-slate-200 px-3 rounded-full cursor-pointer">
+            graph of users
+          </div>
+          <div className="hover:bg-slate-200 px-3 rounded-full cursor-pointer">
+            graph of users by month
+          </div>
+          <div className="hover:bg-slate-200 px-3 rounded-full cursor-pointer">
+            Graph by Google Analytics
+          </div>
         </div>
       </div>
       <div className="mb-8">
         <div className="text-xl font-semibold mb-2">Product Graph</div>
-        <div className="ml-4">
-          <div className="mb-2">Graph of sales</div>
-          <div className="mb-2">Graph of total orders</div>
-          <div className="mb-2">Graph by Google Analytics</div>
+        <div className="ml-4 flex justify-between px-20 border m-2 rounded-2xl my-5 py-2">
+          <div className=" hover:bg-slate-200 px-3 rounded-full cursor-pointer">
+            Graph of sales
+          </div>
+          <div className="hover:bg-slate-200 px-3 rounded-full cursor-pointer">
+            Graph of total orders
+          </div>
+          <div className="hover:bg-slate-200 px-3 rounded-full cursor-pointer">
+            Graph by Google Analytics
+          </div>
         </div>
       </div>
       <div className="border p-5">
@@ -30,7 +42,7 @@ export default function AdminPage() {
           <div className="w-60 border p-2">Credentials</div>
           <div className="w-60 border p-2">Time</div>
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <div className="flex gap-5 mb-2">
             <Link
               className="w-80 border p-2 block"
@@ -69,8 +81,8 @@ export default function AdminPage() {
               Send
             </button>
           </form>
-        </div>
-        <div className="mb-4">
+        </div> */}
+        {/* <div className="mb-4">
           <div className="flex gap-5 mb-2">
             <Link className="w-80 border p-2 block" href={"/admin/products/tb"}>
               Textbook for CBE
@@ -106,7 +118,7 @@ export default function AdminPage() {
               Send
             </button>
           </form>
-        </div>
+        </div> */}
         <div className="text-blue-500 cursor-pointer hover:underline">
           View 10 more reviews
         </div>

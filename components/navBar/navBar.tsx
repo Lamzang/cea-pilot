@@ -69,6 +69,14 @@ const Navbar = () => {
           {user ? (
             <div className="flex w-full items-center h-8 justify-end">
               <div className="flex gap-3 items-center">
+                {["관리자"].includes(userDoc?.membershipType ?? "") ? (
+                  <Link
+                    className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
+                    href={"/admin"}
+                  >
+                    관리자 방으로 가기
+                  </Link>
+                ) : null}
                 {["관리자", "멤버"].includes(userDoc?.membershipType ?? "") ? (
                   <Link
                     className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
@@ -77,7 +85,9 @@ const Navbar = () => {
                     채팅앱으로 가기
                   </Link>
                 ) : null}
-                <div>{userDoc?.username}</div>
+                <div>
+                  {userDoc?.username} | {userDoc?.membershipType}
+                </div>
                 <LogoutBtn />
                 <Link className="hover:text-orange-500" href="/mypage">
                   마이페이지

@@ -92,6 +92,24 @@ const Detaiednavbar = ({ setIsDetail }: any) => {
             >
               프로젝트
             </Link>
+            <Link
+              href={"/data-container/article"}
+              className=" py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
+            >
+              협회정관
+            </Link>
+            <Link
+              href={"/data-container/individual-agreement"}
+              className=" py-2 text-base px-2 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
+            >
+              개인정보동의서
+            </Link>
+            <Link
+              href={"/data-container/policy"}
+              className=" py-2 text-base px-2 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
+            >
+              학문적윤리정책
+            </Link>
           </div>
         </div>
       </div>

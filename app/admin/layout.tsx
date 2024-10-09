@@ -37,12 +37,6 @@ export default function AdminLayout({
               >
                 View Users
               </Link>
-              <Link
-                className="py-1 text-gray-700 hover:underline"
-                href="/admin/users/credentials"
-              >
-                View Credentials for Users
-              </Link>
             </div>
           )}
           <div
@@ -89,7 +83,7 @@ export default function AdminLayout({
             className="py-1 text-gray-700 hover:underline"
             href={"/chat/admin"}
           >
-            사내메신저 관리하기기
+            사내메신저 관리하기
           </Link>
         </div>
         <div className="w-4/5 h-full flex-grow border-l border-gray-300">

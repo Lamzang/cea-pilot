@@ -38,7 +38,7 @@ export default function AdminUsers() {
             <div>{data?.phoneNumber}</div>
             <div>{data.email}</div>
             <div>{data.address}</div>
-            <div>{data?.membership}</div>
+            <div>{data?.membershipType}</div>
             <Link
               className="bg-black text-white py-1 px-3 rounded hover:bg-gray-600"
               href={`/admin/${data.uid}`}
