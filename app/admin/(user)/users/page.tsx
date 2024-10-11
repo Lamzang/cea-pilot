@@ -21,29 +21,29 @@ export default function AdminUsers() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="text-2xl font-bold mb-4">User Data</div>
-      <div className="text-lg font-semibold mb-2">Order Method</div>
+      <div className="text-2xl font-bold mb-4">유저 목록</div>
       <div>
-        <div className="grid grid-cols-6 gap-4 py-2 bg-gray-200 rounded-md">
+        <div className="grid grid-cols-5 gap-6 py-2 px-2 bg-gray-200 rounded-md">
           <div className="font-semibold">User Name</div>
           <div className="font-semibold">Phone Number</div>
           <div className="font-semibold">Email</div>
-          <div className="font-semibold">Address</div>
           <div className="font-semibold">Membership</div>
           <div className="font-semibold">Actions</div>
         </div>
         {userData.map((data: any, index: number) => (
-          <div key={index} className="grid grid-cols-6 gap-4 py-2 border-b">
+          <div
+            key={index}
+            className="grid grid-cols-5 gap-6 px-2 py-2 border-b"
+          >
             <div>{data.username}</div>
             <div>{data?.phoneNumber}</div>
             <div>{data.email}</div>
-            <div>{data.address}</div>
             <div>{data?.membershipType}</div>
             <Link
-              className="bg-black text-white py-1 px-3 rounded hover:bg-gray-600"
+              className="bg-black text-white py-1 px-3 rounded hover:bg-gray-500"
               href={`/admin/${data.uid}`}
             >
-              Detail User
+              상세관리하기
             </Link>
           </div>
         ))}

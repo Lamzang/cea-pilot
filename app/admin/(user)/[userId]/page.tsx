@@ -2,6 +2,7 @@
 
 import { auth, db } from "@/lib/firebase/firebase";
 import { updateProfile } from "firebase/auth";
+import { set } from "firebase/database";
 import {
   addDoc,
   collection,
@@ -10,7 +11,9 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AdminUserDetail({
@@ -21,6 +24,8 @@ export default function AdminUserDetail({
   const [userData, setUserData] = useState<any>(null);
   const [orderData, setOrderData] = useState<any>([]);
   const [membership, setMembership] = useState("");
+  const router = useRouter();
+  const [submitted, setSubmitted] = useState(false);
 
   const onChange = (e: any) => {
     setMembership(e.target.value);
@@ -58,13 +63,25 @@ export default function AdminUserDetail({
       membershipType: membership,
     });
     setUserData({ ...userData, membershipType: membership });
+    setSubmitted(true);
+    alert("멤버십이 변경되었습니다.");
+  };
+
+  const sendMailToUser = async () => {
     if (membership === "정회원") {
       sendMail(
         "12시간 이상 연수/동일 자격, 각종 온오프라인 협회 행사 초대 및 연수 할인 혜택, 운영진으로서 역할 수행 가능, 협회 메신저 초대"
       );
+      alert("정회원 승인메일이 발송되었습니다.");
+      router.push("/admin/users");
     } else if (membership === "준회원") {
       sendMail("협회 기본 자료 열람 가능");
+      alert("준회원 승인메일이 발송되었습니다.");
+      router.push("/admin/users");
+    } else {
+      alert("준회원과 정회원만 승인메일을 보낼 수 있습니다.");
     }
+    setSubmitted(false);
   };
 
   const sendMail = async (advantage: string) => {
@@ -90,12 +107,13 @@ export default function AdminUserDetail({
 * 또한 올해 가입하는 회원은 연회비 적용을 2025년 연말까지 적용합니다.
 </p>
 <br />
+              
 
 <p>협회에서 제공하는 다양한 혜택을 즐기실 수 있습니다. 자세한 내용은 아래 링크를 통해 확인해 주세요:</p>
-<a href="https://homepage--kcbea-portal.us-central1.hosted.app/" style="color: #1E90FF; text-decoration: none;">협회 홈페이지 방문하기</a>
+<a href="https://kcbea.com/" style="color: #1E90FF; text-decoration: none;">협회 홈페이지 방문하기</a>
 
 <br><br>
-<p>궁금한 점이 있으시면 언제든지 <a href="mailto:http0518@gmail.com" style="color: #1E90FF;">http0518@gmail.com</a>으로 문의해 주세요.</p>
+<p>궁금한 점이 있으시면 언제든지 <a href="mailto:graceshinnz@gmail.com" style="color: #1E90FF;">graceshinnz@gmail.com</a>으로 문의해 주세요.</p>
 
 <p>감사합니다,<br>한국개념기반교육협회 팀</p>
 
@@ -118,62 +136,107 @@ export default function AdminUserDetail({
         <div>{userData.phoneNumber}</div>
         <div className="font-semibold">Email:</div>
         <div>{userData.email}</div>
-        <div className="font-semibold">other email:</div>
+        <div className="font-semibold">직장/다른 이메일 주소:</div>
         <div>{userData.schoolEamil}</div>
-        <div className="font-semibold">UID:</div>
+        <div className="font-semibold">UID(고유ID):</div>
         <div>{userData.uid}</div>
-        <div className="font-semibold">Address:</div>
+        <div className="font-semibold">현재 주소:</div>
         <div>{userData.address}</div>
         <div className="font-semibold">major:</div>
         <div>{userData.major}</div>
         <div className="font-semibold">school:</div>
         <div>{userData.school}</div>
         <div className="font-semibold">교사 신분증:</div>
-        <Link href={userData?.fileUrl ?? ""}>
-          {userData.fileUrl ? "파일 다운로드" : "파일 없음"}
+
+        <Link
+          href={userData?.fileUrl ?? ""}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {userData.fileUrl ? (
+            <span className="flex gap-2 hover:bg-slate-100">
+              <Image
+                src={"/assets/svg/download.svg"}
+                width={20}
+                height={20}
+                alt="download"
+              />{" "}
+              파일 다운로드
+            </span>
+          ) : (
+            "파일 없음"
+          )}
         </Link>
         <div className="font-semibold">자격 관련 서류:</div>
-        <Link href={userData?.fileQualifyUrl ?? ""}>
-          {userData.fileQualifyUrl ? "파일 다운로드" : "파일 없음"}
+        <Link
+          href={userData?.fileQualifyUrl ?? ""}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {userData.fileQualifyUrl ? (
+            <span className="flex gap-2 hover:bg-slate-100">
+              <Image
+                src={"/assets/svg/download.svg"}
+                width={20}
+                height={20}
+                alt="download"
+              />{" "}
+              파일 다운로드
+            </span>
+          ) : (
+            "파일 없음"
+          )}
         </Link>
         <div className="font-semibold">설문조사:</div>
-        <div>
+        <div className="">
           {userData?.options.map((data: any, index: any) => (
             <div key={index}>{data}</div>
           ))}
           <div>{userData?.optionETC}</div>
         </div>
       </div>
-      <div className="mt-8 mb-10 w-1/3">
-        <h2 className="text-2xl font-semibold mb-4">멤버십 변경하기</h2>
-        <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-          <div className="mb-4">
-            <span className="font-semibold">현재 멤버십:</span>
-            <span className="ml-2">{userData.membershipType}</span>
-          </div>
-          <div className="mb-6">
-            <label htmlFor="membership" className="block font-semibold mb-2">
-              변경할 멤버십:
-            </label>
-            <select
-              onChange={onChange}
-              id="membership"
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-500"
-            >
-              <option value="일반회원">일반회원</option>
-              <option value="준회원">준회원</option>
-              <option value="정회원">정회원</option>
-              <option value="멤버">멤버</option>
-              <option value="관리자">관리자</option>
-            </select>
-          </div>
-          <div className="text-right">
-            <button
-              onClick={onSubmit}
-              className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-            >
-              저장하기
-            </button>
+      <div className="flex mt-8 mb-10 gap-10">
+        <div className=" w-1/2">
+          <h2 className="text-2xl font-semibold mb-4">멤버십 변경하기</h2>
+          <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+            <div className="mb-4">
+              <span className="font-semibold">현재 멤버십:</span>
+              <span className="ml-2">{userData.membershipType}</span>
+            </div>
+            <div className="mb-6">
+              <label htmlFor="membership" className="block font-semibold mb-2">
+                변경할 멤버십:
+              </label>
+              <select
+                onChange={onChange}
+                id="membership"
+                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-500"
+              >
+                <option value="일반회원">일반회원</option>
+                <option value="준회원">준회원</option>
+                <option value="정회원">정회원</option>
+                <option value="멤버">멤버</option>
+                <option value="관리자">관리자</option>
+              </select>
+            </div>
+            <div className="flex flex-col  gap-5">
+              <button
+                onClick={onSubmit}
+                className="bg-blue-600 text-white  font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+              >
+                저장하기
+              </button>
+              {submitted &&
+                (userData.membershipType === "준회원" ||
+                  userData.membershipType === "정회원") && (
+                  <button
+                    onClick={sendMailToUser}
+                    className="bg-blue-600 text-white  font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+                  >
+                    멤버십 승인메일 전송하기
+                  </button>
+                )}
+            </div>
           </div>
         </div>
       </div>

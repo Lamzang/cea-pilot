@@ -53,20 +53,33 @@ export default function Page({ params }: { params: { dataID: string } }) {
           {new Date(announcement.createdAt.seconds * 1000).toLocaleDateString()}
         </p>
       </div>
-      <div className="text-xl font-bold ml-10">파일 다운로드</div>
-      <div className="w-full pt-2 ml-10 flex gap-5">
-        {announcement.fileUrls.map((data: any, index: any) => (
-          <div key={index} className=" w-fit px-1">
-            <Link className="hover:text-red-400 flex gap-1" href={data}>
-              <img
-                src="/assets/svg/download.svg"
-                className="w-6 h-6"
-                alt="downloadsvg"
-              />
-              {announcement.fileNames[index]}
-            </Link>
+      {announcement.fileUrls && (
+        <div>
+          <div className="text-xl font-bold ml-10">파일 다운로드</div>
+          <div className="w-full pt-2 ml-10 flex flex-col gap-2">
+            {announcement.fileUrls?.map((data: any, index: any) => (
+              <div key={index} className=" w-fit px-1">
+                <Link className="hover:text-red-400 flex gap-1" href={data}>
+                  <img
+                    src="/assets/svg/download.svg"
+                    className="w-6 h-6"
+                    alt="downloadsvg"
+                  />
+                  {announcement.fileNames[index]}
+                </Link>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+      )}
+
+      <div className="w-full flex justify-end">
+        <Link
+          href={"/data-container"}
+          className="border w-fit mt-10 px-4 py-2 rounded-3xl bg-blue-500 text-white hover:bg-blue-600"
+        >
+          목록으로 돌아가기
+        </Link>
       </div>
     </div>
   );

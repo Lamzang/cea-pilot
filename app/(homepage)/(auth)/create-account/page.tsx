@@ -205,13 +205,34 @@ const CreateAccount = () => {
   <p>승인이 완료되면 안내 이메일을 보내드리며, 입금 미확인 등의 이유로 승인이 거절될 경우에도 관련 안내 메일이 발송될 예정입니다.</p>
 
   <br />
+    <p>
+<span >입회비와 회비 안내</span>
+<br />  <br /> - 준회원 연회비 : 50,000원
+                    <br /> - 준회원 가입비 : 20,000원 <br />
+                   
+                  </p>
+                  <br />
+                
+                <div>
+                  <span>협회계좌</span>
+                  <br />
+                  <br />
+                  <div>은행명 : 하나은행</div>
+                  <div>계좌번호 : 306-910020-43305</div>
+                  <div>이름 : 한국개념기반교육협회</div>
+                </div>
+                <br />
+                <p style="color: red">
+* 또한 올해 가입하는 회원은 연회비 적용을 2025년 연말까지 적용합니다.
+</p>
+                <br />
 
   
   <p>협회에서 제공하는 다양한 혜택을 즐기실 수 있습니다. 자세한 내용은 아래 링크를 통해 확인해 주세요:</p>
   <a href="https://homepage--kcbea-portal.us-central1.hosted.app/" style="color: #1E90FF; text-decoration: none;">협회 홈페이지 방문하기</a>
   
   <br><br>
-  <p>궁금한 점이 있으시면 언제든지 <a href="mailto:http0518@gmail.com" style="color: #1E90FF;">http0518@gmail.com</a>으로 문의해 주세요.</p>
+  <p>궁금한 점이 있으시면 언제든지 <a href="mailto:graceshinnz@gmail.com" style="color: #1E90FF;">graceshinnz@gmail.com</a>으로 문의해 주세요.</p>
   
   <p>감사합니다,<br>한국개념기반교육협회 팀</p>
   
@@ -241,13 +262,33 @@ const CreateAccount = () => {
   <p>승인이 완료되면 안내 이메일을 보내드리며, 입금 미확인 등의 이유로 승인이 거절될 경우에도 관련 안내 메일이 발송될 예정입니다.</p>
 
   <br />
+  <p>
+<span >입회비와 회비 안내</span>
+<br /> <br />- 정회원 연회비 : 100,000원 <br /> - 정회원 가입비 : 20,000원  <br />
+                   
+                  </p>
+                  <br />
+                
+                <div>
+                  <span>협회계좌</span>
+                  <br />
+                  <br />
+                  <div>은행명 : 하나은행</div>
+                  <div>계좌번호 : 306-910020-43305</div>
+                  <div>이름 : 한국개념기반교육협회</div>
+                </div>
+                <br />
+                <p style="color: red">
+* 또한 올해 가입하는 회원은 연회비 적용을 2025년 연말까지 적용합니다.
+</p>
+                <br />
 
   
   <p>협회에서 제공하는 다양한 혜택을 즐기실 수 있습니다. 자세한 내용은 아래 링크를 통해 확인해 주세요:</p>
   <a href="https://homepage--kcbea-portal.us-central1.hosted.app/" style="color: #1E90FF; text-decoration: none;">협회 홈페이지 방문하기</a>
   
   <br><br>
-  <p>궁금한 점이 있으시면 언제든지 <a href="mailto:http0518@gmail.com" style="color: #1E90FF;">http0518@gmail.com</a>으로 문의해 주세요.</p>
+  <p>궁금한 점이 있으시면 언제든지 <a href="mailto:graceshinnz@gmail.com" style="color: #1E90FF;">graceshinnz@gmail.com</a>으로 문의해 주세요.</p>
   
   <p>감사합니다,<br>한국개념기반교육협회 팀</p>
   

@@ -49,12 +49,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             협회정관
           </Link>
           <Link
-            href={"/individual-agreement"}
-            className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
-          >
-            개인정보동의서
-          </Link>
-          <Link
             href={"/policy"}
             className="w-full flex hover:bg-gray-200 items-center   h-16 border-b px-4"
           >
