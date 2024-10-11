@@ -93,7 +93,7 @@ export default function Home() {
                 <span className="text-lg pt-2">협회가입</span>
               </Link>
               <Link
-                href="/data-container/article"
+                href="/article"
                 className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
               >
                 <div className="h-[50%] w-[25%]  flex justify-center">
@@ -117,7 +117,7 @@ export default function Home() {
                 <div className="h-[50%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/cart.svg" />
                 </div>
-                <span className="text-lg pt-2">쇼핑하기</span>
+                <span className="text-lg pt-2">연구장터</span>
               </Link>
               <Link
                 href="/data-container"

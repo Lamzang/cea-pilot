@@ -33,7 +33,7 @@ const Detaiednavbar = ({ setIsDetail }: any) => {
             </Link>
 
             <Link
-              href={"/ececutive"}
+              href={"/executive"}
               className="py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded w-full  flex justify-center "
             >
               임원진
@@ -75,7 +75,7 @@ const Detaiednavbar = ({ setIsDetail }: any) => {
               href={"/shop"}
               className="py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
             >
-              협회장터
+              연구장터
             </Link>
           </div>
           <div className="flex mx-4 flex-col  h-full w-1/6 items-center justify-start ">

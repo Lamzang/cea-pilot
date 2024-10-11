@@ -63,6 +63,8 @@ const CreateAccount = () => {
     setOptionsETC(e.target.value);
   };
 
+  const [submitted, setSubmitted] = useState(false);
+
   const options = [
     {
       id: "연수팀",
@@ -124,10 +126,12 @@ const CreateAccount = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     await e.preventDefault();
+
     if (stateAccount.password !== stateAccount.password_confirm) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
+    await setSubmitted(true);
     await createUserWithEmailAndPassword(
       auth,
       stateAccount.personalEmail,
@@ -185,7 +189,8 @@ const CreateAccount = () => {
           ? await addDoc(collection(db, "mail"), {
               to: [`${stateAccount.personalEmail}`],
               message: {
-                subject: "한국개념기반교육협회 회원가입을 환영합니다",
+                subject:
+                  "한국개념기반교육협회 준회원 승인신청이 완료되었습니다.",
                 text: "This is the plaintext section of the email body.",
                 html: `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
@@ -193,7 +198,9 @@ const CreateAccount = () => {
   <p><strong>${stateAccount.username}</strong>님, 한국개념기반교육협회에 가입해 주셔서 감사합니다.</p>
   <p>준회원 신청이 확인되었습니다.</p>
   
-  <p>준회원 승인은 협회에서 확인 절차를 거친 후에 완료됩니다. 승인 처리에는 1~2일이 소요될 수 있습니다.</p><br />
+  <p>준회원 승인은 협회에서 확인 절차를 거친 후에 완료됩니다. 승인 처리에는 1~2일이 소요될 수 있습니다.</p>
+  <p>준회원 승인은 회비입금여부와 교사신분증 등을 확인하여 처리됩니다.</p>
+  <br />
   
   <p>승인이 완료되면 안내 이메일을 보내드리며, 입금 미확인 등의 이유로 승인이 거절될 경우에도 관련 안내 메일이 발송될 예정입니다.</p>
 
@@ -219,7 +226,8 @@ const CreateAccount = () => {
           ? await addDoc(collection(db, "mail"), {
               to: [`${stateAccount.personalEmail}`],
               message: {
-                subject: "한국개념기반교육협회 회원가입을 환영합니다",
+                subject:
+                  "한국개념기반교육협회 정회원 승인신청이 완료되었습니다.",
                 text: "This is the plaintext section of the email body.",
                 html: `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
@@ -227,7 +235,8 @@ const CreateAccount = () => {
   <p><strong>${stateAccount.username}</strong>님, 한국개념기반교육협회에 가입해 주셔서 감사합니다.</p>
   <p>정회원 신청이 확인되었습니다.</p>
   
-  <p>정회원 승인은 협회에서 확인 절차를 거친 후에 완료됩니다. 승인 처리에는 1~2일이 소요될 수 있습니다.</p><br />
+  <p>정회원 승인은 협회에서 확인 절차를 거친 후에 완료됩니다. 승인 처리에는 1~2일이 소요될 수 있습니다.</p>
+  <p>정회원 승인은 회비입금여부와 교사신분증, 자격관련서류 등을 확인하여 처리됩니다.</p><br />
   
   <p>승인이 완료되면 안내 이메일을 보내드리며, 입금 미확인 등의 이유로 승인이 거절될 경우에도 관련 안내 메일이 발송될 예정입니다.</p>
 
@@ -276,13 +285,14 @@ const CreateAccount = () => {
             coupons: [],
           },
         });
-
+        setSubmitted(false);
         await router.push("/");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage + "error");
+        setSubmitted(false);
 
         setError(getKoreanErrorText(errorCode));
       });
@@ -779,10 +789,16 @@ const CreateAccount = () => {
               </div>
             </div>
           )}
+          {submitted === true ? (
+            <div className="bg-customBlue-light text-white py-2 mt-5 rounded-md ">
+              로딩중...
+            </div>
+          ) : (
+            <button className="bg-customBlue-light text-white py-2 mt-5 rounded-md hover:bg-customBlue-dark active:scale-95 transition-transform duration-300 ease-in-out">
+              회원가입
+            </button>
+          )}
 
-          <button className="bg-customBlue-light text-white py-2 mt-5 rounded-md hover:bg-customBlue-dark active:scale-95 transition-transform duration-300 ease-in-out">
-            회원가입
-          </button>
           {error && <p className="text-red-500">{error}</p>}
         </form>
       </div>
