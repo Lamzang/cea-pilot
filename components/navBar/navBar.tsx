@@ -75,7 +75,9 @@ const Navbar = () => {
                     관리자 방으로 가기
                   </Link>
                 ) : null}
-                {["관리자", "멤버"].includes(userDoc?.membershipType ?? "") ? (
+                {["관리자", "멤버", "정회원"].includes(
+                  userDoc?.membershipType ?? ""
+                ) ? (
                   <Link
                     className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
                     href={"/chat"}

@@ -58,28 +58,38 @@ export default function AdminUserDetail({
       membershipType: membership,
     });
     setUserData({ ...userData, membershipType: membership });
+    if (membership === "정회원") {
+      sendMail(
+        "12시간 이상 연수/동일 자격, 각종 온오프라인 협회 행사 초대 및 연수 할인 혜택, 운영진으로서 역할 수행 가능, 협회 메신저 초대"
+      );
+    } else if (membership === "준회원") {
+      sendMail("협회 기본 자료 열람 가능");
+    }
   };
 
-  const sendMail = async () => {
+  const sendMail = async (advantage: string) => {
     addDoc(collection(db, "mail"), {
       to: [`${userData.email}`],
       message: {
-        subject: "한국개념기반교육협회 준회원 승인신청이 완료되었습니다.",
-        text: "This is the plaintext section of the email body.",
+        subject: `한국개념기반교육협회 ${userData.membershipType}이 된것을 환영합니다.`,
+        text: "",
         html: `
 <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
 <h2>환영합니다!</h2>
-<p><strong>${userData.username}</strong>님, 한국개념기반교육협회에 가입해 주셔서 감사합니다.</p>
-<p>준회원 신청이 확인되었습니다.</p>
-
-<p>준회원 승인은 협회에서 확인 절차를 거친 후에 완료됩니다. 승인 처리에는 1~2일이 소요될 수 있습니다.</p>
-<p>준회원 승인은 회비입금여부와 교사신분증 등을 확인하여 처리됩니다.</p>
+<p><strong>${userData.username}</strong>님, 한국개념기반교육협회 ${userData.membershipType}이 된것을 환영합니다.</p>
 <br />
 
-<p>승인이 완료되면 안내 이메일을 보내드리며, 입금 미확인 등의 이유로 승인이 거절될 경우에도 관련 안내 메일이 발송될 예정입니다.</p>
+<p>협회의 ${userData.membershipType}으로서 다음과 같은 혜택을 얻을 수 있습니다.</p>
 
+
+    <p>
+      ${advantage}
+    </p>
+
+<p style="color: red">
+* 또한 올해 가입하는 회원은 연회비 적용을 2025년 연말까지 적용합니다.
+</p>
 <br />
-
 
 <p>협회에서 제공하는 다양한 혜택을 즐기실 수 있습니다. 자세한 내용은 아래 링크를 통해 확인해 주세요:</p>
 <a href="https://homepage--kcbea-portal.us-central1.hosted.app/" style="color: #1E90FF; text-decoration: none;">협회 홈페이지 방문하기</a>
@@ -120,7 +130,7 @@ export default function AdminUserDetail({
         <div>{userData.school}</div>
         <div className="font-semibold">교사 신분증:</div>
         <Link href={userData?.fileUrl ?? ""}>
-          {userData.file ? "파일 다운로드" : "파일 없음"}
+          {userData.fileUrl ? "파일 다운로드" : "파일 없음"}
         </Link>
         <div className="font-semibold">자격 관련 서류:</div>
         <Link href={userData?.fileQualifyUrl ?? ""}>
