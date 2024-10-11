@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [viewNoticeDetail, setViewNoticeDetail] = useState(false);
+  const [viewNoticeDetail, setViewNoticeDetail] = useState(true);
   const [announcements, setAnnouncements] = useState<any[]>([]);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             Manage Notice
           </div>
           {viewNoticeDetail && (
-            <div className="ml-4 flex flex-col">
+            <div className="ml-4 flex flex-col gap-5">
               {announcements.map((announcement) => (
                 <Link
                   href={`/admin/notice/${announcement.id}`}
