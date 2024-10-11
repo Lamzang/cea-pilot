@@ -43,8 +43,68 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full sm:h-[400px] p-8">
-        <div className="w-full sm:w-full mx-2 sm:ml-5  sm:mt-0 rounded-2xl">
+      <div className="w-full flex p-8">
+        <div className="w-1/3 mt-4 border-8 rounded-3xl mx-6 h-full  ">
+          <div className="h-48 sm:h-[calc(100%-2.75rem)] rounded-2xl  p-4 bg-gray-100">
+            <div className="sm:h-full grid sm:grid-cols-2 grid-cols-1 gap-4">
+              <Link
+                href="/introduce"
+                className="flex flex-col max-h-[150px]  w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+              >
+                <div className="h-[30%] w-[25%] flex justify-center">
+                  <img className="h-full" src="/assets/svg/home.svg" />
+                </div>
+                <span className="text-lg pt-2">협회소개</span>
+              </Link>
+              <Link
+                href="/create-account"
+                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+              >
+                <div className="h-[30%] w-[25%]  flex justify-center">
+                  <img className="h-full" src="/assets/svg/account.svg" />
+                </div>
+                <span className="text-lg pt-2">협회가입</span>
+              </Link>
+              <Link
+                href="/article"
+                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+              >
+                <div className="h-[30%] w-[25%]  flex justify-center">
+                  <img className="h-full" src="/assets/svg/document.svg" />
+                </div>
+                <span className="text-lg pt-2">협회정관</span>
+              </Link>
+              <Link
+                href="https://www.facebook.com/groups/337483832687824"
+                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+              >
+                <div className="h-[30%] w-[25%]  flex justify-center">
+                  <img className="h-full" src="/assets/svg/facebook.svg" />
+                </div>
+                <span className="text-lg pt-2">협회 SNS</span>
+              </Link>
+              <Link
+                href="/shop"
+                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+              >
+                <div className="h-[40%] w-[25%]  flex justify-center">
+                  <img className="h-full" src="/assets/svg/cart.svg" />
+                </div>
+                <span className="text-lg pt-2">연구도서구매</span>
+              </Link>
+              <Link
+                href="/data-container"
+                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+              >
+                <div className="h-[40%] w-[25%]  flex justify-center">
+                  <img className="h-full" src="/assets/svg/papers.svg" />
+                </div>
+                <span className="text-lg pt-2">자료마당</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="w-full sm:w-2/3 mx-2 sm:ml-5  sm:mt-0 rounded-2xl">
           <div className="text-xl sm:text-2xl font-bold border-b-2 border-black w-full text-blue-500 mt-8 pb-8">
             주요 활동
           </div>
@@ -57,80 +117,17 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full pl-10 sm:flex-row justify-center items-center  h-auto sm:h-[500px] ">
+      <div className="flex flex-col w-full pl-10 sm:flex-row justify-center items-center  h-auto  ">
         {/* 상담하기 섹션 */}
-        <div className="w-full border-8 rounded-3xl sm:w-1/3 h-48 sm:h-[400px] mt-4 justify-center items-center text-lg font-bold text-gray-800">
+        {/* <div className="w-full border-8 rounded-3xl sm:w-1/3 h-48 sm:h-[400px] mt-4 justify-center items-center text-lg font-bold text-gray-800">
           <h2 className="pl-8 py-2 font-bold rounded-t-2xl text-xl bg-blue-500 text-white  ">
             간편 상담 서비스
           </h2>
           <InterviewComponent />
-        </div>
+        </div> */}
 
         {/* 후원하기 섹션 */}
         {/* 첫 번째 그리드 섹션 */}
-        <div className="w-full sm:w-2/3 mt-4 border-8 rounded-3xl mx-6 h-4/5  ">
-          <h2 className="pl-8 w-full font-bold text-xl p-2 rounded-t-2xl text-white bg-blue-500">
-            바로가기 서비스
-          </h2>
-          <div className="h-48 sm:h-[calc(100%-2.75rem)] rounded-b-2xl  p-4 bg-gray-100">
-            <div className="sm:h-full grid sm:grid-cols-3 grid-cols-1 gap-4">
-              <Link
-                href="/introduce"
-                className="flex flex-col max-h-[150px]  w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
-              >
-                <div className="h-[50%] w-[25%] flex justify-center">
-                  <img className="h-full" src="/assets/svg/home.svg" />
-                </div>
-                <span className="text-lg pt-2">협회소개</span>
-              </Link>
-              <Link
-                href="/create-account"
-                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
-              >
-                <div className="h-[50%] w-[25%]  flex justify-center">
-                  <img className="h-full" src="/assets/svg/account.svg" />
-                </div>
-                <span className="text-lg pt-2">협회가입</span>
-              </Link>
-              <Link
-                href="/article"
-                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
-              >
-                <div className="h-[50%] w-[25%]  flex justify-center">
-                  <img className="h-full" src="/assets/svg/document.svg" />
-                </div>
-                <span className="text-lg pt-2">협회정관</span>
-              </Link>
-              <Link
-                href="https://www.facebook.com/groups/337483832687824"
-                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
-              >
-                <div className="h-[40%] w-[25%]  flex justify-center">
-                  <img className="h-full" src="/assets/svg/facebook.svg" />
-                </div>
-                <span className="text-lg pt-2">협회 SNS</span>
-              </Link>
-              <Link
-                href="/shop"
-                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
-              >
-                <div className="h-[50%] w-[25%]  flex justify-center">
-                  <img className="h-full" src="/assets/svg/cart.svg" />
-                </div>
-                <span className="text-lg pt-2">연구장터</span>
-              </Link>
-              <Link
-                href="/data-container"
-                className="flex flex-col max-h-[150px] w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
-              >
-                <div className="h-[50%] w-[25%]  flex justify-center">
-                  <img className="h-full" src="/assets/svg/papers.svg" />
-                </div>
-                <span className="text-lg pt-2">자료마당</span>
-              </Link>
-            </div>
-          </div>
-        </div>
       </div>
     </main>
   );

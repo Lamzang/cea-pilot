@@ -14,7 +14,10 @@ export default function Page() {
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
-      const q = query(collection(db, "FAQ"), orderBy("createdAt", "desc"));
+      const q = query(
+        collection(db, "study-architecture"),
+        orderBy("createdAt", "desc")
+      );
       const querySnapshot = await getDocs(q);
       const announcementsData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -28,7 +31,13 @@ export default function Page() {
   return (
     <div>
       <div className="flex ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
-        <h1 className="text-3xl font-bold  ">FAQ</h1>
+        <h1 className="text-3xl font-bold  ">교수학습설계란</h1>
+        <Link
+          className="text-base border rounded-full px-4 bg-blue-500 text-white py-1 hover:bg-blue-600"
+          href="/study-architecture/editor"
+        >
+          글쓰기
+        </Link>
       </div>
 
       <div className="mx-16 pt-10">

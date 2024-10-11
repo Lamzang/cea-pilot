@@ -116,8 +116,8 @@ const Navbar = () => {
               <Image
                 src={"/assets/logo_withtext.png"}
                 alt="로고"
-                width={300}
-                height={50}
+                width={400}
+                height={70}
               />
             </Link>
           </div>
