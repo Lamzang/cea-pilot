@@ -137,7 +137,7 @@ const Navbar = () => {
               후원하기
             </div>
             <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
-              협회장터
+              연구장터
             </div>
             <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
               자료마당
