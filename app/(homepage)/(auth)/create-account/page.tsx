@@ -190,7 +190,7 @@ const CreateAccount = () => {
               to: [`${stateAccount.personalEmail}`],
               message: {
                 subject:
-                  "한국개념기반교육협회 준회원 승인신청이 완료되었습니다.",
+                  "한국개념기반교육협회 준회원 승인신청이 확인되었습니다.",
                 text: "This is the plaintext section of the email body.",
                 html: `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
@@ -227,7 +227,7 @@ const CreateAccount = () => {
               to: [`${stateAccount.personalEmail}`],
               message: {
                 subject:
-                  "한국개념기반교육협회 정회원 승인신청이 완료되었습니다.",
+                  "한국개념기반교육협회 정회원 승인신청이 확인되었습니다.",
                 text: "This is the plaintext section of the email body.",
                 html: `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
