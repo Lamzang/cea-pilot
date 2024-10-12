@@ -66,7 +66,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-full bg-gray-100">
       {/* Left Sidebar for User List */}
-      <div className="w-1/4 p-6 bg-gray-800 text-white flex flex-col">
+      <div className="w-1/4 p-6 bg-chatViolet-light text-white flex flex-col">
         <h1 className="text-2xl font-bold text-center mb-6">Direct Messages</h1>
         <ul className="space-y-3 overflow-y-auto flex-grow">
           {allUsers.map((user: any) => (
@@ -78,8 +78,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 )}`}
               >
                 <div
-                  className={`flex items-center p-4 rounded-lg hover:bg-gray-700 cursor-pointer transition duration-200 ease-in-out ${
-                    currentDM === user.uid ? "bg-gray-700" : "bg-gray-600"
+                  className={`flex items-center p-4 rounded-lg hover:bg-chatViolet-white hover:text-black cursor-pointer transition duration-200 ease-in-out ${
+                    currentDM === user.uid
+                      ? "bg-chatViolet-white text-black"
+                      : "border-2"
                   }`}
                   onClick={() => setCurrentDM(user.uid)}
                 >

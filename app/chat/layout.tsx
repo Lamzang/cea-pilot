@@ -167,7 +167,7 @@ export default function ChatLayout({
 
   return (
     <div className="h-screen flex flex-col">
-      <div className=" bg-white px-14 text-black flex justify-between items-center">
+      <div className="bg-chatViolet-default px-14 text-white flex justify-between items-center">
         <div className="text-lg font-bold">KCBEA 채팅방</div>
         <Link
           className="my-1 p-1 px-4 rounded-2xl text-xs border hover:bg-gray-200"
@@ -178,7 +178,7 @@ export default function ChatLayout({
       </div>
       <div className="flex h-full w-full">
         {/* Left Sidebar */}
-        <div className="bg-black text-white w-64 p-4 flex flex-col justify-between h-full">
+        <div className="bg-chatViolet-default text-white w-64 p-4 flex flex-col justify-between h-full">
           <div className="flex flex-col gap-5 h-5/6 w-full">
             <div className="flex justify-between items-center pr-5">
               <Link href={"/chat"} className="text-xl font-bold">
@@ -227,7 +227,7 @@ export default function ChatLayout({
                   <Link
                     href={`/chat/${data.id}`}
                     key={index}
-                    className="p-2 mb-2 cursor-pointer hover:bg-gray-800 rounded transition-colors"
+                    className="p-2 mb-2 cursor-pointer hover:bg-chatViolet-white hover:text-black rounded transition-colors"
                   >
                     <div className="font-semibold">{data.data.name}</div>
                     <div className="text-sm text-gray-400">
@@ -242,7 +242,7 @@ export default function ChatLayout({
             {user ? (
               <div
                 onClick={clickProfileModal}
-                className="relative bg-gray-700 hover:bg-gray-600 text-white px-4  rounded-full cursor-pointer  text-center w-full h-full flex justify-center items-center"
+                className="relative bg-chatViolet-light hover:bg-chatViolet-white hover:text-black text-white px-4  rounded-full cursor-pointer  text-center w-full h-full flex justify-center items-center"
               >
                 {showProfileModal && (
                   <ProfileModal user={user} onClose={clickProfileModal} />
@@ -251,7 +251,7 @@ export default function ChatLayout({
               </div>
             ) : (
               <div
-                className="relative bg-gray-700 hover:bg-gray-600 text-white px-4  rounded-full cursor-pointer  text-center w-full h-full flex justify-center items-center"
+                className="relative bg-chatViolet-light hover:bg-chatViolet-white hover:text-black text-white px-4  rounded-full cursor-pointer  text-center w-full h-full flex justify-center items-center"
                 onClick={clickLoginModal}
               >
                 {showAuthModal && (

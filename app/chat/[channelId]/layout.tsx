@@ -116,7 +116,7 @@ const Layout = ({
 
   return (
     <div className="flex justify-center items-center h-full bg-gray-100 ">
-      <div className="h-full bg-gray-800 overflow-y-auto w-1/4 p-4 flex flex-col justify-between">
+      <div className="h-full bg-chatViolet-light overflow-y-auto w-1/4 p-4 flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between w-full ">
             <div className="w-1/2 text-white flex font-bold text-xl  p-2 py-1">
@@ -125,7 +125,7 @@ const Layout = ({
 
             <div
               onClick={clickModal}
-              className="rounded-full border-white border-2 hover:bg-slate-500 cursor-grab text-white p-2"
+              className="rounded-full border-white border-2 hover:bg-chatViolet-white hover:text-black cursor-grab text-white p-2"
             >
               채팅방 +
             </div>
@@ -135,7 +135,8 @@ const Layout = ({
               href={`/chat/${params.channelId}/home`}
               className="p-2 px-4 my-3 rounded-full text-white"
               style={{
-                backgroundColor: currentRoom === "home" ? "#4b5563" : "",
+                backgroundColor: currentRoom === "home" ? "#F7EDFE" : "",
+                color: currentRoom === "home" ? "black" : "",
               }}
               onClick={() => setCurrentRoom("home")}
             >
@@ -146,7 +147,8 @@ const Layout = ({
               className="p-2 px-4 my-3 rounded-full text-white"
               style={{
                 backgroundColor:
-                  currentRoom === "announcement" ? "#4b5563" : "",
+                  currentRoom === "announcement" ? "#F7EDFE" : "",
+                color: currentRoom === "announcement" ? "black" : "",
               }}
               onClick={() => setCurrentRoom("announcement")}
             >
@@ -156,7 +158,8 @@ const Layout = ({
               href={`/chat/${params.channelId}/schedule`}
               className="p-2 px-4 my-3 rounded-full text-white"
               style={{
-                backgroundColor: currentRoom === "schedule" ? "#4b5563" : "",
+                backgroundColor: currentRoom === "schedule" ? "#F7EDFE" : "",
+                color: currentRoom === "schedule" ? "black" : "",
               }}
               onClick={() => setCurrentRoom("schedule")}
             >
@@ -170,7 +173,8 @@ const Layout = ({
                 href={`/chat/${params.channelId}/${data.id}`}
                 className=" p-2 px-4 my-3 rounded-full text-white"
                 style={{
-                  backgroundColor: currentRoom === data.id ? "#4b5563" : "",
+                  backgroundColor: currentRoom === data.id ? "#F7EDFE" : "",
+                  color: currentRoom === data.id ? "black" : "",
                 }}
                 key={index}
                 onClick={() => setCurrentRoom(data.id)}
