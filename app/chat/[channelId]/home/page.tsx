@@ -54,8 +54,10 @@ export default function Page({ params }: { params: { channelId: string } }) {
       getDoc(doc(db, `channels/${params.channelId}`)).then((docSnap) => {
         if (docSnap.exists()) {
           const currentMembers = docSnap.data().members || [];
-          const currentUserArray = allUsers.filter((user: any) =>
-            currentMembers.includes(user.uid)
+          const currentUserArray = allUsers.filter(
+            (user: any) =>
+              currentMembers.includes(user.uid) &&
+              !adminUidArray.includes(user.uid)
           );
           const inviteUserArray = allUsers.filter(
             (user: any) =>

@@ -33,6 +33,11 @@ const config: Config = {
           gray: "#C2CEE5",
           white: "#F2F4F9",
         },
+        chatViolet: {
+          default: "#451C4A",
+          light: "#562F5C",
+          white: "#F7EDFE",
+        },
       },
     },
   },
