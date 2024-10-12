@@ -4,8 +4,6 @@ import Link from "next/link";
 import BackgroundImage from "@/components/background";
 import AnnouncementComponent from "@/components/announcementComponent";
 
-import InterviewComponent from "@/components/interviewComponent";
-
 export default function Home() {
   return (
     <main className="flex flex-col m-0 p-0 overflow-hidden w-full">
@@ -43,13 +41,13 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full flex p-8">
-        <div className="w-1/3 mt-4 border-8 rounded-3xl mx-6 h-full  ">
-          <div className="h-48 sm:h-[calc(100%-2.75rem)] rounded-2xl  p-4 bg-gray-100">
-            <div className="sm:h-full grid sm:grid-cols-2 grid-cols-1 gap-4">
+      <div className="w-full sm:flex p-8">
+        <div className="sm:w-1/3 flex mt-4 border-8 rounded-3xl sm:mx-6 h-full  ">
+          <div className="h-full rounded-2xl w-full p-4 bg-gray-100">
+            <div className="h-full grid grid-cols-2 w-full gap-4">
               <Link
                 href="/introduce"
-                className="flex flex-col max-h-[150px]  w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+                className="flex flex-col max-h-[150px]  w-full sm:h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
               >
                 <div className="h-[30%] w-[25%] flex justify-center">
                   <img className="h-full" src="/assets/svg/home.svg" />

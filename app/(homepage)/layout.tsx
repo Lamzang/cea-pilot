@@ -10,7 +10,9 @@ export default function HomeLayout({
     <div>
       <Navbar />
       <div className="flex justify-center sm:px-6 lg:px-8 mt-10">
-        <div className="w-full sm:mx-20 sm:max-w-screen-2xl">{children}</div>
+        <div className="w-full sm:mx-20 mx-2 sm:max-w-screen-2xl">
+          {children}
+        </div>
       </div>
       <Footer />
     </div>

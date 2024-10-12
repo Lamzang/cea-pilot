@@ -110,9 +110,9 @@ const Navbar = () => {
       </div>
 
       <div className="flex justify-center w-full bg-white border border-b-gray-200">
-        <nav className="cursor-grab w-full mx-20 h-24 flex items-center justify-between ">
-          <div className="flex items-center w-full sm:w-1/4">
-            <Link href="/" className="w-[300px] m-2">
+        <nav className="cursor-grab w-full sm:mx-20 px-5 py-10 h-24 flex items-center justify-between  ">
+          <div className="flex items-center w-2/3 sm:w-1/4">
+            <Link href="/" className="sm:w-[300px] m-2">
               <Image
                 src={"/assets/logo_withtext.png"}
                 alt="로고"
@@ -146,14 +146,14 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="sm:hidden flex items-center w-1/4 justify-center">
+          <div className="sm:hidden flex items-center w-1/3 justify-end">
             <div
-              className="w-full"
+              className="w-full flex justify-end"
               onClick={() => setIsMobileDetail((prev) => !prev)}
             >
               <img
                 src="/assets/svg/menu.svg"
-                className="w-full"
+                className="w-1/2"
                 alt="menu button"
               />
             </div>
@@ -187,7 +187,7 @@ const Navbar = () => {
             후원하기
           </Link>
           <Link href={"/shop"} className="text-black m-4 w-full text-center">
-            협회장터
+            연구도서구매
           </Link>
           <Link
             href={"/data-container"}
