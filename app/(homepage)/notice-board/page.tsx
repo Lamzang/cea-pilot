@@ -27,11 +27,11 @@ const AnnouncementsPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-10">
+    <div className="">
+      <h1 className="text-3xl font-bold ml-1 sm:ml-8 border-b-2 pb-6 mt-6 mb-10">
         공지사항
       </h1>
-      <div className="mx-16 pt-10">
+      <div className="m-2 sm:mx-16 pt-10">
         {announcements.map((announcement) => (
           <Link href={`/notice-board/${announcement.id}`} key={announcement.id}>
             <div className="bg-gray-100 border-gray-300 border-b-2 p-4   hover:bg-gray-200">

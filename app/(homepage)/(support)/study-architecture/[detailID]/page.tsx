@@ -32,12 +32,12 @@ export default function Page({ params }: { params: { detailID: string } }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-4">
+      <h1 className="text-3xl font-bold ml-1 sm:ml-8 border-b-2 pb-6 mt-6 mb-4">
         교수학습설계란- {announcement.title}
       </h1>
-      <div className="p-6 bg-white rounded-lg ">
-        <div className="ml-6 ">작성자 : {announcement.author}</div>
-        <div className=" p-4 rounded-md shadow-sm">
+      <div className="p-2 sm:p-6 bg-white rounded-lg ">
+        <div className="ml-1 sm:ml-6 ">작성자 : {announcement.author}</div>
+        <div className="p-2 sm:p-4 rounded-md shadow-sm">
           <Editor
             editorState={EditorState.createWithContent(
               convertFromRaw(announcement.content)

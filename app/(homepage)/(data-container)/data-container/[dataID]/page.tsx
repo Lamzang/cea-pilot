@@ -32,11 +32,11 @@ export default function Page({ params }: { params: { dataID: string } }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-4">
+      <h1 className="text-3xl font-bold ml-1 sm:ml-8 border-b-2 pb-6 mt-6 mb-4">
         자료실- {announcement.title}
       </h1>
-      <div className="p-6 bg-white rounded-lg ">
-        <div className=" p-4 rounded-md shadow-sm">
+      <div className="p-2 sm:p-6 bg-white rounded-lg ">
+        <div className="p-2 sm:p-4 rounded-md shadow-sm">
           <Editor
             editorState={EditorState.createWithContent(
               convertFromRaw(announcement.content)
@@ -55,8 +55,8 @@ export default function Page({ params }: { params: { dataID: string } }) {
       </div>
       {announcement.fileUrls && (
         <div>
-          <div className="text-xl font-bold ml-10">파일 다운로드</div>
-          <div className="w-full pt-2 ml-10 flex flex-col gap-2">
+          <div className="text-xl font-bold ml-2 sm:ml-10">파일 다운로드</div>
+          <div className="w-full pt-2 ml-2 sm:ml-10 flex flex-col gap-2">
             {announcement.fileUrls?.map((data: any, index: any) => (
               <div key={index} className=" w-fit px-1">
                 <Link className="hover:text-red-400 flex gap-1" href={data}>

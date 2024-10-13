@@ -1,10 +1,10 @@
 export default function Page() {
   return (
     <div className="min-h-screen">
-      <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-4">
+      <h1 className="text-3xl font-bold ml-1 sm:ml-8 border-b-2 pb-6 mt-6 mb-4">
         학문적 윤리 정책
       </h1>
-      <div className="p-10 mb-20">
+      <div className="p-2 sm:p-10 mb-20">
         <h2 className="sm:text-2xl font-bold mb-2">
           {"<학문적 정직성 및 저작권 보호에 관한 정책 문서>"}
         </h2>

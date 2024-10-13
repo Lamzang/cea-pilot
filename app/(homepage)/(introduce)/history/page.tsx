@@ -1,21 +1,21 @@
 export default function Page() {
   return (
     <div className="min-h-screen">
-      <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-10">
+      <h1 className="text-3xl font-bold  sm:ml-8 ml-1 border-b-2 pb-6 mt-6 mb-10">
         연혁
       </h1>
-      <div className="ml-10 pl-10 text-3xl font-bold w-full border-b-2 pb-5">
+      <div className="sm:ml-10 sm:pl-10 pl-5 sm:text-3xl text-2xl font-bold w-full border-b-2 pb-5">
         2024년
       </div>
       <div className="w-full flex">
-        <div className="border-r-4 flex flex-col items-end w-64 h-full min-h-52">
-          <div className=" p-4 text-blue-500 h-20 w-fit mt-10 text-3xl font-bold rounded-3xl">
+        <div className="border-r-4 flex flex-col items-end sm:w-64 w-48 h-full min-h-52">
+          <div className=" p-4 text-blue-500 h-20 w-fit mt-10 sm:text-3xl text-2xl font-bold rounded-3xl">
             6월
           </div>
-          <div className=" p-4 text-blue-500 h-20 w-fit mt-10 text-3xl font-bold rounded-3xl">
+          <div className=" p-4 text-blue-500 h-20 w-fit mt-10 sm:text-3xl text-2xl font-bold rounded-3xl">
             8월
           </div>
-          <div className=" p-4 text-blue-500 h-20 w-fit mt-10 text-3xl font-bold rounded-3xl">
+          <div className=" p-4 text-blue-500 h-20 w-fit mt-10 sm:text-3xl text-2xl font-bold rounded-3xl">
             10월
           </div>
         </div>

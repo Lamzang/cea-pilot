@@ -36,7 +36,7 @@ const RichTextExample: React.FC = () => {
       await addDoc(collection(db, "study-architecture"), {
         title: title,
         content: rawContentState,
-        author: user?.displayName,
+        author: user?.displayName ?? "익명",
         createdAt: new Date(),
       });
       alert("저장되었습니다.");
@@ -53,7 +53,7 @@ const RichTextExample: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+    <div className="max-w-3xl mx-1 sm:mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
       <h1 className="text-3xl font-bold mb-6 text-center">새 글 쓰기</h1>
       <input
         type="text"

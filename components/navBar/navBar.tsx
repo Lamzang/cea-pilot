@@ -66,25 +66,29 @@ const Navbar = () => {
         <div className="w-full sm:mx-20 sm:px-14  text-sm cursor-grab">
           {user ? (
             <div className="flex w-full items-center h-8 justify-end">
-              <div className="flex gap-3 items-center">
-                {["관리자"].includes(userDoc?.membershipType ?? "") ? (
-                  <Link
-                    className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
-                    href={"/admin"}
-                  >
-                    관리자 방으로 가기
-                  </Link>
-                ) : null}
-                {["관리자", "멤버", "정회원"].includes(
-                  userDoc?.membershipType ?? ""
-                ) ? (
-                  <Link
-                    className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
-                    href={"/chat"}
-                  >
-                    채팅앱으로 가기
-                  </Link>
-                ) : null}
+              <div className="flex gap-3 text-sm items-center">
+                {isMobile ? null : (
+                  <div>
+                    {["관리자"].includes(userDoc?.membershipType ?? "") ? (
+                      <Link
+                        className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
+                        href={"/admin"}
+                      >
+                        관리자 방으로 가기
+                      </Link>
+                    ) : null}
+                    {["관리자", "멤버", "정회원"].includes(
+                      userDoc?.membershipType ?? ""
+                    ) ? (
+                      <Link
+                        className="p-1 text-xs px-4 border rounded-2xl hover:bg-gray-200"
+                        href={"/chat"}
+                      >
+                        채팅앱으로 가기
+                      </Link>
+                    ) : null}
+                  </div>
+                )}
                 <div>
                   {userDoc?.username} | {userDoc?.membershipType}
                 </div>

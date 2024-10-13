@@ -30,24 +30,24 @@ const RichTextExample: React.FC = () => {
   };
 
   const saveToFirestore = async () => {
-    const contentState = editorState.getCurrentContent();
-    const rawContentState = convertToRaw(contentState);
+    const contentState = await editorState.getCurrentContent();
+    const rawContentState = await convertToRaw(contentState);
 
     try {
       await addDoc(collection(db, "QnA"), {
         title: title,
         content: rawContentState,
-        author: user?.displayName,
+        author: user?.displayName ?? "익명",
         createdAt: new Date(),
         isSecret: secret,
       });
-      alert("저장되었습니다.");
+      await alert("저장되었습니다.");
     } catch (e) {
       console.error("문제가 발생하였습니다: ", e);
     }
-    setEditorState(EditorState.createEmpty());
-    setTitle("");
-    router.push("/support");
+    await setEditorState(EditorState.createEmpty());
+    await setTitle("");
+    await router.push("/support");
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ const RichTextExample: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+    <div className="max-w-3xl mx-1 sm:mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
       <h1 className="text-3xl font-bold mb-6 text-center">질문 작성하기</h1>
       <input
         type="text"

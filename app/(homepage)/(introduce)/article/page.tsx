@@ -1,12 +1,12 @@
 export default function Page() {
   return (
     <div className="min-h-screen">
-      <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-4">
+      <h1 className="text-3xl font-bold ml-1 sm:ml-8 border-b-2 pb-6 mt-6 mb-4">
         협회 정관
       </h1>
-      <div className="p-10 mb-20">
+      <div className="sm:p-10 p-2 mb-20">
         <h2 className="sm:text-2xl font-bold mb-2">
-          한국 개념 기반 교육 협회 정관
+          {"<한국 개념 기반 교육 협회 정관>"}
         </h2>
 
         <div className="sm:h-[calc(100%-3rem)] h-3/4 overflow-y-auto mt-4">

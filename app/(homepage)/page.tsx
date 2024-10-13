@@ -11,7 +11,7 @@ export default function Home() {
         <>
           {/* <BackgroundImage /> */}
           <div
-            className={`absolute w-full left-0 h-[300px] sm:h-[500px] flex justify-center items-center image-container
+            className={`absolute w-full left-0 h-[200px] sm:h-[500px] flex justify-center items-center image-container
           `}
             style={{
               zIndex: -50,
@@ -22,7 +22,7 @@ export default function Home() {
           >
             <div className="w-full h-full bg-black bg-opacity-20"></div>
           </div>
-          <div className="flex justify-center items-center flex-col h-[300px] sm:h-[500px] sm:pb-20 z-50">
+          <div className="flex justify-center items-center flex-col h-[200px] sm:h-[500px] sm:pb-20 z-50">
             <div className="text-2xl sm:text-5xl font-bold text-white ">
               한국개념기반교육협회
             </div>
@@ -33,7 +33,7 @@ export default function Home() {
         </>
       </div>
 
-      <div className="flex flex-col sm:flex-row h-auto sm:h-auto mt-10 px-4 justify-between">
+      <div className="flex flex-col sm:flex-row h-auto sm:h-auto sm:mt-10 px-4 justify-between">
         <AnnouncementComponent />
 
         <div className="w-full sm:w-1/3 mx-2 sm:ml-5 mt-6 sm:mt-0 rounded-2xl">
@@ -60,7 +60,7 @@ export default function Home() {
                 <div className="h-[30%] w-[25%] flex justify-center">
                   <img className="h-full" src="/assets/svg/home.svg" />
                 </div>
-                <span className="text-lg pt-2">협회소개</span>
+                <span className="sm:text-lg text-base pt-2">협회소개</span>
               </Link>
               <Link
                 href="/create-account"
@@ -69,7 +69,7 @@ export default function Home() {
                 <div className="h-[30%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/account.svg" />
                 </div>
-                <span className="text-lg pt-2">협회가입</span>
+                <span className="sm:text-lg text-base pt-2">협회가입</span>
               </Link>
               <Link
                 href="/article"
@@ -78,7 +78,7 @@ export default function Home() {
                 <div className="h-[30%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/document.svg" />
                 </div>
-                <span className="text-lg pt-2">협회정관</span>
+                <span className="sm:text-lg text-base pt-2">협회정관</span>
               </Link>
               <Link
                 href="https://www.facebook.com/groups/337483832687824"
@@ -87,7 +87,7 @@ export default function Home() {
                 <div className="h-[30%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/facebook.svg" />
                 </div>
-                <span className="text-lg pt-2">협회 SNS</span>
+                <span className="sm:text-lg text-base pt-2">협회 SNS</span>
               </Link>
               <Link
                 href="/shop"
@@ -96,7 +96,9 @@ export default function Home() {
                 <div className="h-[40%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/cart.svg" />
                 </div>
-                <span className="text-lg pt-2">연수 및 도서구매</span>
+                <span className="sm:text-lg text-base pt-2">
+                  연수 및 도서구매
+                </span>
               </Link>
               <Link
                 href="/data-container"
@@ -105,7 +107,7 @@ export default function Home() {
                 <div className="h-[40%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/papers.svg" />
                 </div>
-                <span className="text-lg pt-2">자료마당</span>
+                <span className="sm:text-lg text-base pt-2">자료마당</span>
               </Link>
             </div>
           </div>
