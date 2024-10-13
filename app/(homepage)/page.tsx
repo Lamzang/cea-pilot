@@ -11,7 +11,7 @@ export default function Home() {
         <>
           {/* <BackgroundImage /> */}
           <div
-            className={`absolute w-full left-0 h-[300px] sm:h-[500px] flex justify-center items-center image-container
+            className={`absolute w-full left-0 h-[200px] sm:h-[500px] flex justify-center items-center image-container
           `}
             style={{
               zIndex: -50,
@@ -22,7 +22,7 @@ export default function Home() {
           >
             <div className="w-full h-full bg-black bg-opacity-20"></div>
           </div>
-          <div className="flex justify-center items-center flex-col h-[300px] sm:h-[500px] sm:pb-20 z-50">
+          <div className="flex justify-center items-center flex-col h-[200px] sm:h-[500px] sm:pb-20 z-50">
             <div className="text-2xl sm:text-5xl font-bold text-white ">
               한국개념기반교육협회
             </div>
@@ -33,7 +33,7 @@ export default function Home() {
         </>
       </div>
 
-      <div className="flex flex-col sm:flex-row h-auto sm:h-auto mt-10 px-4 justify-between">
+      <div className="flex flex-col sm:flex-row h-auto sm:h-auto sm:mt-10 px-4 justify-between">
         <AnnouncementComponent />
 
         <div className="w-full sm:w-1/3 mx-2 sm:ml-5 mt-6 sm:mt-0 rounded-2xl">
