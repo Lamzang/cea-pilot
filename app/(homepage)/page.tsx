@@ -9,17 +9,25 @@ export default function Home() {
     <main className="flex flex-col m-0 p-0 overflow-hidden w-full">
       <div>
         <>
-          <BackgroundImage />
-          <div className="flex justify-center items-center flex-col h-[300px] sm:h-[500px] z-50">
-            <div className="text-2xl sm:text-4xl font-bold text-white">
+          {/* <BackgroundImage /> */}
+          <div
+            className={`absolute w-full left-0 h-[300px] sm:h-[500px] flex justify-center items-center image-container
+          `}
+            style={{
+              zIndex: -50,
+              backgroundImage: `url("/assets/mainTitle/background2.jpg")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="w-full h-full bg-black bg-opacity-20"></div>
+          </div>
+          <div className="flex justify-center items-center flex-col h-[300px] sm:h-[500px] sm:pb-20 z-50">
+            <div className="text-2xl sm:text-5xl font-bold text-white ">
               한국개념기반교육협회
             </div>
-            <div className="text-white text-sm sm:text-base">
+            <div className="text-white text-sm sm:text-xl">
               Korea Concept-Based Education Association
-            </div>
-            <div className="flex gap-4 sm:gap-10 text-base sm:text-lg mt-3 sm:mt-5">
-              <AuthBtn addCSS="px-2 sm:px-4" type="login" />
-              <AuthBtn addCSS="px-2 sm:px-4" type="create-account" />
             </div>
           </div>
         </>
@@ -88,7 +96,7 @@ export default function Home() {
                 <div className="h-[40%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/cart.svg" />
                 </div>
-                <span className="text-lg pt-2">연구도서구매</span>
+                <span className="text-lg pt-2">연수 및 도서구매</span>
               </Link>
               <Link
                 href="/data-container"

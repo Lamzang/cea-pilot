@@ -557,9 +557,8 @@ const CreateAccount = () => {
             </div>
 
             <div className="text-gray-700">
-              <span className="font-semibold">정회원:</span> 12시간 이상
-              연수/동일 자격, 각종 온오프라인 협회 행사 초대 및 연수 할인 혜택,
-              운영진으로서 역할 수행 가능
+              <span className="font-semibold">정회원:</span> 각종 온오프라인
+              협회 행사 초대 및 연수 할인 혜택, 운영진으로서 역할 수행 가능
             </div>
 
             <div className="text-red-500 text-sm">

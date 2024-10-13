@@ -70,7 +70,7 @@ export default function AdminUserDetail({
   const sendMailToUser = async () => {
     if (membership === "정회원") {
       sendMail(
-        "12시간 이상 연수/동일 자격, 각종 온오프라인 협회 행사 초대 및 연수 할인 혜택, 운영진으로서 역할 수행 가능, 협회 메신저 초대"
+        " 각종 온오프라인 협회 행사 초대 및 연수 할인 혜택, 운영진으로서 역할 수행 가능, 협회 메신저 초대"
       );
       alert("정회원 승인메일이 발송되었습니다.");
       router.push("/admin/users");
