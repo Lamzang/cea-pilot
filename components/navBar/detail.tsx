@@ -87,7 +87,7 @@ const Detaiednavbar = ({ setIsDetail }: any) => {
               href={"/shop"}
               className="py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
             >
-              연구도서구매
+              연수 및 도서구매
             </Link>
           </div>
           <div className="flex mx-4 flex-col  h-full w-1/6 items-center justify-start ">

@@ -4,24 +4,30 @@ import Link from "next/link";
 import BackgroundImage from "@/components/background";
 import AnnouncementComponent from "@/components/announcementComponent";
 
-import InterviewComponent from "@/components/interviewComponent";
-
 export default function Home() {
   return (
     <main className="flex flex-col m-0 p-0 overflow-hidden w-full">
       <div>
         <>
-          <BackgroundImage />
-          <div className="flex justify-center items-center flex-col h-[300px] sm:h-[500px] z-50">
-            <div className="text-2xl sm:text-4xl font-bold text-white">
+          {/* <BackgroundImage /> */}
+          <div
+            className={`absolute w-full left-0 h-[300px] sm:h-[500px] flex justify-center items-center image-container
+          `}
+            style={{
+              zIndex: -50,
+              backgroundImage: `url("/assets/mainTitle/background2.jpg")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="w-full h-full bg-black bg-opacity-20"></div>
+          </div>
+          <div className="flex justify-center items-center flex-col h-[300px] sm:h-[500px] sm:pb-20 z-50">
+            <div className="text-2xl sm:text-5xl font-bold text-white ">
               한국개념기반교육협회
             </div>
-            <div className="text-white text-sm sm:text-base">
+            <div className="text-white text-sm sm:text-xl">
               Korea Concept-Based Education Association
-            </div>
-            <div className="flex gap-4 sm:gap-10 text-base sm:text-lg mt-3 sm:mt-5">
-              <AuthBtn addCSS="px-2 sm:px-4" type="login" />
-              <AuthBtn addCSS="px-2 sm:px-4" type="create-account" />
             </div>
           </div>
         </>
@@ -43,13 +49,13 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full flex p-8">
-        <div className="w-1/3 mt-4 border-8 rounded-3xl mx-6 h-full  ">
-          <div className="h-48 sm:h-[calc(100%-2.75rem)] rounded-2xl  p-4 bg-gray-100">
-            <div className="sm:h-full grid sm:grid-cols-2 grid-cols-1 gap-4">
+      <div className="w-full sm:flex p-8">
+        <div className="sm:w-1/3 flex mt-4 border-8 rounded-3xl sm:mx-6 h-full  ">
+          <div className="h-full rounded-2xl w-full p-4 bg-gray-100">
+            <div className="h-full grid grid-cols-2 w-full gap-4">
               <Link
                 href="/introduce"
-                className="flex flex-col max-h-[150px]  w-full h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+                className="flex flex-col max-h-[150px]  w-full sm:h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
               >
                 <div className="h-[30%] w-[25%] flex justify-center">
                   <img className="h-full" src="/assets/svg/home.svg" />
@@ -90,7 +96,7 @@ export default function Home() {
                 <div className="h-[40%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/cart.svg" />
                 </div>
-                <span className="text-lg pt-2">연구도서구매</span>
+                <span className="text-lg pt-2">연수 및 도서구매</span>
               </Link>
               <Link
                 href="/data-container"

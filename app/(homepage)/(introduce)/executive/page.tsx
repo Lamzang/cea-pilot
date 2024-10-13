@@ -90,7 +90,6 @@ export default function Page() {
             </div>
             <div className="px-10 pb-4">
               <div>E : {data.email}</div>
-              <div>H.P. : {data.phone}</div>
               <div className="pt-4">
                 {data.career.map((career, index) => (
                   <div key={index}>{career}</div>
