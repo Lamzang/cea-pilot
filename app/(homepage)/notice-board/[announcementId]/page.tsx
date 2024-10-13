@@ -35,8 +35,8 @@ export default function Page({
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 flex flex-col bg-white rounded-lg ">
-      <h1 className="text-3xl font-bold mb-6 text-center">
+    <div className="max-w-3xl sm:mx-auto sm:p-6 p-2 flex flex-col bg-white rounded-lg ">
+      <h1 className="sm:text-3xl text-2xl mt-5 font-bold mb-6 text-center">
         {announcement.title}
       </h1>
       <div className="bg-gray-100 p-4 rounded-md shadow-sm">
@@ -57,8 +57,10 @@ export default function Page({
       </p>
       {announcement.fileUrls && (
         <div>
-          <div className="text-xl font-bold ml-10">파일 다운로드</div>
-          <div className="w-full pt-2 ml-10 flex flex-col gap-2">
+          <div className="text-xl font-bold sm:ml-10 ml-2 mt-5">
+            파일 다운로드
+          </div>
+          <div className="w-full pt-2 sm:ml-10 ml-2 flex flex-col gap-2">
             {announcement.fileUrls?.map((data: any, index: any) => (
               <div key={index} className=" w-fit px-1">
                 <Link className="hover:text-red-400 flex gap-1" href={data}>

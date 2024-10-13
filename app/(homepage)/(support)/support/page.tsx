@@ -27,7 +27,7 @@ export default function Page() {
   }, []);
   return (
     <div>
-      <div className="flex ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
+      <div className="flex ml-1 sm:ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
         <h1 className="text-3xl font-bold  ">Q&A</h1>
         <Link
           className="text-base border rounded-full px-4 bg-blue-500 text-white py-1 hover:bg-blue-600"
@@ -37,7 +37,7 @@ export default function Page() {
         </Link>
       </div>
 
-      <div className="mx-16 pt-10">
+      <div className="mx-2 sm:mx-16 pt-4 sm:pt-10">
         {announcements.map((announcement) => (
           <div key={announcement.id}>
             {announcement.isSecret && announcement.author !== user?.username ? (
@@ -59,7 +59,7 @@ export default function Page() {
                   <h2 className="text-base mb-2 p-2">{announcement.title}</h2>
 
                   <p className="text-sm text-gray-500">
-                    {announcement.author ? announcement.author : "관리자"} |
+                    {announcement.author ? announcement.author : "익명"} |
                     작성일:{" "}
                     {new Date(
                       announcement.createdAt.seconds * 1000

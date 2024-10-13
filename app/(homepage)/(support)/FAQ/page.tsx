@@ -27,11 +27,11 @@ export default function Page() {
   }, []);
   return (
     <div>
-      <div className="flex ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
+      <div className="flex ml-1 sm:ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
         <h1 className="text-3xl font-bold  ">FAQ</h1>
       </div>
 
-      <div className="mx-16 pt-10">
+      <div className="mx-2 sm:mx-16 pt-4 sm:pt-10">
         {announcements.map((announcement) => (
           <Link
             href={`/data-container/${announcement.id}`}
@@ -41,7 +41,6 @@ export default function Page() {
               <h2 className="text-base mb-2 p-2">{announcement.title}</h2>
 
               <p className="text-sm text-gray-500">
-                {announcement.author ? announcement.author : "관리자"} | 작성일:{" "}
                 {new Date(
                   announcement.createdAt.seconds * 1000
                 ).toLocaleDateString()}

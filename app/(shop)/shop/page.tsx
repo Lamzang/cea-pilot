@@ -43,7 +43,7 @@ export default function ShopHome() {
   }, [storage]);
 
   return (
-    <div className="py-24 my-10 flex justify-center items-center bg-gray-100 min-h-screen text-base">
+    <div className="py-24 my-0 sm:my-10 flex justify-center items-center bg-gray-100 min-h-screen text-base">
       <div className="w-5/6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
         {shopData.map((data) => (
           <Link
@@ -64,7 +64,14 @@ export default function ShopHome() {
             </div>
           </Link>
         ))}
-        {shopData.length === 0 && <p>상품 준비중입니다</p>}
+        {shopData.length === 0 && (
+          <div className="flex flex-col justify-center items-center">
+            <p>상품 준비중입니다</p>
+            <Link className="p-2 px-4 mt-4 border-2 bg-white" href="/">
+              돌아가기
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -13,6 +13,20 @@ import { useRecoilState, useRecoilValue } from "recoil";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useRecoilState(authState);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth < 640) {
+      setIsMobile(true);
+    }
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 640) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (newUser) => {
       if (newUser && (!user || user.uid !== newUser.uid)) {
@@ -58,10 +72,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           )}
         </div>
       </div>
-      <div className="w-full bg-white border border-b-gray-200 flex justify-center">
-        <nav className="w-full px-20 h-16 sm:h-24 flex items-center justify-between box-border">
-          <div className="flex items-center w-full sm:w-1/4 justify-center sm:justify-start">
-            <Link href="/" className=" m-2">
+      {isMobile ? (
+        <div>
+          <div className="flex items-center w-full justify-center">
+            <Link href="/" className=" m-4">
               <Image
                 src={"/assets/logo_withtext.png"}
                 alt="로고"
@@ -70,22 +84,37 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               />
             </Link>
           </div>
-          <div className="flex items-center justify-center sm:justify-end w-full sm:w-3/4 h-full px-2 sm:px-10">
-            <Link
-              href={"/cart"}
-              className="text-black m-2 sm:m-4 w-1/2 text-xl font-semibold sm:w-1/6 text-center"
-            >
-              장바구니
-            </Link>
-            <Link
-              href={"/support"}
-              className="text-black m-2 sm:m-4 w-1/2 text-xl font-semibold sm:w-1/6 text-center"
-            >
-              고객문의
-            </Link>
-          </div>
-        </nav>
-      </div>
+        </div>
+      ) : (
+        <div className="w-full bg-white border border-b-gray-200 flex justify-center">
+          <nav className="w-full px-20 h-16 sm:h-24 flex items-center justify-between box-border">
+            <div className="flex items-center w-full sm:w-1/4 justify-center sm:justify-start">
+              <Link href="/" className=" m-2">
+                <Image
+                  src={"/assets/logo_withtext.png"}
+                  alt="로고"
+                  width={300}
+                  height={50}
+                />
+              </Link>
+            </div>
+            <div className="flex items-center justify-center sm:justify-end w-full sm:w-3/4 h-full px-2 sm:px-10">
+              <Link
+                href={"/cart"}
+                className="text-black m-2 sm:m-4 w-1/2 text-xl font-semibold sm:w-1/6 text-center"
+              >
+                장바구니
+              </Link>
+              <Link
+                href={"/support"}
+                className="text-black m-2 sm:m-4 w-1/2 text-xl font-semibold sm:w-1/6 text-center"
+              >
+                고객문의
+              </Link>
+            </div>
+          </nav>
+        </div>
+      )}
       <div className="flex justify-center">
         <main className="w-full max-w-[1100px] px-4 sm:px-0">{children}</main>
       </div>

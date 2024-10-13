@@ -5,10 +5,10 @@ export default function Page() {
     <>
       <SEO title="인사말" />
       <div className="min-h-screen ">
-        <h1 className="text-3xl font-bold  ml-8 border-b-2 pb-6 mt-6 mb-10">
+        <h1 className="text-3xl font-bold  sm:ml-8 ml-1 border-b-2 pb-6 mt-6 mb-10">
           인사말
         </h1>
-        <div className="bg-white  rounded-lg p-10 m-4  ">
+        <div className="bg-white  rounded-lg sm:p-10 m-4  ">
           <h1 className="text-3xl font-bold   mb-10">환영합니다</h1>
 
           <p className="text-lg  text-gray-600 mb-2 p-1">

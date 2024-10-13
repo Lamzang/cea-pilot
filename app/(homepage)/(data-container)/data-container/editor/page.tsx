@@ -73,7 +73,7 @@ const RichTextExample: React.FC = () => {
       await addDoc(collection(db, "reference"), {
         title: title,
         content: rawContentState,
-        author: user?.displayName,
+        author: user?.displayName ?? "익명",
         createdAt: new Date(),
         fileUrls: fileUrls,
         fileNames: fileNames,
