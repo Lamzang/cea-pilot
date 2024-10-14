@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import dynamic from "next/dynamic";
-import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import { collection, addDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
@@ -14,16 +12,10 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { set } from "firebase/database";
-
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
+import { useRecoilState } from "recoil";
+import { authState, userDocState } from "@/lib/recoil/auth";
 
 export default function Page({ params }: { params: { noticeId: string } }) {
-  const [editorState, setEditorState] = useState<EditorState>(
-    EditorState.createEmpty()
-  );
   const [title, setTitle] = useState<string>("");
   const [announcement, setAnnouncement] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,6 +23,8 @@ export default function Page({ params }: { params: { noticeId: string } }) {
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [fileData, setFileData] = useState<any[]>([]);
+  const [user, setUser] = useRecoilState(userDocState);
+  const [text, setText] = useState<any>("");
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
@@ -42,10 +36,8 @@ export default function Page({ params }: { params: { noticeId: string } }) {
           const data = docSnap.data();
           setAnnouncement(data);
           setTitle(data.title);
-          const contentState = convertFromRaw(data.content);
           setSelectedFiles([...data.fileUrls]);
           setFileData([...data.fileNames]);
-          setEditorState(EditorState.createWithContent(contentState));
         } else {
           console.log("No such document!");
         }
@@ -59,16 +51,7 @@ export default function Page({ params }: { params: { noticeId: string } }) {
     fetchAnnouncement();
   }, [params.noticeId]);
 
-  const onEditorStateChange = useCallback(
-    (newEditorState: EditorState): void => {
-      setEditorState(newEditorState);
-    },
-    []
-  );
-
   const saveToFirestore = async () => {
-    const contentState = editorState.getCurrentContent();
-    const rawContentState = convertToRaw(contentState);
     let fileUrls: string[] = [];
     let fileNames: string[] = [];
 
@@ -87,7 +70,7 @@ export default function Page({ params }: { params: { noticeId: string } }) {
     try {
       await setDoc(doc(db, "announcements", params.noticeId), {
         title: title,
-        content: rawContentState,
+        content: text,
         author: "관리자",
         createdAt: new Date(),
         fileUrls: fileUrls,
@@ -176,12 +159,10 @@ export default function Page({ params }: { params: { noticeId: string } }) {
         ))}
       </div>
 
-      <Editor
-        editorState={editorState}
-        onEditorStateChange={onEditorStateChange}
-        wrapperClassName="wrapper-class mb-4"
-        editorClassName="editor-class bg-gray-100 p-4 min-h-[200px] border border-gray-300 rounded-md"
-        toolbarClassName="toolbar-class mb-4"
+      <textarea
+        value={announcement.content}
+        onChange={(e) => setText(e.target.value)}
+        className="border border-gray-300 rounded-md p-2 w-full h-40 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         onClick={saveToFirestore}

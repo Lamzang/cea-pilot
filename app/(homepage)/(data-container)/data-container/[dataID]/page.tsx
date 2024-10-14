@@ -37,15 +37,10 @@ export default function Page({ params }: { params: { dataID: string } }) {
       </h1>
       <div className="p-2 sm:p-6 bg-white rounded-lg ">
         <div className="p-2 sm:p-4 rounded-md shadow-sm">
-          <Editor
-            editorState={EditorState.createWithContent(
-              convertFromRaw(announcement.content)
-            )}
+          <textarea
+            value={announcement.content}
             readOnly
-            toolbarHidden
-            wrapperClassName="wrapper-class"
-            editorClassName="editor-class p-2 min-h-[150px] border border-gray-300 rounded-md"
-            toolbarClassName="toolbar-class"
+            className="w-full h-40"
           />
         </div>
         <p className="text-sm text-gray-500 mt-4 text-right">
