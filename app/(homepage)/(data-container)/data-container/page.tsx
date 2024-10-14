@@ -59,6 +59,11 @@ export default function Page() {
           </Link>
         ))}
         {announcements.length === 0 && <div>게시글이 없습니다.</div>}
+        <div className="text-red-400 mt-20">
+          * 참고: 기본적인 자료는 올 해 말까지 구성할 예정입니다. 고로 년 가입
+          기간은 2025년 1월부터 카운팅 들어갑니다.
+          <br /> 내년부터는 새로 생성되는 자료도 기대해 주세요.
+        </div>
       </div>
     </div>
   );

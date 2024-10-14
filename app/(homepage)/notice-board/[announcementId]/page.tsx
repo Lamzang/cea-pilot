@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
-import { EditorState, convertFromRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { userDocState } from "@/lib/recoil/auth";
 
 export default function Page({
   params,
@@ -14,6 +14,7 @@ export default function Page({
   params: { announcementId: string };
 }) {
   const [announcement, setAnnouncement] = useState<any>(null);
+  const user = useRecoilValue(userDocState);
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
@@ -32,6 +33,13 @@ export default function Page({
 
   if (!announcement) {
     return <div>Loading...</div>;
+  }
+
+  if (
+    announcement.tag !== user?.membershipType &&
+    user?.membershipType !== "관리자"
+  ) {
+    return <div>접근 권한이 없습니다.</div>;
   }
 
   return (
@@ -64,6 +72,7 @@ export default function Page({
                     className="w-6 h-6"
                     alt="downloadsvg"
                   />
+
                   {announcement.fileNames[index]}
                 </Link>
               </div>

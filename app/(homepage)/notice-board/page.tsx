@@ -35,7 +35,14 @@ const AnnouncementsPage: React.FC = () => {
         {announcements.map((announcement) => (
           <Link href={`/notice-board/${announcement.id}`} key={announcement.id}>
             <div className="bg-gray-100 border-gray-300 border-b-2 p-4   hover:bg-gray-200">
-              <h2 className="text-base mb-2 p-2">{announcement.title}</h2>
+              <h2 className="text-base mb-2 p-2 flex items-center">
+                {announcement.tag ? (
+                  <div className="px-4 py-1 border rounded-2xl mr-3 bg-blue-500 text-white">
+                    {announcement.tag}
+                  </div>
+                ) : null}
+                {announcement.title}
+              </h2>
 
               <p className="text-sm text-gray-500">
                 관리자 | 작성일:{" "}

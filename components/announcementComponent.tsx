@@ -69,7 +69,12 @@ export default function AnnouncementComponent() {
             key={announcement.id}
             className="p-4 px-6 border-b border-gray-300 hover:bg-gray-100 flex flex-col"
           >
-            <div className="font-semibold text-lg text-gray-700">
+            <div className="font-semibold text-lg text-gray-700 flex items-center">
+              {announcement.tag ? (
+                <div className="px-4 py-1 border rounded-2xl mr-3 bg-blue-500 text-white">
+                  {announcement.tag}
+                </div>
+              ) : null}
               {announcement.title}
             </div>
             <div className="text-sm text-gray-500 flex justify-end">
