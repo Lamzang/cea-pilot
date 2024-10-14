@@ -1,42 +1,26 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { EditorState, convertToRaw } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
-
-const RichTextExample: React.FC = () => {
-  const [editorState, setEditorState] = useState<EditorState>(
-    EditorState.createEmpty()
-  );
+export default function Page() {
   const [title, setTitle] = useState<string>("");
-
-  const onEditorStateChange = (newEditorState: EditorState): void => {
-    setEditorState(newEditorState);
-  };
+  const [text, setText] = useState<any>("");
 
   const saveToFirestore = async () => {
-    const contentState = editorState.getCurrentContent();
-    const rawContentState = convertToRaw(contentState);
-
     try {
       await addDoc(collection(db, "announcements"), {
         title: title,
-        content: rawContentState,
+        content: text,
         createdAt: new Date(),
+        fileUrls: [],
+        fileNames: [],
       });
       alert("공지사항이 성공적으로 저장되었습니다!");
     } catch (e) {
-      console.error("Error adding document: ", e);
+      alert("Error adding document ");
     }
-    setEditorState(EditorState.createEmpty());
     setTitle("");
   };
 
@@ -55,12 +39,10 @@ const RichTextExample: React.FC = () => {
         required
         className="w-full mb-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <Editor
-        editorState={editorState}
-        onEditorStateChange={onEditorStateChange}
-        wrapperClassName="wrapper-class mb-4"
-        editorClassName="editor-class bg-gray-100 p-4 min-h-[200px] border border-gray-300 rounded-md"
-        toolbarClassName="toolbar-class mb-4"
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="border border-gray-300 rounded-md p-2 w-full h-40 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         onClick={saveToFirestore}
@@ -70,6 +52,4 @@ const RichTextExample: React.FC = () => {
       </button>
     </div>
   );
-};
-
-export default RichTextExample;
+}

@@ -36,19 +36,14 @@ export default function Page({
 
   return (
     <div className="max-w-3xl sm:mx-auto sm:p-6 p-2 flex flex-col bg-white rounded-lg ">
-      <h1 className="sm:text-3xl text-2xl mt-5 font-bold mb-6 text-center">
+      <h1 className="sm:text-3xl text-2xl mt-5 font-bold mb-6 ">
         {announcement.title}
       </h1>
-      <div className="bg-gray-100 p-4 rounded-md shadow-sm">
-        <Editor
-          editorState={EditorState.createWithContent(
-            convertFromRaw(announcement.content)
-          )}
+      <div className="border-4 p-4 rounded-md ">
+        <textarea
+          className="w-full h-40"
+          value={announcement.content}
           readOnly
-          toolbarHidden
-          wrapperClassName="wrapper-class"
-          editorClassName="editor-class p-2 min-h-[150px] border border-gray-300 rounded-md"
-          toolbarClassName="toolbar-class"
         />
       </div>
       <p className="text-sm text-gray-500 mt-4 text-right">
