@@ -40,7 +40,9 @@ export default function Page() {
       <div className="mx-2 sm:mx-16 pt-4 sm:pt-10">
         {announcements.map((announcement) => (
           <div key={announcement.id}>
-            {announcement.isSecret && announcement.author !== user?.username ? (
+            {announcement.isSecret &&
+            announcement.author !== user?.username &&
+            user?.membershipType !== "관리자" ? (
               <div>
                 <div className="bg-gray-100 border-gray-300 border-b-2 p-4   hover:bg-gray-200">
                   <h2 className="text-base mb-2 p-2">비밀글입니다.</h2>

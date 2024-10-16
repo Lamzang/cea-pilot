@@ -1,4 +1,8 @@
 import { initializeApp } from "firebase/app";
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider,
+} from "firebase/app-check";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -19,6 +23,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+if (typeof window !== "undefined") {
+  const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider(
+      "6LdNUWMqAAAAAMPUvbe60GJyoDXFA3fkMprVs59o"
+    ),
+    isTokenAutoRefreshEnabled: true,
+  });
+}
 //const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);

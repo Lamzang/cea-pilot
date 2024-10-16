@@ -30,9 +30,10 @@ const Navbar = () => {
         });
       } else {
         setUser(null);
+        setUserDoc(null);
       }
     });
-  }, []);
+  }, [setUser, setUserDoc]);
 
   useEffect(() => {
     if (user) {
@@ -42,7 +43,7 @@ const Navbar = () => {
         }
       });
     }
-  }, [user]);
+  }, [user, setUserDoc]);
 
   // 화면 크기에 따라 모바일 여부를 결정
   useEffect(() => {
