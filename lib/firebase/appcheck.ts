@@ -8,7 +8,7 @@ import { app } from "./firebase";
 
 const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaEnterpriseProvider(
-    "6LdNUWMqAAAAAMPUvbe60GJyoDXFA3fkMprVs59o"
+    "6LdNUWMqAAAAAAm4X-FOUqEm3Ejo9uZ4rUWJVoN6"
   ),
   isTokenAutoRefreshEnabled: true,
 });
