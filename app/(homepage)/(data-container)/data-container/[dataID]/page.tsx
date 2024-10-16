@@ -7,6 +7,7 @@ import { EditorState, convertFromRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Page({ params }: { params: { dataID: string } }) {
   const [announcement, setAnnouncement] = useState<any>(null);
@@ -55,7 +56,7 @@ export default function Page({ params }: { params: { dataID: string } }) {
             {announcement.fileUrls?.map((data: any, index: any) => (
               <div key={index} className=" w-fit px-1">
                 <Link className="hover:text-red-400 flex gap-1" href={data}>
-                  <img
+                  <Image
                     src="/assets/svg/download.svg"
                     className="w-6 h-6"
                     alt="downloadsvg"

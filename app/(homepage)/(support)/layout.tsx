@@ -7,15 +7,15 @@ import { useEffect, useState } from "react";
 
 const introduce_Layout = [
   {
-    name: "Q&A",
+    name: "일반문의",
     link: "/support",
   },
   {
-    name: "FAQ",
+    name: "자주묻는질문",
     link: "/FAQ",
   },
   {
-    name: "교수학습설계란",
+    name: "설계관련질문",
     link: "/study-architecture",
   },
 ];
