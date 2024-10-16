@@ -22,16 +22,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
-if (typeof window !== "undefined") {
-  const appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaEnterpriseProvider(
-      "6LdNUWMqAAAAAMPUvbe60GJyoDXFA3fkMprVs59o"
-    ),
-    isTokenAutoRefreshEnabled: true,
-  });
-}
 //const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
