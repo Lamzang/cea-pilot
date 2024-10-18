@@ -1,3 +1,5 @@
+"use client";
+
 import { initializeApp } from "firebase/app";
 import {
   initializeAppCheck,
@@ -22,7 +24,14 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaEnterpriseProvider(
+    "6LdNUWMqAAAAAAm4X-FOUqEm3Ejo9uZ4rUWJVoN6"
+  ),
+  isTokenAutoRefreshEnabled: true,
+});
 
 //const analytics = getAnalytics(app);
 export const db = getFirestore(app);
