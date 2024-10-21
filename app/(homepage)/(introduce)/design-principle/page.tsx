@@ -44,41 +44,36 @@ export default function Page() {
               있는 사고와 학습을 촉진한다.
             </p>
             <br />
-            <p>
-              <span className="font-bold"> 7. 지식, 이해, 수행의 균형:</span>{" "}
-              학습자가 지식을 습득하고 개념을 깊이 이해한 후, 이를 실제 상황에서
-              수행하고 적용할 수 있도록 균형 잡힌 교육을 설계한다.
-            </p>
-            <br />
+
             <p>
               <span className="font-bold">
                 {" "}
-                8. 실제적이고 의미 있는 맥락 제공:
+                7. 실제적이고 의미 있는 맥락 제공:
               </span>{" "}
               학습 경험을 실생활과 연결하여, 학생들이 의미 있는 맥락 속에서
               개념을 탐구하고 적용할 수 있도록 지원한다.
             </p>
             <br />
             <p>
-              <span className="font-bold">9. 차별화된 학습 설계: </span> 모든
+              <span className="font-bold">8. 차별화된 학습 설계: </span> 모든
               학생이 공통의 개념적 이해에 도달할 수 있도록 개별 학습자의 요구와
               맥락을 고려하여 맞춤형 교수 전략이나 보편적 학습 설계를 적용한다.
             </p>
             <br />
             <p>
-              <span className="font-bold"> 10. 협력적 학습 기회 제공:</span>{" "}
-              동료 간 협업과 토론을 통해 다양한 관점을 공유하고, 개념을 더 깊이
+              <span className="font-bold"> 9. 협력적 학습 기회 제공:</span> 동료
+              간 협업과 토론을 통해 다양한 관점을 공유하고, 개념을 더 깊이
               이해할 수 있도록 한다.
             </p>
             <br />
             <p>
-              <span className="font-bold">11. 다양한 평가 방법: </span>개념적
+              <span className="font-bold">10. 다양한 평가 방법: </span>개념적
               이해와 전이를 평가하기 위해 다양한 형성평가와 총괄평가 방식을
               통합하여 활용한다.
             </p>
             <br />
             <p>
-              <span className="font-bold">12. 성찰적 사고와 주도성 촉진: </span>{" "}
+              <span className="font-bold">11. 성찰적 사고와 주도성 촉진: </span>{" "}
               학생들이 학습 과정과 결과에 대해 자기 평가와 반성적 성찰을 통해
               자신의 학습을 주도하고, 깊이 있는 사고와 책임감을 기를 수 있도록
               장려한다.

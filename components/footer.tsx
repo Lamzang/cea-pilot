@@ -3,13 +3,16 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="flex bg-black w-full  min-h-28 text-white justify-center p-8">
-      {/* <nav className="flex gap-5 py-3">
-        <Link href="/">회사소개</Link>
-        <Link href="/shop">쇼핑몰</Link>
-        <Link href="/">공지사항</Link>
-      </nav> */}
-      <div className="w-full sm:mx-20 mx-2">
+    <footer className="flex flex-col bg-black w-full min-h-28 text-white py-8 ">
+      {/* <div className="flex sm:px-44 h-14 w-full justify-between items-center border-b-2 border-gray-700 mb-2">
+        <Link href={"/"}>트라이브</Link>
+        <Link href={"https://www.moe.go.kr/"}>교육부</Link>
+        <Link href={"/"}>아공연구소</Link>
+        <Link href={"https://conceptbasedkorea.imweb.me/"}>
+          개념기반교육연구소
+        </Link>
+      </div> */}
+      <div className="w-full sm:px-20 ">
         <div className=" flex sm:flex-row flex-col gap-5">
           <div className="flex flex-col sm:w-1/3 w-full">
             <div className="text-2xl py-1">About Us</div>

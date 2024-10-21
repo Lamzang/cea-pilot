@@ -4,9 +4,22 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
+import { useRecoilState } from "recoil";
+import { userDocState } from "@/lib/recoil/auth";
+
+interface Announcement {
+  id: string;
+  title: string;
+  tag?: string;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+}
 
 export default function AnnouncementComponent() {
-  const [announcements, setAnnouncements] = useState<any[]>([]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [user, setUser] = useRecoilState(userDocState);
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
@@ -15,18 +28,39 @@ export default function AnnouncementComponent() {
         orderBy("createdAt", "desc")
       );
       const querySnapshot = await getDocs(q);
-      const announcementsData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      let announcementsData = querySnapshot.docs.map((doc) => {
+        const data = doc.data() as Omit<Announcement, "id">;
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+
+      // 필터링 로직 추가
+      if (
+        user?.membershipType &&
+        user.membershipType !== "정회원" &&
+        user.membershipType !== "관리자"
+      ) {
+        announcementsData = announcementsData.filter(
+          (announcement) => announcement.tag !== "정회원"
+        );
+      }
+      if (user === null) {
+        announcementsData = announcementsData.filter(
+          (announcement) => announcement.tag !== "정회원"
+        );
+      }
+
       setAnnouncements(announcementsData.slice(0, 3));
     };
 
     fetchAnnouncements();
-  }, []);
+  }, [user]);
+
   return (
-    <div className="w-full mx-2 sm:w-2/3 mt-6 sm:mt-0 ">
-      <div className="flex justify-between items-center border-b-2 border-black  pl-4 py-3  text-black">
+    <div className="w-full mx-2 sm:w-2/3 mt-6 sm:mt-0">
+      <div className="flex justify-between items-center border-b-2 border-black pl-4 py-3 text-black">
         <div className="flex w-full justify-between">
           <div className="text-lg sm:text-2xl ml-2 text-blue-500 font-bold">
             공지사항 | 개정사항
@@ -62,7 +96,7 @@ export default function AnnouncementComponent() {
           </svg>
         </Link>
       </div>
-      <div className=" w-full overflow-y-auto ">
+      <div className="w-full overflow-y-auto">
         {announcements.map((announcement) => (
           <Link
             href={`notice-board/${announcement.id}`}

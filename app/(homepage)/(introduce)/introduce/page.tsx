@@ -5,7 +5,7 @@ export default function Page() {
     <>
       <SEO title="인사말" />
       <div className="min-h-screen ">
-        <h1 className="text-3xl font-bold  sm:ml-8 ml-1 border-b-2 pb-6 mt-6 mb-10">
+        <h1 className="text-3xl font-bold  sm:ml-8 ml-1 border-b-2 pb-6 mt-6 mb-4">
           인사말
         </h1>
         <div className="bg-white  rounded-lg sm:p-10 m-4  ">
