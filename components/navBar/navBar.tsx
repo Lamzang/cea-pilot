@@ -25,15 +25,6 @@ const Navbar = () => {
   const [user, setUser] = useRecoilState(authState);
 
   useEffect(() => {
-    const appCheck = initializeAppCheck(app, {
-      provider: new ReCaptchaEnterpriseProvider(
-        "6LdNUWMqAAAAAAm4X-FOUqEm3Ejo9uZ4rUWJVoN6"
-      ),
-      isTokenAutoRefreshEnabled: true,
-    });
-  }, []);
-
-  useEffect(() => {
     onAuthStateChanged(auth, (newUser) => {
       if (newUser) {
         setUser({
