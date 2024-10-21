@@ -8,10 +8,14 @@ import LogoutBtn from "../btn/logoutBtn";
 
 import { useState, useEffect } from "react";
 import Detaiednavbar from "./detail";
-import { auth, db } from "@/lib/firebase/firebase";
+import { app, auth, db } from "@/lib/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { IUserDoc } from "@/constant/interface";
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider,
+} from "firebase/app-check";
 
 const Navbar = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -19,6 +23,15 @@ const Navbar = () => {
   const [isMobileDetail, setIsMobileDetail] = useState(false);
   const [userDoc, setUserDoc] = useRecoilState(userDocState);
   const [user, setUser] = useRecoilState(authState);
+
+  useEffect(() => {
+    const appCheck = initializeAppCheck(app, {
+      provider: new ReCaptchaEnterpriseProvider(
+        "6LdNUWMqAAAAAAm4X-FOUqEm3Ejo9uZ4rUWJVoN6"
+      ),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }, []);
 
   useEffect(() => {
     onAuthStateChanged(auth, (newUser) => {
