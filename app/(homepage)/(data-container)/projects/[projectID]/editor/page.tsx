@@ -57,7 +57,7 @@ const RichTextExample = ({ params }: { params: { projectID: string } }) => {
     }
 
     try {
-      await addDoc(collection(db, "projects", "sub"), {
+      await addDoc(collection(db, "projects", params.projectID, "sub"), {
         title: title,
         content: text,
         author: user?.displayName ?? "익명",

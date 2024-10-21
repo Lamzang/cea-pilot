@@ -3,9 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
-import { EditorState, convertFromRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -37,7 +35,7 @@ export default function Page({ params }: { params: { dataID: string } }) {
         자료실- {announcement.title}
       </h1>
       <div className="p-2 sm:p-6 bg-white rounded-lg ">
-        <div className="p-2 sm:p-4 rounded-md shadow-sm">
+        <div className="p-2 sm:p-4 rounded-md shadow-sm border">
           <textarea
             value={announcement.content}
             readOnly
@@ -55,11 +53,19 @@ export default function Page({ params }: { params: { dataID: string } }) {
           <div className="w-full pt-2 ml-2 sm:ml-10 flex flex-col gap-2">
             {announcement.fileUrls?.map((data: any, index: any) => (
               <div key={index} className=" w-fit px-1">
-                <Link className="hover:text-red-400 flex gap-1" href={data}>
+                <Link
+                  className="hover:text-red-400 flex gap-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={data}
+                  download
+                >
                   <Image
                     src="/assets/svg/download.svg"
                     className="w-6 h-6"
                     alt="downloadsvg"
+                    width={24}
+                    height={24}
                   />
                   {announcement.fileNames[index]}
                 </Link>
@@ -71,7 +77,7 @@ export default function Page({ params }: { params: { dataID: string } }) {
 
       <div className="w-full flex justify-end">
         <Link
-          href={"/data-container"}
+          href={`/projects/${params.dataID}`}
           className="border w-fit mt-10 px-4 py-2 rounded-3xl bg-blue-500 text-white hover:bg-blue-600"
         >
           목록으로 돌아가기

@@ -76,7 +76,7 @@ export default function Page({ params }: { params: { projectID: string } }) {
         <h1 className="text-3xl font-bold">{currentProject.name}</h1>
         <Link
           className="text-base border rounded-full px-4 bg-blue-500 text-white py-1 hover:bg-blue-600"
-          href="/data-container/editor"
+          href={`/projects/${params.projectID}/editor`}
         >
           글쓰기
         </Link>
@@ -85,7 +85,7 @@ export default function Page({ params }: { params: { projectID: string } }) {
       <div className="m-2 sm:mx-16 pt-4 sm:pt-10">
         {announcements.map((announcement) => (
           <Link
-            href={`/data-container/${announcement.id}`}
+            href={`/projects/${params.projectID}/${announcement.id}`}
             key={announcement.id}
           >
             <div className="bg-gray-100 border-gray-300 border-b-2 p-4 hover:bg-gray-200">
@@ -111,7 +111,7 @@ export default function Page({ params }: { params: { projectID: string } }) {
 
         {loading && <div>로딩 중...</div>}
 
-        {!hasMore && (
+        {announcements.length === 0 && (
           <div className="text-gray-500 mt-4">더 이상 게시글이 없습니다.</div>
         )}
 
