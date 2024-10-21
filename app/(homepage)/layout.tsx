@@ -9,7 +9,7 @@ export default function HomeLayout({
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center sm:px-6 lg:px-8 sm:mt-10">
+      <div className="flex justify-center sm:px-6 lg:px-8 ">
         <div className="w-full sm:mx-20 mx-2 sm:max-w-screen-2xl">
           {children}
         </div>

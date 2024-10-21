@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [viewNoticeDetail, setViewNoticeDetail] = useState(true);
   const [announcements, setAnnouncements] = useState<any[]>([]);
 
   useEffect(() => {
@@ -27,27 +26,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex w-full h-full m-0">
       <div className="flex w-full h-full">
-        <div className="w-1/5 h-full border-r border-gray-300 bg-gray-50 p-4">
-          <div
+        <div className="w-1/5 h-full border-r border-gray-300 bg-gray-50 p-4 flex flex-col">
+          <Link
+            href={"/admin/notice"}
             className="font-bold cursor-pointer py-2 px-4 bg-gray-200 rounded-md mb-2"
-            onClick={() => setViewNoticeDetail((prev) => !prev)}
           >
             Manage Notice
+          </Link>
+
+          <div className="ml-4 flex flex-col gap-5">
+            {announcements.map((announcement) => (
+              <Link
+                href={`/admin/notice/${announcement.id}`}
+                key={announcement.id}
+              >
+                <div className="py-1 text-gray-700 hover:underline">
+                  {announcement.title}
+                </div>
+              </Link>
+            ))}
           </div>
-          {viewNoticeDetail && (
-            <div className="ml-4 flex flex-col gap-5">
-              {announcements.map((announcement) => (
-                <Link
-                  href={`/admin/notice/${announcement.id}`}
-                  key={announcement.id}
-                >
-                  <div className="py-1 text-gray-700 hover:underline">
-                    {announcement.title}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
         <div className="w-4/5 h-full flex-grow border-l border-gray-300">
           {children}
