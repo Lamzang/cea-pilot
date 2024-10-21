@@ -35,13 +35,6 @@ export default function Page({
     return <div>Loading...</div>;
   }
 
-  if (
-    announcement.tag !== user?.membershipType &&
-    user?.membershipType !== "관리자"
-  ) {
-    return <div>접근 권한이 없습니다.</div>;
-  }
-
   return (
     <div className="max-w-3xl sm:mx-auto sm:p-6 p-2 flex flex-col bg-white rounded-lg ">
       <h1 className="sm:text-3xl text-2xl mt-5 font-bold mb-6 ">

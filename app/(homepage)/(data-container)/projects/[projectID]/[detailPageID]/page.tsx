@@ -17,7 +17,13 @@ export default function Page({
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
-      const docRef = await doc(db, params.projectID, params.detailPageID);
+      const docRef = await doc(
+        db,
+        "projects",
+        params.projectID,
+        "sub",
+        params.detailPageID
+      );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setAnnouncement(docSnap.data());

@@ -30,7 +30,7 @@ export default function Page({ params }: { params: { projectID: string } }) {
     setLoading(true);
 
     let q = query(
-      collection(db, "reference"),
+      collection(db, "projects", params.projectID, "sub"),
       orderBy("createdAt", "desc"),
       limit(10)
     );
