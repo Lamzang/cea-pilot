@@ -1,18 +1,23 @@
 "use client";
 
 import Input from "@/components/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { authState } from "@/lib/recoil/auth";
 import {
+  getAuth,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, db } from "@/lib/firebase/firebase";
+import { app, auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { getKoreanErrorText } from "@/lib/auth_functions";
 import Link from "next/link";
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider,
+} from "firebase/app-check";
 
 const Login = () => {
   const [userAuth, setUserAuth] = useRecoilState(authState);
@@ -21,6 +26,15 @@ const Login = () => {
   const clickModal = () => setIsModalOpen((prev) => !prev);
   let userName = "";
   const router = useRouter();
+
+  useEffect(() => {
+    const appCheck = initializeAppCheck(app, {
+      provider: new ReCaptchaEnterpriseProvider(
+        "6LdNUWMqAAAAAAm4X-FOUqEm3Ejo9uZ4rUWJVoN6"
+      ),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
