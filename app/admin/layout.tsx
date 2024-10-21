@@ -30,10 +30,10 @@ export default function AdminLayout({
     <div className="flex flex-col w-full h-screen">
       <div className="bg-gray-100 p-4 border-b border-gray-300 flex justify-between">
         <Link className="text-blue-500 text-2xl" href={"/admin"}>
-          Admin Home
+          관리자 페이지
         </Link>
         <Link className="bg-black text-white p-1 px-2 rounded" href={"/"}>
-          Back to Home
+          홈페이지로 돌아가기
         </Link>
       </div>
       <div className="flex w-full h-full">

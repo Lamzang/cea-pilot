@@ -23,8 +23,9 @@ export default function Page({ params }: { params: { noticeId: string } }) {
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [fileData, setFileData] = useState<any[]>([]);
-  const [user, setUser] = useRecoilState(userDocState);
   const [text, setText] = useState<any>("");
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [tag, setTag] = useState<string>("");
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
@@ -36,8 +37,14 @@ export default function Page({ params }: { params: { noticeId: string } }) {
           const data = docSnap.data();
           setAnnouncement(data);
           setTitle(data.title);
-          setSelectedFiles([...data.fileUrls]);
-          setFileData([...data.fileNames]);
+          if (data.fileUrls || data.fileNames) {
+            setSelectedFiles([...data.fileUrls]);
+            setFileData([...data.fileNames]);
+          }
+          if (data.tag) {
+            setTag(data.tag);
+          }
+          setText(data.content);
         } else {
           console.log("No such document!");
         }
@@ -54,6 +61,7 @@ export default function Page({ params }: { params: { noticeId: string } }) {
   const saveToFirestore = async () => {
     let fileUrls: string[] = [];
     let fileNames: string[] = [];
+    setUploading(true);
 
     try {
       if (selectedFiles.length > 0) {
@@ -75,12 +83,14 @@ export default function Page({ params }: { params: { noticeId: string } }) {
         createdAt: new Date(),
         fileUrls: fileUrls,
         fileNames: fileNames,
+        tag: tag,
       });
       alert("공지사항이 성공적으로 저장되었습니다!");
       router.push("/admin/notice");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+    setUploading(false);
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +104,9 @@ export default function Page({ params }: { params: { noticeId: string } }) {
     }
   };
   const storage = getStorage();
+  const onChangeTag = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTag(e.target.value);
+  };
 
   const handleUploadFile = async (file: any) => {
     const storageReference = storageRef(
@@ -127,6 +140,14 @@ export default function Page({ params }: { params: { noticeId: string } }) {
           className="w-full mb-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
+      <label className="mb-2 text-lg font-semibold">태그</label>
+      <input
+        type="text"
+        placeholder="필요시 태그를 입력하세요(예: 정회원, 주요공지) "
+        onChange={onChangeTag}
+        value={tag}
+        className="w-full mb-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
       <label className="block text-sm font-medium text-gray-700">
         파일업로드
       </label>
@@ -160,16 +181,22 @@ export default function Page({ params }: { params: { noticeId: string } }) {
       </div>
 
       <textarea
-        value={announcement.content}
+        value={text}
         onChange={(e) => setText(e.target.value)}
         className="border border-gray-300 rounded-md p-2 w-full h-40 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button
-        onClick={saveToFirestore}
-        className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        저장하기
-      </button>
+      {uploading ? (
+        <div className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          업로딩중..
+        </div>
+      ) : (
+        <button
+          onClick={saveToFirestore}
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          저장하기
+        </button>
+      )}
     </div>
   );
 }

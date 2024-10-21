@@ -132,25 +132,25 @@ const Navbar = () => {
           </div>
 
           <div
-            className="hidden sm:flex items-center px-10 justify-between w-3/4 h-full"
+            className="hidden sm:flex items-center px-10 justify-between w-3/4 h-24"
             onClick={() => setIsDetail((prev) => !prev)}
           >
-            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex hover:bg-blue-100 h-full items-center">
               협회소개
             </div>
-            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex hover:bg-blue-100 h-full items-center">
               공지사항
             </div>
-            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex hover:bg-blue-100 h-full items-center">
               문의사항
             </div>
-            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex hover:bg-blue-100 h-full items-center">
               후원하기
             </div>
-            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex hover:bg-blue-100 h-full items-center">
               연수 및 도서구매
             </div>
-            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex ">
+            <div className="text-black w-1/6 justify-center text-xl font-semibold  flex hover:bg-blue-100 h-full items-center">
               자료마당
             </div>
           </div>
