@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
 import { projects_array } from "@/constant/organization";
+import { Mobile_Projects_Layout } from "@/components/layouts/mobile_project_layout";
 
 const introduce_MainTitle = [
   { name: "협회소개", link: "/introduce" },
@@ -19,7 +20,7 @@ const introduce_MainTitle = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null); // Track which index is clicked
+  const [clickedIndex, setClickedIndex] = useState<number>(0); // Track which index is clicked
   useEffect(() => {
     if (window.innerWidth < 640) {
       setIsMobile(true);
@@ -53,17 +54,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <h1 className="text-3xl font-bold sm:ml-8 ml-1 border-b-2 pb-6 mt-6 mb-10 ">
-          프로젝트
-        </h1>
+        <div className="flex w-full border-b-2 pb-6 mt-6 sm:mb-10 sm:ml-8 ml-1 justify-between">
+          <h1 className="text-3xl font-bold  w-1/2 ">프로젝트</h1>
+          <div className="w-1/2">
+            {isMobile && (
+              <Mobile_Projects_Layout
+                IMC_LayoutProps={projects_array}
+                IMC_MainTitleProps={introduce_MainTitle}
+                currentMenu={introduce_MainTitle[5].name}
+              />
+            )}
+          </div>
+        </div>
+
         <div className="flex flex-col sm:flex-row">
-          {isMobile ? (
-            <Mobile_Layout
-              IMC_LayoutProps={projects_array}
-              IMC_MainTitleProps={introduce_MainTitle}
-              currentMenu={introduce_MainTitle[5].name}
-            />
-          ) : (
+          {isMobile === false && (
             <div className="flex flex-col w-1/6 border-r-2">
               {projects_array.map(
                 (layout: { name: string; link: string }, index: number) => (
