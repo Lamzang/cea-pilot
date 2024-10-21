@@ -5,9 +5,22 @@ import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import Link from "next/link";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { useRecoilState } from "recoil";
+import { userDocState } from "@/lib/recoil/auth";
+
+interface Announcement {
+  id: string;
+  title: string;
+  tag?: string;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+}
 
 const AnnouncementsPage: React.FC = () => {
   const [announcements, setAnnouncements] = useState<any[]>([]);
+  const [user, setUser] = useRecoilState(userDocState);
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
@@ -16,10 +29,27 @@ const AnnouncementsPage: React.FC = () => {
         orderBy("createdAt", "desc")
       );
       const querySnapshot = await getDocs(q);
-      const announcementsData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      let announcementsData = querySnapshot.docs.map((doc) => {
+        const data = doc.data() as Omit<Announcement, "id">;
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+      if (
+        user?.membershipType &&
+        user.membershipType !== "정회원" &&
+        user.membershipType !== "관리자"
+      ) {
+        announcementsData = announcementsData.filter(
+          (announcement) => announcement.tag !== "정회원"
+        );
+      }
+      if (user === null) {
+        announcementsData = announcementsData.filter(
+          (announcement) => announcement.tag !== "정회원"
+        );
+      }
       setAnnouncements(announcementsData);
     };
 

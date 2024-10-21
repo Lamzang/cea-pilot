@@ -73,6 +73,18 @@ export default function AdminLayout({
               사내메신저 관리하기
             </Link>
           </div>
+
+          <div className="font-bold cursor-pointer py-2 px-4 bg-gray-200 rounded-md mb-2">
+            홈페이지 정보 수정
+          </div>
+          <div className="ml-4 flex flex-col mb-5">
+            <Link
+              className="py-1 px-2 text-gray-700 hover:bg-slate-200"
+              href={"/admin/introduce"}
+            >
+              인사말 수정하기
+            </Link>
+          </div>
           <div
             className="font-bold cursor-pointer py-2 px-4 bg-gray-200 rounded-md mb-5"
             onClick={() => setViewProductDetail((prev) => !prev)}
