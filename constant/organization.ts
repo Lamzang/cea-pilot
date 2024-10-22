@@ -60,4 +60,8 @@ export const projects_array: Project[] = [
     name: "중등-기타",
     link: "middle-etc",
   },
+  {
+    name: "유아교육방",
+    link: "child",
+  },
 ];

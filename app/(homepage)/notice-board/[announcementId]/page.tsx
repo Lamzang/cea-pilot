@@ -51,7 +51,7 @@ export default function Page({
         작성일:{" "}
         {new Date(announcement.createdAt.seconds * 1000).toLocaleDateString()}
       </p>
-      {announcement.fileUrls && (
+      {announcement.fileUrls.length > 0 && (
         <div>
           <div className="text-xl font-bold sm:ml-10 ml-2 mt-5">
             파일 다운로드

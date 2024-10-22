@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
 import {
@@ -12,7 +12,11 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-export default function Page({ params }: { params: { noticeId: string } }) {
+export default function Page({
+  params,
+}: {
+  params: { subProjectID: string; detailID: string };
+}) {
   const [title, setTitle] = useState<string>("");
   const [announcement, setAnnouncement] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,19 +26,23 @@ export default function Page({ params }: { params: { noticeId: string } }) {
   const [fileData, setFileData] = useState<any[]>([]); // 파일 이름 저장
   const [text, setText] = useState<any>("");
   const [uploading, setUploading] = useState<boolean>(false);
-  const [tag, setTag] = useState<string>("");
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
       try {
-        const docRef = doc(db, "announcements", params.noticeId);
+        const docRef = doc(
+          db,
+          "projects",
+          params.subProjectID,
+          "sub",
+          params.detailID
+        );
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const data = docSnap.data();
           setAnnouncement(data);
           setTitle(data.title);
-          setTag(data.tag);
           // 기존 파일 정보 설정 (파일 이름과 URL을 각각 저장)
           if (data.fileUrls && data.fileNames) {
             setFileData([...data.fileNames]); // 파일 이름 설정
@@ -58,7 +66,7 @@ export default function Page({ params }: { params: { noticeId: string } }) {
     };
 
     fetchAnnouncement();
-  }, [params.noticeId]);
+  }, [params.detailID, params.subProjectID]);
 
   const saveToFirestore = async () => {
     let fileUrls: string[] = [];
@@ -85,17 +93,20 @@ export default function Page({ params }: { params: { noticeId: string } }) {
     }
 
     try {
-      await setDoc(doc(db, "announcements", params.noticeId), {
-        title: title,
-        content: text,
-        author: "관리자",
-        createdAt: new Date(),
-        fileUrls: fileUrls ?? "",
-        fileNames: fileNames ?? "",
-        tag: tag,
-      });
+      console.log(title, text, fileUrls, fileNames);
+      await updateDoc(
+        doc(db, "projects", params.subProjectID, "sub", params.detailID),
+        {
+          title: title,
+          content: text,
+          author: "관리자",
+          createdAt: new Date(),
+          fileUrls: fileUrls,
+          fileNames: fileNames ?? "",
+        }
+      );
       alert("공지사항이 성공적으로 저장되었습니다!");
-      router.push(`/admin/notice`);
+      router.push(`/admin/projects/${params.subProjectID}`);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -121,14 +132,11 @@ export default function Page({ params }: { params: { noticeId: string } }) {
   const handleUploadFile = async (file: any) => {
     const storageReference = storageRef(
       storage,
-      `uploads/reference/${params.noticeId}/${file?.name}`
+      `uploads/reference/${params.subProjectID}/${params.detailID}/${file?.name}`
     );
     const snapshot = await uploadBytes(storageReference, file);
     const fileUrl = await getDownloadURL(snapshot.ref);
     return [file.name, fileUrl];
-  };
-  const onChangeTag = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTag(e.target.value);
   };
 
   if (loading) {
@@ -141,7 +149,7 @@ export default function Page({ params }: { params: { noticeId: string } }) {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-      <h1 className="text-3xl font-bold mb-6 text-center">공지사항 수정하기</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">자료 수정하기</h1>
       <div className="">
         <label className="mb-2 text-lg font-semibold">제목</label>
         <input
@@ -153,14 +161,6 @@ export default function Page({ params }: { params: { noticeId: string } }) {
           className="w-full mb-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <label className="mb-2 text-lg font-semibold">태그</label>
-      <input
-        type="text"
-        placeholder="필요시 태그를 입력하세요(예: 정회원, 주요공지 "
-        onChange={onChangeTag}
-        value={tag}
-        className="w-full mb-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
 
       <label className="block text-sm font-medium text-gray-700">
         파일업로드

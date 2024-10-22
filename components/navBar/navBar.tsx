@@ -12,10 +12,6 @@ import { app, auth, db } from "@/lib/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { IUserDoc } from "@/constant/interface";
-import {
-  initializeAppCheck,
-  ReCaptchaEnterpriseProvider,
-} from "firebase/app-check";
 
 const Navbar = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -32,6 +28,7 @@ const Navbar = () => {
           displayName: newUser.displayName,
           email: newUser.email,
         });
+        console.log(newUser);
       } else {
         setUser(null);
         setUserDoc(null);
