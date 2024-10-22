@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col bg-black w-full min-h-28 text-white py-8 ">
+    <footer className="flex flex-col bg-black w-full min-h-28 text-white pb-8 ">
       {/* <div className="flex sm:px-44 h-14 w-full justify-between items-center border-b-2 border-gray-700 mb-2">
         <Link href={"/"}>트라이브</Link>
         <Link href={"https://www.moe.go.kr/"}>교육부</Link>

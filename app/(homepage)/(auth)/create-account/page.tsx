@@ -327,6 +327,7 @@ const CreateAccount = () => {
           },
         });
         setSubmitted(false);
+
         await router.push("/");
       })
       .catch((error) => {
