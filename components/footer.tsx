@@ -9,7 +9,7 @@ const Footer = () => {
           트라이브
         </Link>
       </div>
-      <div className="w-full sm:px-20 ">
+      <div className="w-full sm:px-20 px-2 ">
         <div className=" flex sm:flex-row flex-col gap-5">
           <div className="flex flex-col sm:w-1/3 w-full">
             <div className="text-2xl py-1">About Us</div>
