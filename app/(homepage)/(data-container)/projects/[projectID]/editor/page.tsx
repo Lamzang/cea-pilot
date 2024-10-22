@@ -97,7 +97,7 @@ const RichTextExample = ({ params }: { params: { projectID: string } }) => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-      <h1 className="text-3xl font-bold mb-6 text-center">새 글 쓰기</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">자료 추가하기</h1>
       <input
         type="text"
         placeholder="제목을 입력하세요"

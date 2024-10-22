@@ -74,12 +74,12 @@ export default function Page({ params }: { params: { projectID: string } }) {
     <div>
       <div className="flex ml-1 sm:ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
         <h1 className="text-3xl font-bold">{currentProject.name}</h1>
-        <Link
+        {/* <Link
           className="text-base border rounded-full px-4 bg-blue-500 text-white py-1 hover:bg-blue-600"
           href={`/projects/${params.projectID}/editor`}
         >
           글쓰기
-        </Link>
+        </Link> */}
       </div>
 
       <div className="m-2 sm:mx-16 pt-4 sm:pt-10">

@@ -65,3 +65,26 @@ export const projects_array: Project[] = [
     link: "child",
   },
 ];
+
+export const dataContainer_array: Project[] = [
+  {
+    name: "PLI 컨퍼런스 ",
+    link: "pli-conference",
+  },
+  {
+    name: "초등",
+    link: "elementary",
+  },
+  {
+    name: "중등",
+    link: "middle",
+  },
+  {
+    name: "틀 모음",
+    link: "forms",
+  },
+  {
+    name: "기타",
+    link: "etc",
+  },
+];
