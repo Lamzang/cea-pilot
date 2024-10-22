@@ -16,7 +16,7 @@ import { authState } from "@/lib/recoil/auth";
 import { set } from "firebase/database";
 import { useRouter } from "next/navigation";
 
-const RichTextExample = ({ params }: { params: { subProjectID: string } }) => {
+const RichTextExample = ({ params }: { params: { dataID: string } }) => {
   const [title, setTitle] = useState<string>("");
   const user = useRecoilValue(authState);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -35,7 +35,7 @@ const RichTextExample = ({ params }: { params: { subProjectID: string } }) => {
   const handleUploadFile = async (file: any) => {
     const storageReference = storageRef(
       storage,
-      `uploads/reference/${params.subProjectID}/${file?.name}`
+      `uploads/reference/${params.dataID}/${file?.name}`
     );
     const snapshot = await uploadBytes(storageReference, file);
     const fileUrl = await getDownloadURL(snapshot.ref);
@@ -60,16 +60,16 @@ const RichTextExample = ({ params }: { params: { subProjectID: string } }) => {
     }
 
     try {
-      await addDoc(collection(db, "projects", params.subProjectID, "sub"), {
+      await addDoc(collection(db, "reference", params.dataID, "sub"), {
         title: title,
         content: text,
-        author: "관리자",
+        author: user?.displayName ?? "익명",
         createdAt: new Date(),
         fileUrls: fileUrls,
         fileNames: fileNames,
       });
       alert("저장되었습니다.");
-      router.push("/admin/projects");
+      router.push("/data-container/" + params.dataID);
     } catch (e) {
       console.error("문제가 발생하였습니다: ", e);
     }

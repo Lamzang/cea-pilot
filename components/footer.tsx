@@ -4,14 +4,11 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="flex flex-col bg-black w-full min-h-28 text-white pb-8 ">
-      {/* <div className="flex sm:px-44 h-14 w-full justify-between items-center border-b-2 border-gray-700 mb-2">
-        <Link href={"/"}>트라이브</Link>
-        <Link href={"https://www.moe.go.kr/"}>교육부</Link>
-        <Link href={"/"}>아공연구소</Link>
-        <Link href={"https://conceptbasedkorea.imweb.me/"}>
-          개념기반교육연구소
+      <div className="flex sm:px-44 h-14 w-full justify-start items-center border-b-2 border-gray-700 mb-2">
+        <Link className="" href={" https://www.edu-tribes.com/"}>
+          트라이브
         </Link>
-      </div> */}
+      </div>
       <div className="w-full sm:px-20 ">
         <div className=" flex sm:flex-row flex-col gap-5">
           <div className="flex flex-col sm:w-1/3 w-full">
