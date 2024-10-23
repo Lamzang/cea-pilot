@@ -33,7 +33,7 @@ export const projects_array: Project[] = [
     link: "middle-science",
   },
   {
-    name: "중등-인문학",
+    name: "중등-인문사회",
     link: "middle-humanities",
   },
   {
@@ -61,7 +61,7 @@ export const projects_array: Project[] = [
     link: "middle-etc",
   },
   {
-    name: "유아교육방",
+    name: "유아교육",
     link: "child",
   },
 ];
@@ -72,11 +72,15 @@ export const dataContainer_array: Project[] = [
     link: "pli-conference",
   },
   {
-    name: "초등",
+    name: "유아교육",
+    link: "child",
+  },
+  {
+    name: "초등교육",
     link: "elementary",
   },
   {
-    name: "중등",
+    name: "중등교육",
     link: "middle",
   },
   {

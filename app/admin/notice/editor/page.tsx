@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import {
   getStorage,
@@ -60,7 +60,7 @@ const RichTextExample = () => {
     }
 
     try {
-      await addDoc(collection(db, "annoucements"), {
+      await addDoc(collection(db, "announcements"), {
         title: title,
         content: text,
         author: "관리자",
