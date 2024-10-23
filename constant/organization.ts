@@ -64,6 +64,14 @@ export const projects_array: Project[] = [
     name: "유아교육",
     link: "child",
   },
+  {
+    name: "틀 모음",
+    link: "forms",
+  },
+  {
+    name: "기타",
+    link: "etc",
+  },
 ];
 
 export const dataContainer_array: Project[] = [
