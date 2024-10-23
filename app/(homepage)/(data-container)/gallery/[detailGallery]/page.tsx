@@ -32,10 +32,15 @@ export default function Page({
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">{gallery.name}</h1>
-      <div className="flex flex-col items-center justify-center">
-        <div className="sm:w-[600px] w-full h-auto">
+    <div className="container">
+      <h1 className="text-3xl font-bold ml-1 sm:ml-8 border-b-2 pb-6 mt-6 mb-4">
+        {gallery.title}
+      </h1>
+      <h2 className=" text-right mb-8">
+        {new Date(gallery.createdAt.seconds * 1000).toLocaleDateString()}
+      </h2>
+      <div className="flex flex-col items-center justify-center p-4 mb-10">
+        <div className="sm:w-[600px] w-full h-auto mb-10 border-b-2 pb-10">
           <Image
             src={gallery.fileUrls[mainIndex]}
             alt={gallery.name}
