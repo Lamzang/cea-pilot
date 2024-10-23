@@ -14,6 +14,10 @@ const introduce_Layout = [
     name: "프로젝트",
     link: "/projects",
   },
+  {
+    name: "갤러리",
+    link: "/gallery",
+  },
 ];
 
 const introduce_MainTitle = [

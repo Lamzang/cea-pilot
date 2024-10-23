@@ -4,6 +4,7 @@ import { db } from "@/lib/firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Page({
   params,
@@ -66,6 +67,14 @@ export default function Page({
               />
             </div>
           ))}
+        </div>
+        <div className="w-full flex justify-end">
+          <Link
+            href={"/gallery"}
+            className="border w-fit mt-10 px-4 py-2 rounded-3xl bg-blue-500 text-white hover:bg-blue-600"
+          >
+            목록으로 돌아가기
+          </Link>
         </div>
       </div>
     </div>
