@@ -25,7 +25,7 @@ export const projects_array: Project[] = [
     link: "middle-math",
   },
   {
-    name: "중등-영어",
+    name: "중등-영어/외국어",
     link: "middle-english",
   },
   {

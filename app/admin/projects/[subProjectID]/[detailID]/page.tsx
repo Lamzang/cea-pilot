@@ -105,7 +105,7 @@ export default function Page({
           fileNames: fileNames ?? "",
         }
       );
-      alert("공지사항이 성공적으로 저장되었습니다!");
+      alert("파일이 성공적으로 저장되었습니다!");
       router.push(`/admin/projects/${params.subProjectID}`);
     } catch (e) {
       console.error("Error adding document: ", e);

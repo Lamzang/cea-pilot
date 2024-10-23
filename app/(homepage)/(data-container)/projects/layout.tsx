@@ -6,8 +6,9 @@ import { userDocState } from "@/lib/recoil/auth";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
-import { projects_array } from "@/constant/organization";
 import { Mobile_Projects_Layout } from "@/components/layouts/mobile_project_layout";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase/firebase";
 
 const introduce_MainTitle = [
   { name: "협회소개", link: "/introduce" },
@@ -30,6 +31,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         setIsMobile(true);
       } else {
         setIsMobile(false);
+      }
+    });
+  }, []);
+  const [projectData, setProjectData] = useState<any[]>([]);
+  useEffect(() => {
+    getDoc(doc(db, "data-arrays", "projects")).then((doc) => {
+      const data = doc.data();
+      if (doc.exists() && data && data.projects) {
+        setProjectData([...data.projects]);
       }
     });
   }, []);
@@ -59,7 +69,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="w-1/2">
             {isMobile && (
               <Mobile_Projects_Layout
-                IMC_LayoutProps={projects_array}
+                IMC_LayoutProps={projectData}
                 IMC_MainTitleProps={introduce_MainTitle}
                 currentMenu={introduce_MainTitle[5].name}
               />
@@ -70,7 +80,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col sm:flex-row">
           {isMobile === false && (
             <div className="flex flex-col w-1/6 border-r-2">
-              {projects_array.map(
+              {projectData.map(
                 (layout: { name: string; link: string }, index: number) => (
                   <Link
                     className={`flex justify-start items-center h-12 border-b-2 px-2 hover:bg-gray-100 ${
