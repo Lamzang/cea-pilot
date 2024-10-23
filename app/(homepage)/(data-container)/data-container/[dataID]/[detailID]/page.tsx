@@ -1,11 +1,21 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRecoilValue } from "recoil";
+import { authState } from "@/lib/recoil/auth";
 
 export default function Page({
   params,
@@ -13,6 +23,9 @@ export default function Page({
   params: { dataID: string; detailID: string };
 }) {
   const [announcement, setAnnouncement] = useState<any>(null);
+  const [comments, setComments] = useState<any[]>([]);
+  const [newComment, setNewComment] = useState<string>("");
+  const user = useRecoilValue(authState);
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
@@ -32,8 +45,57 @@ export default function Page({
       }
     };
 
+    const fetchComments = async () => {
+      const commentsRef = collection(
+        db,
+        "reference",
+        params.dataID,
+        "sub",
+        params.detailID,
+        "comments"
+      );
+      const q = query(commentsRef, orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const fetchedComments: any[] = [];
+      querySnapshot.forEach((doc) => {
+        fetchedComments.push({ id: doc.id, ...doc.data() });
+      });
+      setComments(fetchedComments);
+    };
+
     fetchAnnouncement();
+    fetchComments();
   }, [params.detailID]);
+
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.trim() === "") return;
+
+    const commentsRef = collection(
+      db,
+      "reference",
+      params.dataID,
+      "sub",
+      params.detailID,
+      "comments"
+    );
+
+    await addDoc(commentsRef, {
+      content: newComment,
+      createdAt: new Date(),
+      createdBy: user?.displayName ?? "익명",
+    });
+
+    setNewComment("");
+    const updatedComments = await getDocs(
+      query(commentsRef, orderBy("createdAt", "desc"))
+    );
+    const fetchedComments: any[] = [];
+    updatedComments.forEach((doc) => {
+      fetchedComments.push({ id: doc.id, ...doc.data() });
+    });
+    setComments(fetchedComments);
+  };
 
   if (!announcement) {
     return <div>Loading...</div>;
@@ -91,6 +153,43 @@ export default function Page({
         >
           목록으로 돌아가기
         </Link>
+      </div>
+
+      {/* 댓글 섹션 */}
+      <div>
+        <h1 className="text-2xl font-bold mt-6">댓글</h1>
+        <form onSubmit={handleCommentSubmit} className="mt-4 flex">
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="댓글을 입력하세요"
+            className="flex-grow border p-2 rounded-md"
+          />
+          <button
+            type="submit"
+            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+          >
+            등록
+          </button>
+        </form>
+
+        <div className="mt-6">
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <div key={comment.id} className="border-b py-2">
+                <div className="font-bold">{comment.createdBy}</div>
+                <div className="whitespace-pre-wrap w-full  ">
+                  {comment.content}
+                </div>
+                <span className="text-sm text-gray-500">
+                  {new Date(comment.createdAt.seconds * 1000).toLocaleString()}
+                </span>
+              </div>
+            ))
+          ) : (
+            <p>댓글이 없습니다.</p>
+          )}
+        </div>
       </div>
     </div>
   );
