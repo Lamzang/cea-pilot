@@ -1,5 +1,4 @@
 "use client";
-import { projects_array } from "@/constant/organization";
 import { db } from "@/lib/firebase/firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import Link from "next/link";
@@ -40,7 +39,7 @@ export default function Layout({
           <div className=" flex flex-col mb-4">
             {subProjects.map((project: any, index: number) => (
               <Link
-                className={`flex justify-start items-center h-12 border-b-2 px-2 hover:bg-gray-100 ${
+                className={`flex justify-start items-center h-auto border-b-2 px-2 hover:bg-gray-100 ${
                   clickedIndex === index
                     ? "bg-blue-400 text-white"
                     : "bg-white text-black"

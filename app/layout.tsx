@@ -25,6 +25,7 @@ export default function RootLayout({
         name="naver-site-verification"
         content="9fc46ad0a4f0a060cd04c08b9734b44c9dccd805"
       />
+      <link rel="canonical" href="https://kcbea.com" />
 
       <body className={`${inter.className} `}>
         <RecoilWrapper>
