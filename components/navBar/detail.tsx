@@ -104,6 +104,12 @@ const Detaiednavbar = ({ setIsDetail }: any) => {
             >
               프로젝트
             </Link>
+            <Link
+              href={"/gallery"}
+              className="py-2 text-base px-4 cursor-pointer hover:bg-gray-200 rounded flex justify-center"
+            >
+              갤러리
+            </Link>
           </div>
         </div>
       </div>
