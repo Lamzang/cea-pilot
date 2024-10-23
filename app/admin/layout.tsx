@@ -69,13 +69,19 @@ export default function AdminLayout({
               className="py-1 px-2 text-gray-700 hover:bg-slate-200"
               href={"/admin/data-container"}
             >
-              자료실 자료 추가하기
+              자료실 자료 수정하기
             </Link>
             <Link
               className="py-1 px-2 text-gray-700 hover:bg-slate-200"
               href={"/admin/projects"}
             >
-              프로젝트 자료 추가하기
+              프로젝트 자료 수정하기
+            </Link>
+            <Link
+              className="py-1 px-2 text-gray-700 hover:bg-slate-200"
+              href={"/admin/gallery"}
+            >
+              갤러리 수정하기
             </Link>
           </div>
 

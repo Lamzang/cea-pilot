@@ -28,7 +28,7 @@ const Navbar = () => {
           displayName: newUser.displayName,
           email: newUser.email,
         });
-        console.log(newUser);
+        console.log("userauth:", newUser);
       } else {
         setUser(null);
         setUserDoc(null);
