@@ -49,7 +49,7 @@ const Navbar = () => {
   // 화면 크기에 따라 모바일 여부를 결정
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1550);
+      setIsMobile(window.innerWidth <= 1536);
     };
 
     // 초기 설정
@@ -116,9 +116,12 @@ const Navbar = () => {
       </div>
 
       <div className="flex justify-center w-full bg-white border border-b-gray-200">
-        <nav className="cursor-grab w-full sm:mx-20 mx-5 lg:px-5 2xl:py-10 py-0 h-24 flex items-center justify-between  ">
-          <div className="flex items-center w-2/3 lg:w-1/4">
-            <Link href="/" className="lg:w-[300px] w-[250px] m-2">
+        <nav className="cursor-grab w-full sm:mx-20 mx-5 2xl:px-5 2xl:py-10 py-0 lg:h-24 h-16 flex items-center justify-between  ">
+          <div className="flex items-center w-2/3  2xl:w-1/4">
+            <Link
+              href="/"
+              className="2xl:w-[300px] lg:w-[280px] w-[250px]  m-2"
+            >
               <Image
                 src={"/assets/logo_withtext.png"}
                 alt="로고"
@@ -129,7 +132,7 @@ const Navbar = () => {
           </div>
 
           <div
-            className="hidden lg:flex items-center px-10 justify-between w-3/4 h-24"
+            className="hidden 2xl:flex items-center px-10 justify-between w-3/4 h-24"
             onClick={() => setIsDetail((prev) => !prev)}
           >
             <div className="text-black w-1/6 justify-center text-xl font-semibold  flex hover:bg-blue-100 h-full items-center">
@@ -152,7 +155,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="lg:hidden flex items-center w-[150px] justify-end">
+          <div className="2xl:hidden flex items-center w-[130px] justify-end">
             <div
               className="w-full flex justify-end"
               onClick={() => setIsMobileDetail((prev) => !prev)}
@@ -168,7 +171,7 @@ const Navbar = () => {
       </div>
       {isMobileDetail && isMobile && (
         <div
-          className="lg:hidden flex flex-col items-center bg-slate-50 border border-t-0 border-gray-200"
+          className="2xl:hidden flex flex-col items-center bg-slate-50 border border-t-0 border-gray-200"
           onClick={() => setIsMobileDetail(false)}
         >
           <Link
