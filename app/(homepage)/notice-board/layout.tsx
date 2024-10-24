@@ -24,11 +24,11 @@ const introduce_MainTitle = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    if (window.innerWidth < 640) {
+    if (window.innerWidth < 1024) {
       setIsMobile(true);
     }
     window.addEventListener("resize", () => {
-      if (window.innerWidth < 640) {
+      if (window.innerWidth < 1024) {
         setIsMobile(true);
       } else {
         setIsMobile(false);
@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, []);
   return (
     <>
-      <div className="flex flex-col sm:flex-row min-h-screen">
+      <div className="flex flex-col lg:flex-row min-h-screen">
         {isMobile ? (
           <Mobile_Layout
             IMC_LayoutProps={introduce_Layout}
@@ -51,7 +51,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           />
         )}
 
-        <div className="w-full sm:w-4/5 p-4">{children}</div>
+        <div className="w-full lg:w-4/5 p-4">{children}</div>
       </div>
     </>
   );
