@@ -8,12 +8,13 @@ import {
   query,
   limit,
   startAfter,
+  getDoc,
+  doc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/lib/recoil/auth";
-import { dataContainer_array } from "@/constant/organization";
 
 export default function Page({ params }: { params: { dataID: string } }) {
   const [announcements, setAnnouncements] = useState<any[]>([]);
@@ -25,6 +26,16 @@ export default function Page({ params }: { params: { dataID: string } }) {
     link: "",
   });
   const user = useRecoilValue(authState);
+  const [projectData, setProjectData] = useState<any[]>([]);
+
+  useEffect(() => {
+    getDoc(doc(db, "data-arrays", "data-container")).then((doc) => {
+      const data = doc.data();
+      if (doc.exists() && data && data.data) {
+        setProjectData([...data.data]);
+      }
+    });
+  }, []);
 
   const fetchAnnouncements = async (loadMore = false) => {
     setLoading(true);
@@ -66,14 +77,14 @@ export default function Page({ params }: { params: { dataID: string } }) {
   useEffect(() => {
     fetchAnnouncements(); // Fetch the first batch on component mount
     setCurrentProject(
-      dataContainer_array.filter((project) => project.link === params.dataID)[0]
+      projectData.filter((project) => project.link === params.dataID)[0]
     );
-  }, [params.dataID]);
+  }, [params.dataID, projectData]);
 
   return (
     <div>
       <div className="flex ml-1 sm:ml-8 border-b-2 justify-between items-center pb-6 mt-6 mb-10">
-        <h1 className="text-3xl font-bold">{currentProject.name}</h1>
+        <h1 className="text-3xl font-bold">{currentProject?.name}</h1>
         {/* <Link
           className="text-base border rounded-full px-4 bg-blue-500 text-white py-1 hover:bg-blue-600"
           href={`/data-container/${params.dataID}/editor`}

@@ -33,7 +33,7 @@ export default function Page({ params }: { params: { QnAID: string } }) {
   return (
     <div>
       <h1 className="text-3xl font-bold ml-1 sm:ml-8 border-b-2 pb-6 mt-6 mb-4">
-        Q&A- {announcement.title}
+        일반문의- {announcement.title}
       </h1>
       <div className="p-2 sm:p-6 bg-white rounded-lg ">
         <div className="ml-1 sm:ml-6 ">작성자 : {announcement.author}</div>

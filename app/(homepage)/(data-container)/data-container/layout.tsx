@@ -24,11 +24,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [clickedIndex, setClickedIndex] = useState<number>(0); // Track which index is clicked
   const [projectData, setProjectData] = useState<any[]>([]);
   useEffect(() => {
-    if (window.innerWidth < 640) {
+    if (window.innerWidth < 1024) {
       setIsMobile(true);
     }
     window.addEventListener("resize", () => {
-      if (window.innerWidth < 640) {
+      if (window.innerWidth < 1024) {
         setIsMobile(true);
       } else {
         setIsMobile(false);
@@ -58,7 +58,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
       <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
         <h1 className="text-xl font-bold mb-6 text-center">
-          준회원 및 정회원 전용 자료실입니다.
+          준회원 자료실입니다.
         </h1>
       </div>
     );
@@ -67,7 +67,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <div className="flex w-full border-b-2 pb-6 mt-6 sm:mb-10 sm:ml-8 ml-1 justify-between">
+        <div className="flex w-full border-b-2 pb-6 mt-6 lg:mb-10 lg:ml-8 ml-1 justify-between">
           <h1 className="text-3xl font-bold  w-1/2 ">자료실</h1>
           <div className="w-1/2">
             {isMobile && (
@@ -75,12 +75,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 IMC_LayoutProps={projectData}
                 IMC_MainTitleProps={introduce_MainTitle}
                 currentMenu={introduce_MainTitle[5].name}
+                currentAddrees={"data-container"}
               />
             )}
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-col lg:flex-row">
           {isMobile === false && (
             <div className="flex flex-col w-1/6 border-r-2">
               {projectData.map(
@@ -102,7 +103,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           )}
 
-          <div className="w-full sm:w-5/6 p-4">{children}</div>
+          <div className="w-full lg:w-5/6 p-4">{children}</div>
         </div>
       </div>
     </>

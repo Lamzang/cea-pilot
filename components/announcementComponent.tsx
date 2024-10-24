@@ -59,10 +59,10 @@ export default function AnnouncementComponent() {
   }, [user]);
 
   return (
-    <div className="w-full mx-2 sm:w-2/3 mt-6 sm:mt-0">
+    <div className="w-full mx-2 lg:w-2/3 mt-6 lg:mt-0">
       <div className="flex justify-between items-center border-b-2 border-black pl-4 py-3 text-black">
         <div className="flex w-full justify-between">
-          <div className="text-lg sm:text-2xl ml-2 text-blue-500 font-bold">
+          <div className="text-lg lg:text-2xl ml-2 text-blue-500 font-bold">
             공지사항 | 개정사항
           </div>
         </div>

@@ -33,11 +33,11 @@ export default function Home() {
         </>
       </div>
 
-      <div className="flex flex-col sm:flex-row h-auto sm:h-auto sm:mt-10 px-4 justify-between">
+      <div className="flex flex-col lg:flex-row h-auto lg:h-auto lg:mt-10 px-4 justify-between">
         <AnnouncementComponent />
 
-        <div className="w-full sm:w-1/3 mx-2 sm:ml-5 mt-6 sm:mt-0 rounded-2xl">
-          <div className="text-xl sm:text-2xl font-bold border-b-2 border-black w-full text-blue-500 mt-8 pb-8">
+        <div className="w-full lg:w-1/3 mx-2 lg:ml-5 mt-6 lg:mt-0 rounded-2xl">
+          <div className="text-xl lg:text-2xl font-bold border-b-2 border-black w-full text-blue-500 mt-8 pb-8">
             진행예정행사
           </div>
           <div className="space-y-2 w-full flex justify-center items-center">
@@ -49,18 +49,18 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full sm:flex p-8">
-        <div className="sm:w-1/3 flex mt-4 border-8 rounded-3xl sm:mx-6 h-full  ">
+      <div className="w-full flex flex-col lg:flex-row p-8">
+        <div className="lg:w-1/3 flex mt-4 border-8 rounded-3xl lg:mx-6 h-full  ">
           <div className="h-full rounded-2xl w-full p-4 bg-gray-100">
             <div className="h-full grid grid-cols-2 w-full gap-4">
               <Link
                 href="/introduce"
-                className="flex flex-col max-h-[150px]  w-full sm:h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
+                className="flex flex-col max-h-[150px]  w-full lg:h-full bg-white justify-center hover:bg-gray-200 items-center border rounded-lg shadow-sm font-semibold text-gray-700 "
               >
                 <div className="h-[30%] w-[25%] flex justify-center">
                   <img className="h-full" src="/assets/svg/home.svg" />
                 </div>
-                <span className="sm:text-lg text-base pt-2">협회소개</span>
+                <span className="lg:text-lg text-base pt-2">협회소개</span>
               </Link>
               <Link
                 href="/create-account"
@@ -69,7 +69,7 @@ export default function Home() {
                 <div className="h-[30%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/account.svg" />
                 </div>
-                <span className="sm:text-lg text-base pt-2">협회가입</span>
+                <span className="lg:text-lg text-base pt-2">협회가입</span>
               </Link>
               <Link
                 href="/article"
@@ -78,7 +78,7 @@ export default function Home() {
                 <div className="h-[30%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/document.svg" />
                 </div>
-                <span className="sm:text-lg text-base pt-2">협회정관</span>
+                <span className="lg:text-lg text-base pt-2">협회정관</span>
               </Link>
               <Link
                 href="https://www.facebook.com/groups/337483832687824"
@@ -87,7 +87,7 @@ export default function Home() {
                 <div className="h-[30%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/facebook.svg" />
                 </div>
-                <span className="sm:text-lg text-base pt-2">협회 SNS</span>
+                <span className="lg:text-lg text-base pt-2">협회 SNS</span>
               </Link>
               <Link
                 href="/shop"
@@ -96,7 +96,7 @@ export default function Home() {
                 <div className="h-[40%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/cart.svg" />
                 </div>
-                <span className="sm:text-lg text-base pt-2">
+                <span className="lg:text-lg text-base pt-2">
                   연수 및 도서구매
                 </span>
               </Link>
@@ -107,13 +107,13 @@ export default function Home() {
                 <div className="h-[40%] w-[25%]  flex justify-center">
                   <img className="h-full" src="/assets/svg/papers.svg" />
                 </div>
-                <span className="sm:text-lg text-base pt-2">자료마당</span>
+                <span className="lg:text-lg text-base pt-2">자료마당</span>
               </Link>
             </div>
           </div>
         </div>
-        <div className="w-full sm:w-2/3 mx-2 sm:ml-5  sm:mt-0 rounded-2xl">
-          <div className="text-xl sm:text-2xl font-bold border-b-2 border-black w-full text-blue-500 mt-8 pb-8">
+        <div className="w-full lg:w-2/3 mx-2 lg:ml-5  lg:mt-0 rounded-2xl">
+          <div className="text-xl lg:text-2xl font-bold border-b-2 border-black w-full text-blue-500 mt-8 pb-8">
             주요 활동
           </div>
           <div className="space-y-2 w-full flex justify-center items-center">
@@ -125,9 +125,9 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full pl-10 sm:flex-row justify-center items-center  h-auto  ">
+      <div className="flex flex-col w-full pl-10 lg:flex-row justify-center items-center  h-auto  ">
         {/* 상담하기 섹션 */}
-        {/* <div className="w-full border-8 rounded-3xl sm:w-1/3 h-48 sm:h-[400px] mt-4 justify-center items-center text-lg font-bold text-gray-800">
+        {/* <div className="w-full border-8 rounded-3xl lg:w-1/3 h-48 sm:h-[400px] mt-4 justify-center items-center text-lg font-bold text-gray-800">
           <h2 className="pl-8 py-2 font-bold rounded-t-2xl text-xl bg-blue-500 text-white  ">
             간편 상담 서비스
           </h2>

@@ -66,10 +66,10 @@ export default function Page() {
       <h1 className="text-3xl font-bold sm:ml-8 ml-1 border-b-2 pb-6 mt-6 mb-10">
         임원진
       </h1>
-      <div className="w-full h-full grid sm:grid-cols-2 gap-16 sm:p-16 p-3">
+      <div className="w-full h-full grid lg:grid-cols-2 gap-16 2xl:p-16 p-3">
         {executives.map((data, index) => (
           <div key={index} className="border">
-            <div className="flex sm:flex-row flex-col px-4 pt-4">
+            <div className="flex 2xl:flex-row flex-col px-4 pt-4">
               <div className="w-32 h-32 relative aspect-square overflow-hidden rounded-full">
                 <Image
                   src={data.img}
@@ -79,7 +79,7 @@ export default function Page() {
                   objectPosition="top"
                 />
               </div>
-              <div className="p-6 w-full sm:w-[calc(100%-150px)]">
+              <div className="p-6 w-full 2xl:w-[calc(100%-150px)]">
                 <div className="text-lg font-bold pb-2 px-1 text-blue-500">
                   {data.position}
                 </div>
