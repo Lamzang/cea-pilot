@@ -3,7 +3,6 @@ import SEO from "@/components/SEO/seo";
 export default function Page() {
   return (
     <>
-      <SEO title="인사말" />
       <div className="min-h-screen ">
         <h1 className="text-3xl font-bold  sm:ml-8 ml-1 border-b-2 pb-6 mt-6 mb-4">
           인사말
