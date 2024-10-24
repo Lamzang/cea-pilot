@@ -11,7 +11,7 @@ export default function Page() {
 
         <div className="sm:h-[calc(100%-3rem)] h-3/4  overflow-y-auto">
           <br />
-          <p>개정: 2024.00.00</p>
+          <p>개정: 2024.10.26</p>
           <p>한국 개념 기반 교육 협회</p>
           <br />
           <p className="mt-2">

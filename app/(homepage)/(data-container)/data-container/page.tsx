@@ -13,7 +13,6 @@ import { db } from "@/lib/firebase/firebase";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/lib/recoil/auth";
-import { projects_array } from "@/constant/organization";
 
 export default function Page({ params }: { params: { projectID: string } }) {
   const [announcements, setAnnouncements] = useState<any[]>([]);
