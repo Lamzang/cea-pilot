@@ -31,6 +31,16 @@ export default function Page({
     fetchAnnouncement();
   }, [params.announcementId]);
 
+  const createHyperlinks = (text: string) => {
+    // Regular expression to detect URLs in the text, including paths (with /) and avoiding surrounding parentheses
+    const urlRegex = /(https?:\/\/[^\s()<>]+(?:\/[^\s()<>]*)?)/g;
+
+    // Replace the URLs with anchor tags
+    return text.replace(urlRegex, (url) => {
+      return `<a href="${url}" target="_blank" class="text-blue-500 hover:underline">${url}</a>`;
+    });
+  };
+
   if (!announcement) {
     return <div>Loading...</div>;
   }
@@ -41,10 +51,12 @@ export default function Page({
         {announcement.title}
       </h1>
       <div className="border-4 p-4 rounded-md ">
-        <textarea
-          className="w-full h-40"
-          value={announcement.content}
-          readOnly
+        {/* Render the content with hyperlinks */}
+        <div
+          className="w-full h-40 overflow-y-auto"
+          dangerouslySetInnerHTML={{
+            __html: createHyperlinks(announcement.content),
+          }}
         />
       </div>
       <p className="text-sm text-gray-500 mt-4 text-right">
